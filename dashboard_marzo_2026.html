@@ -654,11 +654,11 @@
                     <canvas id="chartFebVsMar"></canvas>
                 </div>
                 <div style="margin-top:12px;font-size:12px;color:var(--gray-500);">
-                    Nota: Marzo solo incluye 18 dias. Campanas de TikTok pausadas aprox. 15-17 de marzo.
+                    Nota: Datos hasta el 23 de marzo. Campanas de TikTok pausadas aprox. 15-17 de marzo.
                 </div>
             </div>
             <div class="card">
-                <div class="card-title">Distribucion por Canal (Mar 1-18)</div>
+                <div class="card-title">Distribucion por Canal (Mar 1-23)</div>
                 <div class="chart-container h300">
                     <canvas id="chartSourceDoughnut"></canvas>
                 </div>
@@ -667,7 +667,7 @@
 
         <!-- Campaign breakdown table -->
         <div class="card full-width">
-            <div class="card-title">Campanas Principales (Mar 1-18) -- Meta Ads + TikTok Ads (Datos Reales)</div>
+            <div class="card-title">Campanas Principales (Mar 1-23) -- Meta Ads + TikTok Ads (Datos Reales)</div>
             <table class="data-table">
                 <thead>
                     <tr>
@@ -772,8 +772,8 @@
                         <td><strong>TOTAL COMBINADO (estimado)</strong></td>
                         <td><span class="badge" style="background:var(--purple-100);color:var(--purple-700);">Ambos</span></td>
                         <td class="num"><strong>6,277+</strong></td>
-                        <td class="num"><strong>~$2,457 USD</strong></td>
-                        <td class="num"><strong>~$0.39 USD</strong></td>
+                        <td class="num"><strong>~$2,964 USD</strong></td>
+                        <td class="num"><strong>~$0.41 USD</strong></td>
                         <td class="num"></td>
                     </tr>
                 </tbody>
@@ -785,7 +785,7 @@
     <div class="tab-content" id="tab-diarias">
         <div class="section-title"><span class="dot"></span> Registros Diarios -- Totales</div>
         <div class="card full-width">
-            <div class="card-title">Registros por Dia (Mar 1-18) -- Mixpanel</div>
+            <div class="card-title">Registros por Dia (Mar 1-23) -- Mixpanel</div>
             <div class="chart-container h350">
                 <canvas id="chartDailyTotal"></canvas>
             </div>
@@ -1314,20 +1314,20 @@
                         <td class="num">S/1.51 (~$0.41)</td>
                     </tr>
                     <tr>
-                        <td><span class="badge badge-organic">Organico</span></td>
-                        <td class="num">1,632</td>
+                        <td><span class="badge badge-organic">Organico / Web</span></td>
+                        <td class="num">1,648</td>
                         <td class="num">--</td>
-                        <td class="num">26.7%</td>
-                        <td class="num">$0</td>
+                        <td class="num">20.6%</td>
+                        <td class="num">$0.00</td>
                         <td class="num">$0.00</td>
                         <td class="num">--</td>
                     </tr>
                     <tr>
-                        <td><span class="badge badge-b2b">B2B / Otros</span></td>
-                        <td class="num">89</td>
+                        <td><span class="badge badge-b2b">Merite + B2B + QR</span></td>
+                        <td class="num">1,283</td>
                         <td class="num">--</td>
-                        <td class="num">1.5%</td>
-                        <td class="num">$0</td>
+                        <td class="num">16.0%</td>
+                        <td class="num">$0.00</td>
                         <td class="num">$0.00</td>
                         <td class="num">--</td>
                     </tr>
@@ -1336,9 +1336,9 @@
                         <td class="num"><strong>8,001</strong></td>
                         <td class="num"><strong>6,277+</strong></td>
                         <td class="num"><strong>100%</strong></td>
-                        <td class="num"><strong>~$2,457 USD</strong></td>
-                        <td class="num"><strong>$0.31 (prom.)</strong></td>
-                        <td class="num"><strong>~$0.39 (prom.)</strong></td>
+                        <td class="num"><strong>~$2,964 USD</strong></td>
+                        <td class="num"><strong>$0.37 (prom.)</strong></td>
+                        <td class="num"><strong>~$0.41 (prom.)</strong></td>
                     </tr>
                 </tbody>
             </table>
@@ -1383,8 +1383,8 @@
                     </tr>
                     <tr>
                         <td>Inversion Total estimada</td>
-                        <td class="num">~$2,457 USD</td>
-                        <td class="num">~$3,934 USD</td>
+                        <td class="num">~$2,964 USD</td>
+                        <td class="num">~$3,994 USD</td>
                         <td class="num">--</td>
                     </tr>
                     <tr>
@@ -1606,7 +1606,7 @@ const ttGratisCPConv = [1.85,1.75,2.16,1.67,1.62,1.43,1.76,1.75,1.13,1.11,1.35,1
 // compute TikTok Gratis daily costs PEN
 const ttGratisCostPEN = ttGratis.map((v,i) => +(v * ttGratisCPConv[i]).toFixed(2));
 
-// Meta daily spend USD (Mar 1-18 real via API, Mar 19-23 REAL via API)
+// Meta daily spend USD (Mar 1-23 REAL via API)
 const metaDailySpend = [83.91,84.11,75.83,67.85,60.60,59.23,57.74,65.77,72.74,63.51,53.56,62.10,60.47,63.23,69.35,68.28,64.65,68.00,27.55,130.41,100.42,98.33,100.34];
 
 // Client types daily — Mar 18-23 estimado (proporciones: 45.2% banc, 39.1% perd, 9.4% opt, 7.1% pago)
