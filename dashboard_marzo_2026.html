@@ -550,6 +550,7 @@
         <div class="tab" data-tab="clientes">Perfil de Clientes</div>
         <div class="tab" data-tab="cac">CAC &amp; ROI</div>
         <div class="tab" data-tab="utms">UTMs &amp; Fuentes</div>
+        <div class="tab" data-tab="q1">Q1 Hist&#243;rico</div>
     </div>
 </div>
 
@@ -1547,6 +1548,119 @@
         </div>
     </div>
 
+    <!-- ===================== TAB Q1 HISTÓRICO ===================== -->
+    <div class="tab-content" id="tab-q1">
+        <div class="section-title"><span class="dot"></span> Resumen Q1 2026 — Enero 1 a Marzo 25</div>
+
+        <div class="alert" style="background:#dbeafe;border:1px solid #93c5fd;color:#1e40af;margin-bottom:24px;">
+            <div class="alert-icon">&#128200;</div>
+            <div class="alert-content">
+                <strong>Q1 2026 | Meta Ads API real (Ene–Mar) + TikTok Ads (solo Marzo — campanas iniciaron en Marzo).</strong><br>
+                Meta: $11,790 USD | 29,578 registros | CPA prom: $0.40 &nbsp;&middot;&nbsp;
+                TikTok: S/14,438 PEN (~$3,898 USD) | 8 campanas activas desde Marzo<br>
+                <strong>Inversion Q1 combinada: ~$15,688 USD</strong>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card purple">
+                <div class="kpi-label">Inversion Meta Q1</div>
+                <div class="kpi-value">$11,790</div>
+                <div class="kpi-sub">Ene $7,234 &bull; Feb $2,737 &bull; Mar $1,819</div>
+            </div>
+            <div class="kpi-card blue">
+                <div class="kpi-label">Inversion TikTok Q1</div>
+                <div class="kpi-value">S/14,438</div>
+                <div class="kpi-sub">~$3,898 USD &bull; Solo desde Marzo</div>
+            </div>
+            <div class="kpi-card green">
+                <div class="kpi-label">Registros Meta Q1</div>
+                <div class="kpi-value">29,578</div>
+                <div class="kpi-sub">Ene 16,777 &bull; Feb 8,436 &bull; Mar 4,365</div>
+            </div>
+            <div class="kpi-card orange">
+                <div class="kpi-label">CPA Meta Q1 prom</div>
+                <div class="kpi-value">$0.40</div>
+                <div class="kpi-sub">Ene $0.43 &bull; Feb $0.32 &bull; Mar $0.42</div>
+            </div>
+        </div>
+
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-title">Inversion Meta por Mes (USD)</div>
+                <div class="chart-container h280"><canvas id="chartQ1MetaSpend"></canvas></div>
+            </div>
+            <div class="card">
+                <div class="card-title">Registros Meta por Mes (Pixel)</div>
+                <div class="chart-container h280"><canvas id="chartQ1MetaConv"></canvas></div>
+            </div>
+            <div class="card">
+                <div class="card-title">CPA Meta mensual (USD/registro)</div>
+                <div class="chart-container h280"><canvas id="chartQ1CPA"></canvas></div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:24px;">
+            <div class="card-title">Gasto diario Meta — Q1 completo (Ene 1 – Mar 25) &nbsp;|&nbsp; <span style="color:#7c3aed;">&#9632;</span> Enero &nbsp;<span style="color:#6b3fa0;">&#9632;</span> Febrero &nbsp;<span style="color:#a78bfa;">&#9632;</span> Marzo</div>
+            <div class="chart-container" style="height:220px;"><canvas id="chartQ1Daily"></canvas></div>
+        </div>
+
+        <div class="section-title" style="margin-top:32px;"><span class="dot"></span> Comparativa Mensual Meta Ads</div>
+        <div class="card">
+            <table class="data-table">
+                <thead><tr><th>Mes</th><th class="num">Inversion (USD)</th><th class="num">Registros</th><th class="num">CPA (USD)</th><th class="num">Impresiones</th><th class="num">Clics</th><th class="num">vs Mes Ant.</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Enero 2026</strong></td><td class="num">$7,233.67</td><td class="num">16,777</td><td class="num">$0.43</td><td class="num">1,908,264</td><td class="num">83,741</td><td class="num">—</td></tr>
+                    <tr><td><strong>Febrero 2026</strong></td><td class="num">$2,737.29</td><td class="num">8,436</td><td class="num">$0.32</td><td class="num">538,125</td><td class="num">33,215</td><td class="num" style="color:var(--red-500);">&#8595; -62% gasto</td></tr>
+                    <tr><td><strong>Marzo 1-25</strong></td><td class="num">$1,819.33</td><td class="num">4,365</td><td class="num">$0.42</td><td class="num">208,167</td><td class="num">15,528</td><td class="num" style="color:var(--red-500);">&#8595; -34% gasto</td></tr>
+                    <tr style="background:var(--purple-50);font-weight:700;"><td><strong>TOTAL Q1</strong></td><td class="num"><strong>$11,790.29</strong></td><td class="num"><strong>29,578</strong></td><td class="num"><strong>$0.40</strong></td><td class="num">2,654,556</td><td class="num">132,484</td><td class="num"></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section-title" style="margin-top:32px;"><span class="dot"></span> TikTok Ads Q1 (campanas activas desde Marzo)</div>
+        <div class="card">
+            <div class="alert" style="background:var(--yellow-100);border:1px solid #fde68a;color:#92400e;margin-bottom:16px;">
+                <div class="alert-icon">&#9432;</div>
+                <div class="alert-content">Las campanas de TikTok Ads iniciaron en Marzo 2026. No hay inversion en Enero ni Febrero.</div>
+            </div>
+            <table class="data-table">
+                <thead><tr><th>Campana</th><th class="num">Estado</th><th class="num">Inversion (PEN)</th><th class="num">Inversion (~USD)</th><th class="num">Conversiones</th><th class="num">CPA (PEN)</th></tr></thead>
+                <tbody>
+                    <tr><td>CP - Registro - Reevalúa Gratis</td><td class="num"><span class="badge badge-organic">Activa</span></td><td class="num">S/7,605.52</td><td class="num">~$2,053</td><td class="num">8,886</td><td class="num">S/0.86</td></tr>
+                    <tr><td>CP - 15.01 - Microcredito</td><td class="num"><span class="badge badge-organic">Activa</span></td><td class="num">S/4,365.25</td><td class="num">~$1,179</td><td class="num">6,167</td><td class="num">S/0.71</td></tr>
+                    <tr><td>CP | 23.1 - Crédito Emprendedor</td><td class="num"><span class="badge" style="background:#fee2e2;color:#991b1b;">Pausada</span></td><td class="num">S/1,637.89</td><td class="num">~$442</td><td class="num">2,180</td><td class="num">S/0.75</td></tr>
+                    <tr><td>Otras 5 campanas</td><td class="num">—</td><td class="num">S/829.03</td><td class="num">~$224</td><td class="num">737</td><td class="num">—</td></tr>
+                    <tr style="background:var(--purple-50);font-weight:700;"><td><strong>TOTAL TikTok Q1</strong></td><td class="num"><strong>8 campanas</strong></td><td class="num"><strong>S/14,437.69</strong></td><td class="num"><strong>~$3,898 USD</strong></td><td class="num"><strong>17,970</strong></td><td class="num"><strong>S/0.80</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section-title" style="margin-top:32px;"><span class="dot"></span> Inversion Combinada Q1 2026</div>
+        <div class="kpi-grid">
+            <div class="kpi-card purple">
+                <div class="kpi-label">Meta Ads Q1</div>
+                <div class="kpi-value">$11,790</div>
+                <div class="kpi-sub">75.1% del total Q1</div>
+            </div>
+            <div class="kpi-card blue">
+                <div class="kpi-label">TikTok Ads Q1</div>
+                <div class="kpi-value">$3,898</div>
+                <div class="kpi-sub">24.9% del total Q1</div>
+            </div>
+            <div class="kpi-card green">
+                <div class="kpi-label">Total Q1 Combinado</div>
+                <div class="kpi-value">~$15,688</div>
+                <div class="kpi-sub">USD totales invertidos en Q1</div>
+            </div>
+            <div class="kpi-card orange">
+                <div class="kpi-label">CPA Meta Q1</div>
+                <div class="kpi-value">$0.40</div>
+                <div class="kpi-sub">29,578 registros atribuidos</div>
+            </div>
+        </div>
+    </div>
+
 </div><!-- /main -->
 
 <script>
@@ -2277,6 +2391,130 @@ new Chart(document.getElementById('chartDailySpend'), {
     }
 });
 
+</script>
+
+<script>
+// ===================== TAB Q1 HISTÓRICO =====================
+// META ADS - datos diarios enero (API real)
+const metaJanSpend = [290.78,260.32,259.19,290.74,246.88,221.98,262.11,272.28,260.34,190.25,180.30,182.32,164.18,162.94,165.62,178.29,175.27,196.54,234.11,276.56,334.30,295.30,269.63,231.98,277.28,277.00,245.90,229.24,220.73,219.92,161.39];
+const metaJanReg  = [457,564,553,569,525,450,442,445,535,479,441,541,470,431,495,474,463,445,579,692,771,637,662,565,646,643,633,606,591,533,439];
+const metaFebSpend = [198.35,192.39,143.42,108.33,110.38,112.01,71.11,101.41,92.96,102.58,88.84,81.73,81.15,67.44,88.81,100.34,91.70,93.45,93.98,86.99,58.63,93.64,92.18,83.28,81.43,75.15,72.16,73.45];
+const metaFebReg  = [568,619,427,356,416,376,245,291,369,341,318,307,288,211,311,421,373,295,195,169,141,172,261,199,212,191,200,164];
+const metaMarSpend = [83.91,84.11,75.83,67.85,60.60,59.23,57.74,65.77,72.74,63.51,53.56,62.10,60.47,63.23,69.35,68.28,64.65,68.00,27.55,130.41,100.42,98.33,100.34,85.37,78.92];
+const metaMarReg  = [156,179,162,166,129,148,119,135,152,153,129,125,114,157,144,146,134,118,99,141,118,157,156,201,202];
+
+// Resúmenes mensuales
+const q1MonthLabels = ['Enero','Febrero','Marzo 1-25'];
+const q1MetaSpend = [
+  metaJanSpend.reduce((a,b)=>a+b,0),
+  metaFebSpend.reduce((a,b)=>a+b,0),
+  metaMarSpend.reduce((a,b)=>a+b,0)
+];
+const q1MetaReg = [
+  metaJanReg.reduce((a,b)=>a+b,0),
+  metaFebReg.reduce((a,b)=>a+b,0),
+  metaMarReg.reduce((a,b)=>a+b,0)
+];
+// TikTok solo tiene datos desde Marzo
+const q1TikTokSpend = [0, 0, 4847.01]; // PEN - Mar 1-23 (datos disponibles por campaña)
+const q1TikTokSpendTotal = 14437.69; // PEN - Q1 total all campaigns (Jan1-Mar26)
+const q1TikTokUSD = q1TikTokSpendTotal * 0.27;
+
+// Chart: Inversión mensual Meta (USD)
+const ctxQ1Meta = document.getElementById('chartQ1MetaSpend');
+if (ctxQ1Meta) {
+  new Chart(ctxQ1Meta, {
+    type: 'bar',
+    data: {
+      labels: q1MonthLabels,
+      datasets: [{
+        label: 'Inversión Meta (USD)',
+        data: q1MetaSpend.map(v=>+v.toFixed(2)),
+        backgroundColor: ['#7c3aed','#6b3fa0','#a78bfa'],
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => '$' + ctx.raw.toLocaleString('en-US', {minimumFractionDigits:2}) } } },
+      scales: { y: { beginAtZero: true, grid: { color: '#f3f4f6' }, ticks: { callback: v => '$' + v.toLocaleString() } }, x: { grid: { display: false } } }
+    }
+  });
+}
+
+// Chart: Conversiones mensuales Meta
+const ctxQ1Conv = document.getElementById('chartQ1MetaConv');
+if (ctxQ1Conv) {
+  new Chart(ctxQ1Conv, {
+    type: 'bar',
+    data: {
+      labels: q1MonthLabels,
+      datasets: [{
+        label: 'Registros Meta (pixel)',
+        data: q1MetaReg,
+        backgroundColor: ['#22c55e','#16a34a','#86efac'],
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, grid: { color: '#f3f4f6' } }, x: { grid: { display: false } } }
+    }
+  });
+}
+
+// Chart: CPA mensual Meta
+const ctxQ1CPA = document.getElementById('chartQ1CPA');
+if (ctxQ1CPA) {
+  const cpas = q1MetaSpend.map((s,i) => q1MetaReg[i] > 0 ? +(s/q1MetaReg[i]).toFixed(2) : 0);
+  new Chart(ctxQ1CPA, {
+    type: 'line',
+    data: {
+      labels: q1MonthLabels,
+      datasets: [{
+        label: 'CPA Meta (USD)',
+        data: cpas,
+        borderColor: '#f97316',
+        backgroundColor: 'rgba(249,115,22,0.1)',
+        tension: 0.4, fill: true,
+        pointBackgroundColor: '#f97316', pointRadius: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => '$' + ctx.raw } } },
+      scales: { y: { beginAtZero: true, grid: { color: '#f3f4f6' }, ticks: { callback: v => '$' + v } }, x: { grid: { display: false } } }
+    }
+  });
+}
+
+// Chart: Inversión diaria Meta Q1 (heatmap usando line)
+const ctxQ1Daily = document.getElementById('chartQ1Daily');
+if (ctxQ1Daily) {
+  const janLabels = Array.from({length:31},(_,i)=>'E'+(i+1));
+  const febLabels = Array.from({length:28},(_,i)=>'F'+(i+1));
+  const marLabels = Array.from({length:25},(_,i)=>'M'+(i+1));
+  const allLabels = [...janLabels,...febLabels,...marLabels];
+  const allSpend = [...metaJanSpend,...metaFebSpend,...metaMarSpend];
+  new Chart(ctxQ1Daily, {
+    type: 'bar',
+    data: {
+      labels: allLabels,
+      datasets: [{
+        label: 'Gasto diario Meta (USD)',
+        data: allSpend,
+        backgroundColor: allSpend.map((v,i)=> i<31 ? '#7c3aed' : i<59 ? '#6b3fa0' : '#a78bfa'),
+        borderRadius: 2
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, grid: { color: '#f3f4f6' }, ticks: { callback: v => '$'+v } }, x: { grid: { display: false }, ticks: { maxTicksLimit: 20, font: { size: 9 } } } }
+    }
+  });
+}
 </script>
 
 </body>
