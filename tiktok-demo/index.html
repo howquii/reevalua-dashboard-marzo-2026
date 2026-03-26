@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reevalúa × TikTok Ads — MCP Server Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#f5f5f7;color:#333;overflow:hidden;height:100vh;}
+:root{--tiktok-black:#010101;--tiktok-red:#FE2C55;--tiktok-cyan:#25F4EE;--sidebar-w:210px;--console-w:380px;}
+
+/* LAYOUT */
+.app-layout{display:flex;height:100vh;width:100vw;}
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--tiktok-black);display:flex;flex-direction:column;z-index:10;box-shadow:2px 0 12px rgba(0,0,0,.3);}
+.main-area{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.top-bar{height:48px;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #e0e0e0;display:flex;align-items:center;padding:0 24px;justify-content:space-between;flex-shrink:0;}
+.top-bar .badge{background:linear-gradient(135deg,var(--tiktok-red),#ff6b81);color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.5px;position:relative;overflow:hidden;}
+.top-bar .badge::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:shimmer 3s infinite;}
+@keyframes shimmer{0%{left:-100%;}100%{left:100%;}}
+.top-bar .user-info{font-size:13px;color:#666;}
+.content-wrap{display:flex;flex:1;overflow:hidden;}
+.main-content{flex:1;overflow-y:auto;padding:28px 32px;scroll-behavior:smooth;}
+@keyframes fadeInContent{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.main-content > *{animation:fadeInContent .3s ease;}
+.api-console{width:var(--console-w);min-width:var(--console-w);background:#1a1a2e;display:flex;flex-direction:column;border-left:1px solid #2a2a4a;}
+
+/* SIDEBAR */
+.sidebar-logo{padding:20px 18px 10px;display:flex;align-items:center;gap:10px;}
+.sidebar-logo svg{width:32px;height:32px;}
+.sidebar-logo span{color:#fff;font-weight:700;font-size:15px;}
+.sidebar-nav{flex:1;padding:10px 0;}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 20px;color:#aaa;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;border-left:3px solid transparent;position:relative;}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#ddd;}
+.nav-item.active{color:#fff;background:rgba(254,44,85,.12);border-left-color:var(--tiktok-red);}
+.nav-item.active::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--tiktok-red);border-radius:3px 0 0 3px;box-shadow:0 0 8px rgba(254,44,85,.5);}
+.nav-item .icon{width:18px;text-align:center;font-size:15px;}
+.nav-item.disabled{opacity:.35;pointer-events:none;}
+.sidebar-footer{padding:16px 18px;border-top:1px solid #222;}
+.sidebar-footer .status{display:flex;align-items:center;gap:8px;font-size:11px;color:#888;}
+.sidebar-footer .dot{width:8px;height:8px;border-radius:50%;background:#555;}
+.sidebar-footer .dot.online{background:#00c853;animation:dotPulse 2s infinite;}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 0 0 rgba(0,200,83,.4);}50%{box-shadow:0 0 0 6px rgba(0,200,83,0);}}
+
+/* API CONSOLE */
+.console-header{padding:12px 16px;border-bottom:1px solid #2a2a4a;display:flex;align-items:center;justify-content:space-between;}
+.console-header h3{color:#25F4EE;font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
+.console-clear{background:none;border:1px solid #444;color:#aaa;font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-family:'Inter';}
+.console-clear:hover{border-color:#888;color:#ddd;}
+.console-body{flex:1;overflow-y:auto;padding:10px 14px;font-family:'Consolas','Monaco','Courier New',monospace;font-size:11.5px;line-height:1.55;}
+.console-entry{margin-bottom:14px;border-bottom:1px solid #2a2a3a;padding-bottom:12px;border-left:3px solid transparent;padding-left:10px;transition:border-color .2s;}
+.console-entry:hover{border-left-color:var(--tiktok-cyan);background:rgba(37,244,238,.03);}
+.console-entry .timestamp{color:#666;font-size:10px;}
+.console-entry .method{font-weight:700;}
+.console-entry .method.GET{color:#25F4EE;}
+.console-entry .method.POST{color:#00c853;}
+.console-entry .method.PUT{color:#ffab00;}
+.console-entry .method.DELETE{color:#FE2C55;}
+.console-entry .url{color:#ddd;}
+.console-entry .section-label{color:#888;font-size:10px;margin-top:6px;display:block;}
+.console-entry pre{color:#ccc;white-space:pre-wrap;word-break:break-all;font-size:11px;margin-top:2px;}
+.console-entry .response-ok{color:#00c853;}
+.console-entry .response-err{color:#FE2C55;}
+.console-empty{color:#555;font-style:italic;text-align:center;margin-top:40px;font-size:12px;}
+
+/* CARDS */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:20px 0;}
+.kpi-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:4px solid transparent;overflow:hidden;transition:all .25s;}
+.kpi-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.12);}
+.kpi-card .label{font-size:12px;color:#888;font-weight:500;margin-bottom:6px;}
+.kpi-card .value{font-size:26px;font-weight:700;color:var(--tiktok-black);}
+.kpi-card .sub{font-size:12px;color:#aaa;margin-top:4px;}
+.account-card{background:linear-gradient(135deg,#010101,#1a1a2e);color:#fff;border-radius:14px;padding:24px 28px;display:flex;align-items:center;gap:20px;box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.account-card .avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--tiktok-red),var(--tiktok-cyan));display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;}
+.account-card .info h2{font-size:18px;font-weight:700;}
+.account-card .info p{font-size:12px;color:#aaa;margin-top:2px;}
+.account-card .status-badge{margin-left:auto;background:rgba(0,200,83,.15);color:#00c853;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;}
+
+/* BUTTONS */
+.btn{padding:10px 22px;border:none;border-radius:8px;font-family:'Inter';font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-primary{background:var(--tiktok-red);color:#fff;}
+.btn-primary:hover{background:#e0253f;transform:translateY(-1px);}
+.btn-secondary{background:#f0f0f0;color:#333;}
+.btn-secondary:hover{background:#e0e0e0;}
+.btn-sm{padding:6px 14px;font-size:12px;border-radius:6px;}
+.btn-outline{background:none;border:1px solid #ddd;color:#555;}
+.btn-outline:hover{border-color:#999;color:#333;}
+.btn-cyan{background:var(--tiktok-cyan);color:var(--tiktok-black);}
+.btn-cyan:hover{background:#1de0db;}
+.btn-dark{background:#222;color:#fff;}
+.btn-dark:hover{background:#333;}
+.btn-danger{background:#ff4444;color:#fff;}
+.btn-danger:hover{background:#cc0000;}
+.action-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0;}
+.action-btn{background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:18px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:0 1px 6px rgba(0,0,0,.06);}
+.action-btn:hover{border-color:var(--tiktok-red);box-shadow:0 2px 12px rgba(254,44,85,.1);transform:translateY(-2px);}
+.action-btn .icon{font-size:24px;margin-bottom:8px;}
+.action-btn .text{font-size:13px;font-weight:600;color:#333;}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;margin:16px 0;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08);}
+.data-table th{background:#fafafa;padding:12px 16px;text-align:left;font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #eee;}
+.data-table td{padding:12px 16px;font-size:13px;border-bottom:1px solid #f5f5f5;}
+.data-table tr:hover td{background:#f8faff;}
+.data-table tr:hover td:first-child{box-shadow:inset 3px 0 0 var(--tiktok-red);}
+.status-active{color:#00c853;font-weight:600;}
+.status-paused{color:#ffab00;font-weight:600;}
+
+/* MODAL */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-overlay.show{opacity:1;pointer-events:auto;}
+.modal{background:#fff;border-radius:16px;padding:32px;max-width:520px;width:90%;max-height:85vh;overflow-y:auto;transform:scale(.95);transition:transform .3s;}
+.modal-overlay.show .modal{transform:scale(1);}
+.modal h2{font-size:18px;font-weight:700;margin-bottom:16px;color:var(--tiktok-black);}
+.modal-close{position:absolute;top:14px;right:18px;background:none;border:none;font-size:22px;cursor:pointer;color:#888;}
+
+/* FORMS */
+.form-group{margin-bottom:16px;}
+.form-group label{display:block;font-size:12px;font-weight:600;color:#555;margin-bottom:6px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-family:'Inter';font-size:13px;transition:border-color .2s;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--tiktok-red);}
+.form-group textarea{min-height:80px;resize:vertical;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.checkbox-group{display:flex;flex-wrap:wrap;gap:10px;}
+.checkbox-group label{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:400;cursor:pointer;}
+
+/* OAUTH PAGE */
+.oauth-page{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;text-align:center;padding:40px;}
+.oauth-page h1{font-size:28px;font-weight:800;margin-bottom:8px;}
+.oauth-page h1 span.red{color:var(--tiktok-red);}
+.oauth-page h1 span.cyan{color:var(--tiktok-cyan);}
+.oauth-page .subtitle{font-size:14px;color:#777;max-width:560px;line-height:1.6;margin-bottom:32px;}
+.connect-btn{background:linear-gradient(135deg,#010101 0%,#1a1a2e 100%);color:#fff;padding:16px 36px;border:none;border-radius:12px;font-family:'Inter';font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .25s;box-shadow:0 4px 20px rgba(0,0,0,.3);animation:pulse 2s infinite;}
+.connect-btn:hover{background:#222;transform:translateY(-2px);box-shadow:0 8px 30px rgba(254,44,85,.3);}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(254,44,85,.4);}70%{box-shadow:0 0 0 15px rgba(254,44,85,0);}}
+.connect-btn svg{width:28px;height:28px;}
+.success-state{text-align:center;}
+.success-state .check{width:72px;height:72px;background:#e8f5e9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px;color:#00c853;animation:scaleIn .5s cubic-bezier(.175,.885,.32,1.275);}
+.success-state h2{font-size:22px;font-weight:700;color:#00c853;margin-bottom:16px;animation:fadeUp .5s ease .2s both;}
+.success-state .detail{font-size:13px;color:#666;margin:6px 0;animation:fadeUp .4s ease calc(.3s + var(--i,0) * .1s) both;}
+@keyframes scaleIn{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.success-state .detail strong{color:#333;}
+
+/* LOADING */
+.loader{display:inline-block;width:40px;height:40px;border:4px solid #e0e0e0;border-top-color:var(--tiktok-red);border-radius:50%;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-text{margin-top:14px;color:#888;font-size:14px;}
+
+/* TIKTOK OAUTH MODAL */
+.tiktok-oauth-modal{background:#fff;border-radius:16px;padding:0;max-width:440px;width:90%;overflow:hidden;}
+.tiktok-oauth-header{background:var(--tiktok-black);padding:24px;text-align:center;}
+.tiktok-oauth-header svg{width:40px;height:40px;}
+.tiktok-oauth-header h3{color:#fff;font-size:16px;margin-top:10px;}
+.tiktok-oauth-body{padding:28px;}
+.tiktok-oauth-body .app-info{text-align:center;margin-bottom:20px;}
+.tiktok-oauth-body .app-info .app-name{font-size:16px;font-weight:700;color:var(--tiktok-red);}
+.tiktok-oauth-body .app-info p{font-size:13px;color:#666;margin-top:6px;}
+.perm-list{list-style:none;margin:16px 0 24px;}
+.perm-list li{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:13px;color:#444;}
+.perm-list li .perm-icon{color:#00c853;font-size:16px;}
+.oauth-actions{display:flex;gap:10px;}
+.oauth-actions .btn{flex:1;justify-content:center;padding:12px;}
+
+/* CHART CONTAINER */
+.chart-container{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.08);margin:16px 0;}
+.chart-container canvas{max-height:340px;}
+
+/* HASH VIS */
+.hash-vis{background:#f7f7f7;border-radius:8px;padding:14px;margin:10px 0;font-family:monospace;font-size:12px;}
+.hash-row{display:flex;align-items:center;gap:8px;margin:4px 0;flex-wrap:wrap;}
+.hash-row .email{color:var(--tiktok-red);}
+.hash-row .arrow{color:#aaa;}
+.hash-row .hash{color:#00c853;word-break:break-all;}
+
+/* SECTION */
+.section-title{font-size:20px;font-weight:700;color:var(--tiktok-black);margin-bottom:4px;}
+.section-sub{font-size:13px;color:#888;margin-bottom:20px;}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+
+/* AD CREATION SPLIT */
+.ad-split{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.ad-panel{background:#fff;border-radius:12px;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.ad-panel h3{font-size:16px;font-weight:700;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #f0f0f0;}
+
+/* DATE INPUTS */
+.date-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.date-row input[type=date]{padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-family:'Inter';font-size:13px;}
+.date-row label{font-size:13px;font-weight:500;color:#555;}
+
+/* UPLOAD MOCK */
+.upload-area{border:2px dashed #ddd;border-radius:10px;padding:30px;text-align:center;color:#aaa;cursor:pointer;transition:border-color .2s;}
+.upload-area:hover{border-color:var(--tiktok-red);}
+.upload-area .icon{font-size:32px;margin-bottom:8px;}
+.upload-area p{font-size:13px;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px;}
+.api-console ::-webkit-scrollbar-thumb{background:#444;}
+.api-console ::-webkit-scrollbar-track{background:#1a1a2e;}
+
+/* CONFIRM DIALOG */
+.confirm-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+.confirm-overlay.show{opacity:1;pointer-events:auto;}
+.confirm-box{background:#fff;border-radius:12px;padding:28px;max-width:380px;width:90%;text-align:center;}
+.confirm-box h3{font-size:16px;font-weight:700;margin-bottom:10px;}
+.confirm-box p{font-size:13px;color:#666;margin-bottom:20px;}
+.confirm-box .actions{display:flex;gap:10px;justify-content:center;}
+</style>
+</head>
+<body>
+
+<div class="app-layout">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <svg viewBox="0 0 48 48" fill="none"><path d="M34.1 10.1c-1.8-2.1-2.8-4.7-2.8-7.6h-6.7v27.7c0 3.1-2.4 5.7-5.5 5.8-1.6.1-3.1-.5-4.2-1.5s-1.7-2.5-1.7-4c0-3.2 2.6-5.8 5.8-5.8.6 0 1.2.1 1.8.3V18c-.6-.1-1.2-.1-1.8-.1-7.1 0-12.8 5.7-12.8 12.8 0 3.4 1.3 6.6 3.7 9 2.4 2.4 5.6 3.7 9.1 3.7 7.1 0 12.8-5.7 12.8-12.8V17.1c2.7 2 5.9 3 9.3 3v-6.8c-3.2 0-5.9-1.3-7.9-3.2z" fill="#FE2C55"/><path d="M34.1 10.1c2 1.9 4.7 3.2 7.9 3.2V6.5c-1.6-.3-3.1-1.1-4.2-2.2-1.8-1.8-2.9-4.2-3-6.8h-6v27.7c0 3.1-2.4 5.7-5.5 5.8-1.9.1-3.6-.6-4.8-1.9.9.7 2 1.1 3.1 1.1 3.1-.1 5.6-2.7 5.6-5.8V-2.5h7v2.5c0 3.9 1.5 7.4 4 10.1z" fill="#25F4EE" opacity=".6"/></svg>
+      <span>Reevalúa MCP</span>
+    </div>
+    <div class="sidebar-nav" id="sidebarNav">
+      <div class="nav-item active" data-screen="oauth" onclick="showScreen('oauth')">
+        <span class="icon">🔗</span> Conexión OAuth
+      </div>
+      <div class="nav-item disabled" data-screen="dashboard" onclick="showScreen('dashboard')">
+        <span class="icon">📊</span> Dashboard
+      </div>
+      <div class="nav-item disabled" data-screen="campaigns" onclick="showScreen('campaigns')">
+        <span class="icon">📋</span> Campañas
+      </div>
+      <div class="nav-item disabled" data-screen="reports" onclick="showScreen('reports')">
+        <span class="icon">📈</span> Reportes
+      </div>
+      <div class="nav-item disabled" data-screen="audiences" onclick="showScreen('audiences')">
+        <span class="icon">👥</span> Audiencias
+      </div>
+      <div class="nav-item disabled" data-screen="ads" onclick="showScreen('ads')">
+        <span class="icon">🎨</span> Anuncios
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <div class="status">
+        <span class="dot" id="statusDot"></span>
+        <span id="statusText">Desconectado</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-area">
+    <div class="top-bar">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <span class="badge">MCP Server Demo</span>
+        <span style="font-size:13px;color:#888;">TikTok Marketing API v1.3</span>
+      </div>
+      <div class="user-info" id="topBarUser">Sesión no iniciada</div>
+    </div>
+    <div class="content-wrap">
+      <div class="main-content" id="mainContent">
+        <!-- Screens rendered here -->
+      </div>
+      <div class="api-console">
+        <div class="console-header">
+          <h3>API Console — TikTok Marketing API v1.3</h3>
+          <button class="console-clear" onclick="clearConsole()">Limpiar</button>
+        </div>
+        <div class="console-body" id="consoleBody">
+          <div class="console-empty">Esperando conexión...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent" style="position:relative;"></div>
+</div>
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box" id="confirmBox"></div>
+</div>
+
+<script>
+// STATE
+let connected = false;
+let reportChart = null;
+const ADVERTISER_ID = '7339951411758858241';
+const ACCESS_TOKEN = 'act.1a2b3c4d5e6f7g8h9i0j_DEMO_TOKEN_reevalua';
+
+const campaigns = [
+  {id:'1901',name:'CP - Registro - Reevalúa Gratis',status:'ACTIVE',spend:2135.41,conv:1339,cpc:1.59,budget:150,budgetMode:'BUDGET_MODE_DAY',objective:'CONVERSIONS'},
+  {id:'1902',name:'CP - 15.01 - Microcrédito',status:'ACTIVE',spend:1070.30,conv:987,cpc:1.08,budget:80,budgetMode:'BUDGET_MODE_DAY',objective:'CONVERSIONS'},
+  {id:'1903',name:'CP | 23.1 - Crédito Emprendedor',status:'PAUSED',spend:179.72,conv:96,cpc:1.87,budget:50,budgetMode:'BUDGET_MODE_DAY',objective:'CONVERSIONS'},
+  {id:'1904',name:'CP - Registro - Reevalúa Sorteo',status:'PAUSED',spend:0,conv:0,cpc:0,budget:0,budgetMode:'BUDGET_MODE_TOTAL',objective:'TRAFFIC'},
+  {id:'1905',name:'Cyber Week Creativos',status:'PAUSED',spend:0,conv:0,cpc:0,budget:0,budgetMode:'BUDGET_MODE_TOTAL',objective:'REACH'},
+  {id:'1906',name:'Mensajes directo - Objetivo: Clics',status:'PAUSED',spend:0,conv:0,cpc:0,budget:0,budgetMode:'BUDGET_MODE_DAY',objective:'TRAFFIC'},
+  {id:'1907',name:'Tráfico - JM - 4 septiembre',status:'PAUSED',spend:0,conv:0,cpc:0,budget:0,budgetMode:'BUDGET_MODE_DAY',objective:'TRAFFIC'},
+  {id:'1908',name:'Tráfico reevalua.com',status:'PAUSED',spend:0,conv:0,cpc:0,budget:0,budgetMode:'BUDGET_MODE_DAY',objective:'TRAFFIC'}
+];
+
+const audiences = [
+  {id:'aud001',name:'Leads Bancarización',type:'CUSTOMER_FILE',size:15011,status:'Activa'},
+  {id:'aud002',name:'Leads Optimización',type:'CUSTOMER_FILE',size:3417,status:'Activa'},
+  {id:'aud003',name:'Lookalike Bancarización 1%',type:'LOOKALIKE',size:50000,status:'Activa'}
+];
+
+// UTILITY
+function ts(){const d=new Date();return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;}
+function maskToken(t){return '****'+t.slice(-8)+'****';}
+function formatPEN(v){return v===0?'-':'S/'+v.toLocaleString('es-PE',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// CONSOLE
+function addConsoleEntry(method, url, headers, requestBody, responseCode, responseBody, isError){
+  const body = document.getElementById('consoleBody');
+  body.querySelector('.console-empty')?.remove();
+  const entry = document.createElement('div');
+  entry.className = 'console-entry';
+  let html = `<span class="timestamp">[${ts()}]</span> <span class="method ${method}">▶ ${method}</span> <span class="url">${escHtml(url)}</span>`;
+  if(headers){
+    html += `<span class="section-label">Headers:</span><pre>${escHtml(headers)}</pre>`;
+  }
+  if(requestBody){
+    html += `<span class="section-label">Request:</span><pre>${escHtml(typeof requestBody==='string'?requestBody:JSON.stringify(requestBody,null,2))}</pre>`;
+  }
+  if(responseBody){
+    const rc = isError?'response-err':'response-ok';
+    html += `<span class="section-label ${rc}">Response (${responseCode}):</span><pre>${escHtml(typeof responseBody==='string'?responseBody:JSON.stringify(responseBody,null,2))}</pre>`;
+  }
+  entry.innerHTML = html;
+  body.appendChild(entry);
+  body.scrollTop = body.scrollHeight;
+}
+
+function clearConsole(){
+  document.getElementById('consoleBody').innerHTML = '<div class="console-empty">Consola limpia</div>';
+}
+
+function stdHeaders(){
+  return `  Access-Token: ${maskToken(ACCESS_TOKEN)}\n  Content-Type: application/json`;
+}
+
+// MODAL
+function openModal(html){
+  document.getElementById('modalContent').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+function openConfirm(title,msg,onYes){
+  const box = document.getElementById('confirmBox');
+  box.innerHTML = `<h3>${title}</h3><p>${msg}</p><div class="actions"><button class="btn btn-secondary" onclick="closeConfirm()">Cancelar</button><button class="btn btn-danger" id="confirmYes">Confirmar</button></div>`;
+  document.getElementById('confirmOverlay').classList.add('show');
+  document.getElementById('confirmYes').onclick = ()=>{closeConfirm();onYes();};
+}
+function closeConfirm(){document.getElementById('confirmOverlay').classList.remove('show');}
+
+// SCREENS
+function showScreen(name){
+  if(!connected && name!=='oauth') return;
+  document.querySelectorAll('.nav-item').forEach(n=>{n.classList.toggle('active',n.dataset.screen===name);});
+  const mc = document.getElementById('mainContent');
+  mc.scrollTop = 0;
+  switch(name){
+    case 'oauth': renderOAuth(); break;
+    case 'dashboard': renderDashboard(); break;
+    case 'campaigns': renderCampaigns(); break;
+    case 'reports': renderReports(); break;
+    case 'audiences': renderAudiences(); break;
+    case 'ads': renderAds(); break;
+  }
+}
+
+// SCREEN 1: OAuth
+function renderOAuth(){
+  const mc = document.getElementById('mainContent');
+  if(connected){
+    renderOAuthSuccess();
+    return;
+  }
+  mc.innerHTML = `
+    <div class="oauth-page">
+      <h1><span class="red">Reevalúa</span> × <span class="cyan">TikTok Ads</span></h1>
+      <h1 style="font-size:22px;font-weight:600;margin-top:4px;">MCP Server Integration</h1>
+      <p class="subtitle">Plataforma MCP que conecta Claude AI con TikTok Marketing API v1.3 para gestión automatizada de campañas publicitarias. Conecta tu cuenta de TikTok Ads para comenzar.</p>
+      <button class="connect-btn" onclick="startOAuth()">
+        <svg viewBox="0 0 48 48" fill="none" width="28" height="28"><path d="M34.1 10.1c-1.8-2.1-2.8-4.7-2.8-7.6h-6.7v27.7c0 3.1-2.4 5.7-5.5 5.8-1.6.1-3.1-.5-4.2-1.5s-1.7-2.5-1.7-4c0-3.2 2.6-5.8 5.8-5.8.6 0 1.2.1 1.8.3V18c-.6-.1-1.2-.1-1.8-.1-7.1 0-12.8 5.7-12.8 12.8 0 3.4 1.3 6.6 3.7 9 2.4 2.4 5.6 3.7 9.1 3.7 7.1 0 12.8-5.7 12.8-12.8V17.1c2.7 2 5.9 3 9.3 3v-6.8c-3.2 0-5.9-1.3-7.9-3.2z" fill="#FE2C55"/></svg>
+        Conectar Cuenta TikTok
+      </button>
+      <p style="font-size:12px;color:#bbb;margin-top:20px;">Se solicitarán permisos de lectura y escritura para campañas, reportes y audiencias.</p>
+    </div>`;
+}
+
+function startOAuth(){
+  openModal(`
+    <div class="tiktok-oauth-modal">
+      <div class="tiktok-oauth-header">
+        <svg viewBox="0 0 48 48" fill="none" width="40" height="40"><path d="M34.1 10.1c-1.8-2.1-2.8-4.7-2.8-7.6h-6.7v27.7c0 3.1-2.4 5.7-5.5 5.8-1.6.1-3.1-.5-4.2-1.5s-1.7-2.5-1.7-4c0-3.2 2.6-5.8 5.8-5.8.6 0 1.2.1 1.8.3V18c-.6-.1-1.2-.1-1.8-.1-7.1 0-12.8 5.7-12.8 12.8 0 3.4 1.3 6.6 3.7 9 2.4 2.4 5.6 3.7 9.1 3.7 7.1 0 12.8-5.7 12.8-12.8V17.1c2.7 2 5.9 3 9.3 3v-6.8c-3.2 0-5.9-1.3-7.9-3.2z" fill="#FE2C55"/></svg>
+        <h3 style="color:#fff;margin-top:10px;">Autorización de TikTok</h3>
+      </div>
+      <div class="tiktok-oauth-body">
+        <div class="app-info">
+          <div class="app-name">Reevalúa</div>
+          <p>solicita acceso a tu cuenta de TikTok Ads</p>
+        </div>
+        <ul class="perm-list">
+          <li><span class="perm-icon">✓</span> Gestión de campañas publicitarias</li>
+          <li><span class="perm-icon">✓</span> Acceso a reportes y métricas</li>
+          <li><span class="perm-icon">✓</span> Gestión de audiencias personalizadas</li>
+          <li><span class="perm-icon">✓</span> Creación y edición de anuncios</li>
+        </ul>
+        <div class="oauth-actions">
+          <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+          <button class="btn btn-primary" onclick="authorizeOAuth()">Autorizar</button>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function authorizeOAuth(){
+  closeModal();
+  const mc = document.getElementById('mainContent');
+  mc.innerHTML = `<div class="oauth-page"><div class="loader"></div><p class="loading-text">Conectando con TikTok Marketing API...</p></div>`;
+
+  addConsoleEntry('POST','/open_api/v1.3/oauth2/access_token/',
+    '  Content-Type: application/json',
+    {app_id:'7339951400000000001',secret:'xxxxxxxxxxxxxxxxxxxxxxxx',auth_code:'DEMO_AUTH_CODE_reevalua_2026'},
+    '200 OK',
+    {code:0,message:'OK',data:{access_token:ACCESS_TOKEN,advertiser_ids:[ADVERTISER_ID],scope:['campaign_management','report','audience','ad_management'],token_type:'Bearer',expires_in:86400}},
+    false
+  );
+
+  setTimeout(()=>{
+    connected = true;
+    document.getElementById('statusDot').classList.add('online');
+    document.getElementById('statusText').textContent = 'Conectado';
+    document.getElementById('topBarUser').textContent = 'Reevalúa — '+ADVERTISER_ID;
+    document.querySelectorAll('.nav-item.disabled').forEach(n=>n.classList.remove('disabled'));
+    renderOAuthSuccess();
+  },2000);
+}
+
+function renderOAuthSuccess(){
+  const mc = document.getElementById('mainContent');
+  mc.innerHTML = `
+    <div class="oauth-page">
+      <div class="success-state">
+        <div class="check">✓</div>
+        <h2>Conectado exitosamente</h2>
+        <p class="detail" style="--i:0"><strong>Advertiser:</strong> Reevalúa</p>
+        <p class="detail" style="--i:1"><strong>Advertiser ID:</strong> ${ADVERTISER_ID}</p>
+        <p class="detail" style="--i:2"><strong>Access Token:</strong> ${maskToken(ACCESS_TOKEN)}</p>
+        <p class="detail" style="--i:3"><strong>Permisos:</strong> campaign_management, report, audience, ad_management</p>
+        <p class="detail" style="--i:4"><strong>Expira:</strong> 24 horas</p>
+        <div style="margin-top:24px;">
+          <button class="btn btn-primary" onclick="showScreen('dashboard')">Ir al Dashboard →</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+// SCREEN 2: Dashboard
+function renderDashboard(){
+  const totalSpend = campaigns.reduce((s,c)=>s+c.spend,0);
+  const totalConv = campaigns.reduce((s,c)=>s+c.conv,0);
+  const activeCount = campaigns.filter(c=>c.status==='ACTIVE').length;
+  const avgCPC = totalConv>0?(totalSpend/totalConv):0;
+  const mc = document.getElementById('mainContent');
+  mc.innerHTML = `
+    <div class="account-card">
+      <div class="avatar">R</div>
+      <div class="info">
+        <h2>Reevalúa</h2>
+        <p>Advertiser ID: ${ADVERTISER_ID}</p>
+      </div>
+      <div class="status-badge">● Activo</div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-card" style="border-left:4px solid var(--tiktok-red);">
+        <div class="label">Campañas Totales</div>
+        <div class="value">${campaigns.length}</div>
+        <div class="sub">${activeCount} activas</div>
+      </div>
+      <div class="kpi-card" style="border-left:4px solid var(--tiktok-cyan);">
+        <div class="label">Inversión Total</div>
+        <div class="value">${formatPEN(totalSpend)}</div>
+        <div class="sub">PEN</div>
+      </div>
+      <div class="kpi-card" style="border-left:4px solid #00c853;">
+        <div class="label">Conversiones</div>
+        <div class="value">${totalConv.toLocaleString()}</div>
+        <div class="sub">Total acumulado</div>
+      </div>
+      <div class="kpi-card" style="border-left:4px solid #ffab00;">
+        <div class="label">Costo / Conversión</div>
+        <div class="value">${formatPEN(parseFloat(avgCPC.toFixed(2)))}</div>
+        <div class="sub">PEN promedio</div>
+      </div>
+    </div>
+    <div class="action-grid">
+      <div class="action-btn" onclick="showScreen('campaigns')"><div class="icon">📋</div><div class="text">Ver Campañas</div></div>
+      <div class="action-btn" onclick="showScreen('reports')"><div class="icon">📈</div><div class="text">Ver Reportes</div></div>
+      <div class="action-btn" onclick="showScreen('audiences')"><div class="icon">👥</div><div class="text">Gestionar Audiencias</div></div>
+      <div class="action-btn" onclick="showScreen('ads')"><div class="icon">🎨</div><div class="text">Crear Anuncio</div></div>
+    </div>`;
+
+  addConsoleEntry('GET','/open_api/v1.3/advertiser/info/',stdHeaders(),
+    {advertiser_ids:[ADVERTISER_ID]},
+    '200 OK',
+    {code:0,message:'OK',data:{list:[{advertiser_id:ADVERTISER_ID,advertiser_name:'Reevalúa',status:'STATUS_ENABLE',currency:'PEN',timezone:'America/Lima',company:'Reevalúa SAC',country:'PE'}]}},
+    false
+  );
+  addConsoleEntry('GET','/open_api/v1.3/campaign/get/',stdHeaders(),
+    {advertiser_id:ADVERTISER_ID,page:1,page_size:20},
+    '200 OK',
+    {code:0,message:'OK',data:{list:campaigns.map(c=>({campaign_id:c.id,campaign_name:c.name,status:c.status==='ACTIVE'?'CAMPAIGN_STATUS_ENABLE':'CAMPAIGN_STATUS_DISABLE',objective_type:c.objective,budget:c.budget,budget_mode:c.budgetMode})),page_info:{page:1,page_size:20,total_number:campaigns.length,total_page:1}}},
+    false
+  );
+}
+
+// SCREEN 3: Campaigns
+function renderCampaigns(){
+  const mc = document.getElementById('mainContent');
+  let rows = campaigns.map((c,i)=>`
+    <tr>
+      <td style="font-weight:600;">${escHtml(c.name)}</td>
+      <td><span class="${c.status==='ACTIVE'?'status-active':'status-paused'}">${c.status==='ACTIVE'?'Activa':'Pausada'}</span></td>
+      <td>${formatPEN(c.spend)}</td>
+      <td>${c.conv>0?c.conv.toLocaleString():'-'}</td>
+      <td>${c.cpc>0?formatPEN(c.cpc):'-'}</td>
+      <td>
+        <button class="btn btn-sm btn-outline" onclick="editCampaign(${i})">Editar</button>
+        <button class="btn btn-sm ${c.status==='ACTIVE'?'btn-secondary':'btn-cyan'}" onclick="toggleCampaignStatus(${i})">${c.status==='ACTIVE'?'Pausar':'Activar'}</button>
+      </td>
+    </tr>`).join('');
+
+  mc.innerHTML = `
+    <div class="page-header">
+      <div><h1 class="section-title">Gestión de Campañas</h1><p class="section-sub">Administra todas tus campañas de TikTok Ads</p></div>
+      <button class="btn btn-primary" onclick="createCampaignModal()">+ Crear Nueva Campaña</button>
+    </div>
+    <table class="data-table">
+      <thead><tr><th>Campaña</th><th>Estado</th><th>Inversión</th><th>Conversiones</th><th>Costo/Conv.</th><th>Acciones</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+
+  addConsoleEntry('GET','/open_api/v1.3/campaign/get/',stdHeaders(),
+    {advertiser_id:ADVERTISER_ID,page:1,page_size:20,filtering:JSON.stringify({})},
+    '200 OK',
+    {code:0,message:'OK',data:{list:campaigns.map(c=>({campaign_id:c.id,campaign_name:c.name,status:c.status==='ACTIVE'?'CAMPAIGN_STATUS_ENABLE':'CAMPAIGN_STATUS_DISABLE',objective_type:c.objective,budget:c.budget,budget_mode:c.budgetMode})),page_info:{total_number:campaigns.length}}},
+    false
+  );
+}
+
+function createCampaignModal(){
+  openModal(`
+    <h2>Crear Nueva Campaña</h2>
+    <div class="form-group"><label>Nombre de la Campaña</label><input type="text" id="newCampName" value="CP - Nueva Campaña Reevalúa"></div>
+    <div class="form-group"><label>Objetivo</label>
+      <select id="newCampObj"><option value="CONVERSIONS">CONVERSIONS</option><option value="TRAFFIC">TRAFFIC</option><option value="REACH">REACH</option></select>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Tipo de Presupuesto</label>
+        <select id="newCampBudgetMode"><option value="BUDGET_MODE_DAY">Diario</option><option value="BUDGET_MODE_TOTAL">Total</option></select>
+      </div>
+      <div class="form-group"><label>Monto (PEN)</label><input type="number" id="newCampBudget" value="100"></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="createCampaign()">Crear Campaña</button>
+    </div>
+  `);
+}
+
+function createCampaign(){
+  const name = document.getElementById('newCampName').value;
+  const obj = document.getElementById('newCampObj').value;
+  const bm = document.getElementById('newCampBudgetMode').value;
+  const budget = parseFloat(document.getElementById('newCampBudget').value)||100;
+  const newId = '19'+String(campaigns.length+1).padStart(2,'0');
+  campaigns.push({id:newId,name:name,status:'ACTIVE',spend:0,conv:0,cpc:0,budget:budget,budgetMode:bm,objective:obj});
+  closeModal();
+
+  addConsoleEntry('POST','/open_api/v1.3/campaign/create/',stdHeaders(),
+    {advertiser_id:ADVERTISER_ID,campaign_name:name,objective_type:obj,budget:budget,budget_mode:bm,operation_status:'ENABLE'},
+    '200 OK',
+    {code:0,message:'OK',data:{campaign_id:newId}},
+    false
+  );
+
+  renderCampaigns();
+}
+
+function editCampaign(idx){
+  const c = campaigns[idx];
+  openModal(`
+    <h2>Editar Campaña</h2>
+    <p style="font-size:13px;color:#888;margin-bottom:16px;">${escHtml(c.name)}</p>
+    <div class="form-group"><label>Nuevo Presupuesto (PEN)</label><input type="number" id="editBudget" value="${c.budget}"></div>
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveEditCampaign(${idx})">Guardar Cambios</button>
+    </div>
+  `);
+}
+
+function saveEditCampaign(idx){
+  const newBudget = parseFloat(document.getElementById('editBudget').value)||campaigns[idx].budget;
+  const oldBudget = campaigns[idx].budget;
+  campaigns[idx].budget = newBudget;
+  closeModal();
+
+  addConsoleEntry('PUT','/open_api/v1.3/campaign/update/',stdHeaders(),
+    {advertiser_id:ADVERTISER_ID,campaign_id:campaigns[idx].id,budget:newBudget},
+    '200 OK',
+    {code:0,message:'OK',data:{campaign_id:campaigns[idx].id,budget:newBudget,previous_budget:oldBudget}},
+    false
+  );
+
+  renderCampaigns();
+}
+
+function toggleCampaignStatus(idx){
+  const c = campaigns[idx];
+  const newStatus = c.status==='ACTIVE'?'PAUSED':'ACTIVE';
+  const apiStatus = newStatus==='ACTIVE'?'ENABLE':'DISABLE';
+  c.status = newStatus;
+
+  addConsoleEntry('POST','/open_api/v1.3/campaign/update/status/',stdHeaders(),
+    {advertiser_id:ADVERTISER_ID,campaign_ids:[c.id],operation_status:apiStatus},
+    '200 OK',
+    {code:0,message:'OK',data:{campaign_ids:[c.id],operation_status:apiStatus}},
+    false
+  );
+
+  renderCampaigns();
+}
+
+// SCREEN 4: Reports
+function renderReports(){
+  const mc = document.getElementById('mainContent');
+  mc.innerHTML = `
+    <div class="page-header">
+      <div><h1 class="section-title">Reportes e Insights</h1><p class="section-sub">Análisis detallado del rendimiento de campañas</p></div>
+    </div>
+    <div class="date-row">
+      <label>Desde:</label><input type="date" id="reportFrom" value="2026-03-01">
+      <label>Hasta:</label><input type="date" id="reportTo" value="2026-03-18">
+      <button class="btn btn-primary" onclick="generateReport()">Generar Reporte</button>
+    </div>
+    <div id="reportArea"></div>`;
+}
+
+function generateReport(){
+  const from = document.getElementById('reportFrom').value;
+  const to = document.getElementById('reportTo').value;
+  const area = document.getElementById('reportArea');
+
+  const spendData = [263,302,160,157,144,130,142,129,225,214,209,202,202,214,211,55,0,0];
+  const convData = [155,208,137,154,151,156,139,129,202,201,185,181,108,147,136,33,0,0];
+  const ctrData = [0.15,0.19,0.17,0.15,0.14,0.12,0.13,0.11,0.18,0.17,0.16,0.15,0.14,0.16,0.15,0.04,0,0];
+  const labels = [];
+  for(let i=1;i<=18;i++) labels.push('Mar '+i);
+
+  area.innerHTML = `
+    <div class="chart-container"><canvas id="reportChart"></canvas></div>
+    <h3 style="font-size:16px;font-weight:700;margin:20px 0 10px;">Desglose por Campaña</h3>
+    <table class="data-table">
+      <thead><tr><th>Campaña</th><th>Impresiones</th><th>Clics</th><th>CTR</th><th>Gasto</th><th>Conversiones</th><th>CPA</th></tr></thead>
+      <tbody>
+        <tr><td>CP - Registro - Reevalúa Gratis</td><td>1,245,320</td><td>18,432</td><td>1.48%</td><td>S/2,135.41</td><td>1,339</td><td>S/1.59</td></tr>
+        <tr><td>CP - 15.01 - Microcrédito</td><td>892,100</td><td>14,217</td><td>1.59%</td><td>S/1,070.30</td><td>987</td><td>S/1.08</td></tr>
+        <tr><td>CP | 23.1 - Crédito Emprendedor</td><td>134,500</td><td>1,876</td><td>1.39%</td><td>S/179.72</td><td>96</td><td>S/1.87</td></tr>
+      </tbody>
+    </table>`;
+
+  if(reportChart) reportChart.destroy();
+  const ctx = document.getElementById('reportChart').getContext('2d');
+  reportChart = new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:labels,
+      datasets:[
+        {label:'Gasto diario (PEN)',data:spendData,borderColor:'#FE2C55',backgroundColor:'rgba(254,44,85,.1)',fill:true,tension:.3,yAxisID:'y'},
+        {label:'Conversiones',data:convData,borderColor:'#25F4EE',backgroundColor:'rgba(37,244,238,.1)',fill:false,tension:.3,yAxisID:'y'},
+        {label:'CTR (%)',data:ctrData,borderColor:'#ffab00',backgroundColor:'rgba(255,171,0,.1)',fill:false,tension:.3,yAxisID:'y1'}
+      ]
+    },
+    options:{
+      responsive:true,
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{position:'top',labels:{font:{family:'Inter',size:12}}}},
+      scales:{
+        y:{type:'linear',position:'left',title:{display:true,text:'PEN / Conversiones',font:{family:'Inter'}},grid:{color:'#f0f0f0'}},
+        y1:{type:'linear',position:'right',title:{display:true,text:'CTR (%)',font:{family:'Inter'}},grid:{drawOnChartArea:false},min:0,max:0.25}
+      }
+    }
+  });
+
+  const reportDates = [];
+  for(let i=1;i<=18;i++) reportDates.push(`2026-03-${String(i).padStart(2,'0')}`);
+  const metricsPayload = reportDates.map((d,i)=>({stat_time_day:d,metrics:{spend:spendData[i],conversion:convData[i],ctr:ctrData[i],impressions:Math.round(spendData[i]*58),clicks:Math.round(spendData[i]*8.2)}}));
+
+  addConsoleEntry('GET','/open_api/v1.3/report/integrated/get/',stdHeaders(),
+    {advertiser_id:ADVERTISER_ID,report_type:'BASIC',dimensions:JSON.stringify(['stat_time_day']),data_level:'AUCTION_ADVERTISER',start_date:from,end_date:to,metrics:JSON.stringify(['spend','conversion','ctr','impressions','clicks']),page:1,page_size:30},
+    '200 OK',
+    {code:0,message:'OK',data:{list:metricsPayload,page_info:{total_number:18,page:1,page_size:30,total_page:1}}},
+    false
+  );
+}
+
+// SCREEN 5: Audiences
+function renderAudiences(){
+  const mc = document.getElementById('mainContent');
+  let rows = audiences.map((a,i)=>`
+    <tr>
+      <td style="font-weight:600;">${escHtml(a.name)}</td>
+      <td>${a.type==='CUSTOMER_FILE'?'Customer File':'Lookalike'}</td>
+      <td>${a.size.toLocaleString()}</td>
+      <td><span class="status-active">${a.status}</span></td>
+      <td>
+        <button class="btn btn-sm btn-cyan" onclick="addUsersToAudience(${i})">Agregar Usuarios</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteAudience(${i})">Eliminar</button>
+      </td>
+    </tr>`).join('');
+
+  mc.innerHTML = `
+    <div class="page-header">
+      <div><h1 class="section-title">Gestión de Audiencias</h1><p class="section-sub">Crea y administra audiencias personalizadas</p></div>
+      <button class="btn btn-primary" onclick="createAudienceModal()">+ Crear Audiencia Personalizada</button>
+    </div>
+    <table class="data-table">
+      <thead><tr><th>Nombre</th><th>Tipo</th><th>Usuarios</th><th>Estado</th><th>Acciones</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+
+  addConsoleEntry('GET','/open_api/v1.3/dmp/custom_audience/list/',stdHeaders(),
+    {advertiser_id:ADVERTISER_ID,page:1,page_size:20},
+    '200 OK',
+    {code:0,message:'OK',data:{list:audiences.map(a=>({custom_audience_id:a.id,name:a.name,audience_type:a.type,audience_size:a.size,status:'READY'})),page_info:{total_number:audiences.length}}},
+    false
+  );
+}
+
+function sha256Mock(email){
+  let hash='';const chars='0123456789abcdef';
+  let seed=0;for(let i=0;i<email.length;i++)seed+=email.charCodeAt(i);
+  for(let i=0;i<64;i++){hash+=chars[(seed*7+i*13+i*i)%16];}
+  return hash;
+}
+
+function createAudienceModal(){
+  const ex1='maria.lopez@email.com',ex2='carlos.ruiz@email.com',ex3='ana.torres@email.com';
+  openModal(`
+    <h2>Crear Audiencia Personalizada</h2>
+    <div class="form-group"><label>Nombre</label><input type="text" id="audName" value="Leads Q1 2026"></div>
+    <div class="form-group"><label>Tipo</label><select id="audType"><option value="CUSTOMER_FILE">CUSTOMER_FILE</option></select></div>
+    <div class="form-group"><label>Descripción</label><input type="text" id="audDesc" value="Leads recopilados en Q1 2026 para remarketing"></div>
+    <div class="form-group"><label>Emails (uno por línea)</label><textarea id="audEmails">${ex1}\n${ex2}\n${ex3}</textarea></div>
+    <div id="hashPreview"></div>
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-dark" onclick="previewHashes()">Previsualizar Hashes</button>
+      <button class="btn btn-primary" onclick="createAudience()">Crear Audiencia</button>
+    </div>
+  `);
+}
+
+function previewHashes(){
+  const emails = document.getElementById('audEmails').value.trim().split('\n').filter(e=>e.trim());
+  const preview = document.getElementById('hashPreview');
+  let html='<div class="hash-vis"><strong style="font-size:11px;color:#888;">SHA256 Hashing Preview:</strong>';
+  emails.forEach(e=>{
+    const em=e.trim();
+    html+=`<div class="hash-row"><span class="email">${escHtml(em)}</span><span class="arrow">→</span><span class="hash">${sha256Mock(em)}</span></div>`;
+  });
+  html+='</div>';
+  preview.innerHTML=html;
+}
+
+function createAudience(){
+  const name=document.getElementById('audName').value;
+  const desc=document.getElementById('audDesc').value;
+  const emails=document.getElementById('audEmails').value.trim().split('\n').filter(e=>e.trim());
+  const hashes=emails.map(e=>sha256Mock(e.trim()));
+  const newId='aud'+String(audiences.length+1).padStart(3,'0');
+  audiences.push({id:newId,name:name,type:'CUSTOMER_FILE',size:emails.length,status:'Activa'});
+  closeModal();
+
+  addConsoleEntry('POST','/open_api/v1.3/dmp/custom_audience/create/',stdHeaders(),
+    {advertiser_id:ADVERTISER_ID,custom_audience_name:name,audience_type:'CUSTOMER_FILE',file_paths:[],calculate_type:'EVERY_TIME',audience_sub_type:'NORMAL',identity_type:'EMAIL_SHA256',identity_authorized:true,description:desc},
+    '200 OK',
+    {code:0,message:'OK',data:{custom_audience_id:newId}},
+    false
+  );
+
+  addConsoleEntry('POST','/open_api/v1.3/dmp/custom_audience/update/',stdHeaders(),
+    {advertiser_id:ADVERTISER_ID,custom_audience_id:newId,action:'APPEND',id_type:'EMAIL_SHA256',id_list:hashes},
+    '200 OK',
+    {code:0,message:'OK',data:{custom_audience_id:newId,users_added:emails.length}},
+    false
+  );
+
+  renderAudiences();
+}
+
+function addUsersToAudience(idx){
+  const a=audiences[idx];
+  openModal(`
+    <h2>Agregar Usuarios a "${escHtml(a.name)}"</h2>
+    <div class="form-group"><label>Emails (uno por línea)</label><textarea id="addEmails">nuevo.usuario@gmail.com\ncliente.peru@hotmail.com</textarea></div>
+    <div id="addHashPreview"></div>
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-dark" onclick="previewAddHashes()">Previsualizar Hashes</button>
+      <button class="btn btn-primary" onclick="submitAddUsers(${idx})">Agregar Usuarios</button>
+    </div>
+  `);
+}
+
+function previewAddHashes(){
+  const emails=document.getElementById('addEmails').value.trim().split('\n').filter(e=>e.trim());
+  const preview=document.getElementById('addHashPreview');
+  let html='<div class="hash-vis"><strong style="font-size:11px;color:#888;">SHA256 Hashing Preview:</strong>';
+  emails.forEach(e=>{
+    const em=e.trim();
+    html+=`<div class="hash-row"><span class="email">${escHtml(em)}</span><span class="arrow">→</span><span class="hash">${sha256Mock(em)}</span></div>`;
+  });
+  html+='</div>';
+  preview.innerHTML=html;
+}
+
+function submitAddUsers(idx){
+  const a=audiences[idx];
+  const emails=document.getElementById('addEmails').value.trim().split('\n').filter(e=>e.trim());
+  const hashes=emails.map(e=>sha256Mock(e.trim()));
+  a.size+=emails.length;
+  closeModal();
+
+  addConsoleEntry('POST','/open_api/v1.3/dmp/custom_audience/update/',stdHeaders(),
+    {advertiser_id:ADVERTISER_ID,custom_audience_id:a.id,action:'APPEND',id_type:'EMAIL_SHA256',id_list:hashes},
+    '200 OK',
+    {code:0,message:'OK',data:{custom_audience_id:a.id,users_added:emails.length,total_size:a.size}},
+    false
+  );
+
+  renderAudiences();
+}
+
+function deleteAudience(idx){
+  const a=audiences[idx];
+  openConfirm('Eliminar Audiencia',`¿Estás seguro de que deseas eliminar la audiencia "${a.name}"? Esta acción no se puede deshacer.`,()=>{
+    addConsoleEntry('DELETE','/open_api/v1.3/dmp/custom_audience/delete/',stdHeaders(),
+      {advertiser_id:ADVERTISER_ID,custom_audience_id:a.id},
+      '200 OK',
+      {code:0,message:'OK',data:{custom_audience_id:a.id,deleted:true}},
+      false
+    );
+    audiences.splice(idx,1);
+    renderAudiences();
+  });
+}
+
+// SCREEN 6: Ads
+function renderAds(){
+  const activeCampaigns = campaigns.filter(c=>c.status==='ACTIVE');
+  const campaignOpts = activeCampaigns.map(c=>`<option value="${c.id}">${escHtml(c.name)}</option>`).join('');
+  const mc = document.getElementById('mainContent');
+  mc.innerHTML = `
+    <div class="page-header">
+      <div><h1 class="section-title">Creación de Anuncios</h1><p class="section-sub">Configura ad groups y anuncios para tus campañas activas</p></div>
+    </div>
+    <div class="ad-split">
+      <div class="ad-panel">
+        <h3>Crear Ad Group</h3>
+        <div class="form-group"><label>Campaña</label><select id="agCampaign">${campaignOpts}</select></div>
+        <div class="form-group"><label>Nombre del Ad Group</label><input type="text" id="agName" value="AG - Registro Perú 18-45"></div>
+        <div class="form-group"><label>Placements</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" checked value="PLACEMENT_TIKTOK"> TikTok</label>
+            <label><input type="checkbox" value="PLACEMENT_PANGLE"> Pangle</label>
+            <label><input type="checkbox" value="PLACEMENT_GLOBAL_APP_BUNDLE"> Global App Bundle</label>
+          </div>
+        </div>
+        <div class="form-group"><label>País</label><select id="agCountry"><option value="PE" selected>Peru</option><option value="CO">Colombia</option><option value="MX">México</option></select></div>
+        <div class="form-row">
+          <div class="form-group"><label>Edad Mínima</label><select id="agAgeMin"><option value="18" selected>18</option><option value="25">25</option><option value="35">35</option></select></div>
+          <div class="form-group"><label>Edad Máxima</label><select id="agAgeMax"><option value="24">24</option><option value="34">34</option><option value="45" selected>45</option><option value="55">55</option></select></div>
+        </div>
+        <div class="form-group"><label>Género</label><select id="agGender"><option value="GENDER_UNLIMITED" selected>Todos</option><option value="GENDER_MALE">Masculino</option><option value="GENDER_FEMALE">Femenino</option></select></div>
+        <div class="form-group"><label>Presupuesto Diario (PEN)</label><input type="number" id="agBudget" value="50"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Fecha Inicio</label><input type="date" id="agStart" value="2026-03-24"></div>
+          <div class="form-group"><label>Fecha Fin</label><input type="date" id="agEnd" value="2026-04-24"></div>
+        </div>
+        <div class="form-group"><label>Pixel ID</label><input type="text" id="agPixel" value="CPSFL6RC77U5TN3GG2H0"></div>
+        <div class="form-group"><label>Evento de Conversión</label>
+          <select id="agEvent"><option value="CompleteRegistration" selected>CompleteRegistration</option><option value="SubmitForm">SubmitForm</option><option value="ViewContent">ViewContent</option><option value="AddToCart">AddToCart</option><option value="Purchase">Purchase</option></select>
+        </div>
+        <button class="btn btn-primary" onclick="createAdGroup()" style="width:100%;justify-content:center;">Crear Ad Group</button>
+      </div>
+
+      <div class="ad-panel">
+        <h3>Crear Anuncio</h3>
+        <div class="form-group"><label>Ad Group</label>
+          <select id="adAdgroup"><option value="ag_new">AG - Registro Perú 18-45 (nuevo)</option></select>
+        </div>
+        <div class="form-group"><label>Nombre del Anuncio</label><input type="text" id="adName" value="Ad - Reevalúa Registro Gratis"></div>
+        <div class="form-group"><label>Landing Page URL</label><input type="text" id="adUrl" value="https://app.reevalua.com"></div>
+        <div class="form-group"><label>Creative</label>
+          <div class="upload-area" onclick="this.style.borderColor='#00c853';this.innerHTML='<div class=icon>✅</div><p>creative_reevalua_registro.mp4 seleccionado</p>';">
+            <div class="icon">📁</div>
+            <p>Haz clic para seleccionar un archivo de video o imagen</p>
+          </div>
+        </div>
+        <div class="form-group"><label>Call to Action</label>
+          <select id="adCta"><option value="SIGN_UP" selected>Regístrate</option><option value="LEARN_MORE">Más información</option><option value="APPLY_NOW">Solicitar ahora</option><option value="CONTACT_US">Contáctanos</option><option value="DOWNLOAD">Descargar</option></select>
+        </div>
+        <div class="form-group"><label>Texto del Anuncio</label><textarea id="adText">¿Necesitas un crédito? Evalúa tus opciones gratis con Reevalúa. ¡Regístrate ahora!</textarea></div>
+        <button class="btn btn-primary" onclick="createAd()" style="width:100%;justify-content:center;">Crear Anuncio</button>
+      </div>
+    </div>`;
+}
+
+function createAdGroup(){
+  const campId=document.getElementById('agCampaign').value;
+  const name=document.getElementById('agName').value;
+  const country=document.getElementById('agCountry').value;
+  const ageMin=document.getElementById('agAgeMin').value;
+  const ageMax=document.getElementById('agAgeMax').value;
+  const gender=document.getElementById('agGender').value;
+  const budget=parseFloat(document.getElementById('agBudget').value)||50;
+  const start=document.getElementById('agStart').value;
+  const end=document.getElementById('agEnd').value;
+  const pixel=document.getElementById('agPixel').value;
+  const event=document.getElementById('agEvent').value;
+
+  const placements=[];
+  document.querySelectorAll('.checkbox-group input:checked').forEach(cb=>placements.push(cb.value));
+
+  const agId='190100'+Math.floor(Math.random()*9000+1000);
+
+  addConsoleEntry('POST','/open_api/v1.3/adgroup/create/',stdHeaders(),
+    {
+      advertiser_id:ADVERTISER_ID,
+      campaign_id:campId,
+      adgroup_name:name,
+      placement_type:'PLACEMENT_TYPE_NORMAL',
+      placements:placements,
+      location_ids:[country==='PE'?'2604':'2170'],
+      age_groups:[`AGE_${ageMin}_${ageMax}`],
+      gender:gender,
+      budget:budget,
+      budget_mode:'BUDGET_MODE_DAY',
+      schedule_type:'SCHEDULE_START_END',
+      schedule_start_time:start+' 00:00:00',
+      schedule_end_time:end+' 23:59:59',
+      optimization_goal:'CONVERT',
+      bid_type:'BID_TYPE_NO_BID',
+      billing_event:'CPC',
+      pixel_id:pixel,
+      optimization_event:event,
+      pacing:'PACING_MODE_SMOOTH',
+      operation_status:'ENABLE'
+    },
+    '200 OK',
+    {code:0,message:'OK',data:{adgroup_id:agId}},
+    false
+  );
+
+  const sel=document.getElementById('adAdgroup');
+  sel.innerHTML=`<option value="${agId}">${escHtml(name)} (ID: ${agId})</option>`;
+
+  openModal(`
+    <div style="text-align:center;">
+      <div style="width:60px;height:60px;background:#e8f5e9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:28px;color:#00c853;">✓</div>
+      <h2 style="color:#00c853;">Ad Group Creado</h2>
+      <p style="font-size:13px;color:#666;margin:8px 0;">ID: ${agId}</p>
+      <p style="font-size:13px;color:#666;">${escHtml(name)}</p>
+      <button class="btn btn-primary" style="margin-top:16px;" onclick="closeModal()">Cerrar</button>
+    </div>
+  `);
+}
+
+function createAd(){
+  const agId=document.getElementById('adAdgroup').value;
+  const name=document.getElementById('adName').value;
+  const url=document.getElementById('adUrl').value;
+  const cta=document.getElementById('adCta').value;
+  const text=document.getElementById('adText').value;
+  const adId='1901'+Math.floor(Math.random()*900000+100000);
+
+  addConsoleEntry('POST','/open_api/v1.3/ad/create/',stdHeaders(),
+    {
+      advertiser_id:ADVERTISER_ID,
+      adgroup_id:agId,
+      creatives:[{
+        ad_name:name,
+        ad_text:text,
+        ad_format:'SINGLE_VIDEO',
+        landing_page_url:url,
+        call_to_action:cta,
+        video_id:'v_demo_reevalua_001',
+        identity_type:'CUSTOMIZED_USER',
+        identity_id:ADVERTISER_ID,
+        display_name:'Reevalúa',
+        profile_image_id:'img_profile_reevalua'
+      }]
+    },
+    '200 OK',
+    {code:0,message:'OK',data:{ad_ids:[adId]}},
+    false
+  );
+
+  openModal(`
+    <div style="text-align:center;">
+      <div style="width:60px;height:60px;background:#e8f5e9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:28px;color:#00c853;">✓</div>
+      <h2 style="color:#00c853;">Anuncio Creado</h2>
+      <p style="font-size:13px;color:#666;margin:8px 0;">Ad ID: ${adId}</p>
+      <p style="font-size:13px;color:#666;">${escHtml(name)}</p>
+      <p style="font-size:13px;color:#888;margin-top:4px;">Landing: ${escHtml(url)}</p>
+      <button class="btn btn-primary" style="margin-top:16px;" onclick="closeModal()">Cerrar</button>
+    </div>
+  `);
+}
+
+// CLICK OUTSIDE MODAL
+document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+document.getElementById('confirmOverlay').addEventListener('click',function(e){if(e.target===this)closeConfirm();});
+
+// INIT
+showScreen('oauth');
+</script>
+</body>
+</html>
