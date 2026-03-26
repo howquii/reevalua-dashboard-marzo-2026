@@ -50,6 +50,87 @@
             line-height: 1.5;
         }
 
+        /* Filter Panel */
+        .filter-panel {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 140px;
+        }
+        .filter-group label.filter-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .filter-presets { display: flex; gap: 4px; flex-wrap: wrap; }
+        .fbtn {
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--gray-300);
+            background: white;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: inherit;
+            color: var(--gray-600);
+        }
+        .fbtn:hover { border-color: var(--purple-500); color: var(--purple-500); }
+        .fbtn.active { background: var(--purple-500); color: white; border-color: var(--purple-500); }
+        .filter-input {
+            padding: 5px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--gray-300);
+            font-size: 12px;
+            font-family: inherit;
+            color: var(--gray-700);
+            background: white;
+            cursor: pointer;
+        }
+        .filter-input:focus { outline: none; border-color: var(--purple-500); }
+        .filter-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+        .chip {
+            padding: 3px 8px;
+            border-radius: 20px;
+            border: 1px solid var(--gray-300);
+            background: white;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.15s;
+            color: var(--gray-600);
+            user-select: none;
+        }
+        .chip.active { background: var(--purple-100); border-color: var(--purple-400); color: var(--purple-700); font-weight: 600; }
+        .chip.meta.active { background: #dbeafe; border-color: #93c5fd; color: #1d4ed8; }
+        .chip.tiktok.active { background: #fce7f3; border-color: #f9a8d4; color: #9d174d; }
+        .chip.organic.active { background: var(--green-100); border-color: #86efac; color: #15803d; }
+        .filter-divider { width: 1px; background: var(--gray-200); align-self: stretch; margin: 0 4px; }
+        .kpi-reactive { transition: all 0.3s; }
+        .analysis-box {
+            background: var(--purple-50);
+            border: 1px solid var(--purple-200);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+        }
+        .analysis-box h4 { color: var(--purple-700); margin-bottom: 10px; font-size: 14px; }
+        .analysis-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+        .insight-item { background: white; border-radius: 8px; padding: 12px; border: 1px solid var(--purple-200); }
+        .insight-item .i-label { font-size: 11px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.4px; }
+        .insight-item .i-value { font-size: 20px; font-weight: 700; color: var(--gray-900); margin: 2px 0; }
+        .insight-item .i-sub { font-size: 12px; color: var(--gray-500); }
         /* Header */
         .header {
             background: linear-gradient(135deg, var(--purple-900) 0%, var(--purple-700) 50%, var(--purple-600) 100%);
@@ -841,150 +922,153 @@
 
     <!-- ===================== TAB 3: EMBUDOS MIXPANEL ===================== -->
     <div class="tab-content" id="tab-embudos">
-        <div class="section-title"><span class="dot"></span> Embudo de Conversion Principal</div>
+        <div class="section-title"><span class="dot"></span> Embudo de Conversión Q1 — Datos Reales Mixpanel (Ene 1 – Mar 25)</div>
 
+        <!-- Q1 Funnel: Solicitud de Crédito 7-step -->
         <div class="card full-width">
-            <div class="card-title">Embudo Completo -- Marzo 1-23 (Datos Reales Mixpanel API)</div>
-            <div class="chart-container h350">
-                <canvas id="chartFunnel"></canvas>
+            <div class="card-title">Embudo Solicitud de Crédito Q1 — 7 pasos (Mixpanel API real)</div>
+            <div class="chart-container h380">
+                <canvas id="chartFunnelQ1"></canvas>
             </div>
+            <div style="margin-top:8px;font-size:12px;color:var(--gray-500);">Conversión global: 23.64% (23,060 → 5,453). Mayor drop-off en Datos Básicos (49.42%).</div>
         </div>
 
-        <div class="grid-2">
+        <div class="grid-2" style="margin-top:20px;">
             <div class="card">
-                <div class="card-title">Tasas de Conversion</div>
+                <div class="card-title">Tasas de Conversión por Paso</div>
                 <div style="padding:8px 0;">
                     <div class="funnel-step">
-                        <div class="funnel-label">Registro &rarr; Diagnostico</div>
-                        <div class="funnel-bar-wrap">
-                            <div class="funnel-bar" style="width:97.8%;background:linear-gradient(90deg,var(--purple-600),var(--purple-400));">97.8%</div>
-                        </div>
-                        <div class="funnel-rate" style="color:var(--green-500);">97.8%</div>
+                        <div class="funnel-label">Credit request created (23,060)</div>
+                        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:100%;background:linear-gradient(90deg,var(--purple-600),var(--purple-400));">100%</div></div>
+                        <div class="funnel-rate" style="color:var(--green-500);">100%</div>
                     </div>
                     <div class="funnel-step">
-                        <div class="funnel-label">Registro &rarr; Solicitud</div>
-                        <div class="funnel-bar-wrap">
-                            <div class="funnel-bar" style="width:92.3%;background:linear-gradient(90deg,var(--purple-600),var(--purple-400));">92.3%</div>
-                        </div>
-                        <div class="funnel-rate" style="color:var(--green-500);">92.3%</div>
+                        <div class="funnel-label">Datos Básicos (11,400)</div>
+                        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:49.42%;background:linear-gradient(90deg,var(--purple-600),var(--purple-400));">49.4%</div></div>
+                        <div class="funnel-rate" style="color:var(--red-500);">49.4%</div>
                     </div>
                     <div class="funnel-step">
-                        <div class="funnel-label">Registro &rarr; Opciones credito</div>
-                        <div class="funnel-bar-wrap">
-                            <div class="funnel-bar" style="width:76.1%;background:linear-gradient(90deg,var(--purple-600),var(--purple-400));">76.1%</div>
-                        </div>
-                        <div class="funnel-rate" style="color:var(--yellow-600);">76.1%</div>
+                        <div class="funnel-label">Datos Financieros (11,190)</div>
+                        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:48.5%;background:linear-gradient(90deg,var(--purple-600),var(--purple-400));">98.1% del prev</div></div>
+                        <div class="funnel-rate" style="color:var(--green-500);">48.5%</div>
                     </div>
                     <div class="funnel-step">
-                        <div class="funnel-label">Registro &rarr; Flow completed</div>
-                        <div class="funnel-bar-wrap">
-                            <div class="funnel-bar" style="width:3.6%;min-width:50px;background:linear-gradient(90deg,var(--red-500),#f87171);">0.36%</div>
-                        </div>
-                        <div class="funnel-rate" style="color:var(--red-500);">0.36%</div>
+                        <div class="funnel-label">Selección de Producto (10,970)</div>
+                        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:47.6%;background:linear-gradient(90deg,var(--purple-600),var(--purple-400));">98.1% del prev</div></div>
+                        <div class="funnel-rate" style="color:var(--green-500);">47.6%</div>
+                    </div>
+                    <div class="funnel-step">
+                        <div class="funnel-label">Evaluación Crediticia (10,460)</div>
+                        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:45.4%;background:linear-gradient(90deg,var(--purple-600),var(--purple-400));">95.3% del prev</div></div>
+                        <div class="funnel-rate" style="color:var(--yellow-600);">45.4%</div>
+                    </div>
+                    <div class="funnel-step">
+                        <div class="funnel-label">Credit options showed (7,637)</div>
+                        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:33.1%;background:linear-gradient(90deg,#f97316,#fdba74);">73.0% del prev</div></div>
+                        <div class="funnel-rate" style="color:var(--orange-500);">33.1%</div>
+                    </div>
+                    <div class="funnel-step">
+                        <div class="funnel-label">Tracked link visit (5,453)</div>
+                        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:23.6%;min-width:60px;background:linear-gradient(90deg,var(--green-500),#86efac);">71.4% del prev</div></div>
+                        <div class="funnel-rate" style="color:var(--green-500);">23.6%</div>
                     </div>
                 </div>
             </div>
             <div class="card">
-                <div class="card-title">Perdida en Cada Paso</div>
-                <div class="chart-container h300">
-                    <canvas id="chartDropoff"></canvas>
+                <div class="card-title">Detalle del Embudo Q1 Completo</div>
+                <table class="data-table">
+                    <thead><tr><th>Paso</th><th>Evento</th><th class="num">Usuarios</th><th class="num">% inicial</th><th class="num">Drop-off</th></tr></thead>
+                    <tbody>
+                        <tr><td>1. Credit request</td><td>Credit request created</td><td class="num">23,060</td><td class="num">100%</td><td class="num">—</td></tr>
+                        <tr><td>2. Datos Básicos</td><td>Tracking flow step</td><td class="num">11,400</td><td class="num">49.4%</td><td class="num" style="color:var(--red-500);">-11,660 ⚠️</td></tr>
+                        <tr><td>3. Datos Financieros</td><td>Tracking flow step</td><td class="num">11,190</td><td class="num">48.5%</td><td class="num">-210 (1.8%)</td></tr>
+                        <tr><td>4. Selección Producto</td><td>Tracking flow step</td><td class="num">10,970</td><td class="num">47.6%</td><td class="num">-220 (2.0%)</td></tr>
+                        <tr><td>5. Evaluación</td><td>Evaluación Crediticia</td><td class="num">10,460</td><td class="num">45.4%</td><td class="num">-510 (4.6%)</td></tr>
+                        <tr><td>6. Opciones crédito</td><td>Credit options showed</td><td class="num">7,637</td><td class="num">33.1%</td><td class="num" style="color:var(--orange-500);">-2,823 (27%)</td></tr>
+                        <tr style="background:var(--green-100);font-weight:600;"><td>7. Link visitado</td><td>Tracked link visit</td><td class="num">5,453</td><td class="num">23.6%</td><td class="num">-2,184 (28.6%)</td></tr>
+                    </tbody>
+                </table>
+                <div style="margin-top:10px;padding:10px;background:var(--yellow-100);border-radius:8px;font-size:12px;color:#92400e;">
+                    <strong>⚠️ Mayor oportunidad:</strong> Datos Básicos pierde el 50.6% de usuarios. Optimizar onboarding aquí podría duplicar conversiones finales.
                 </div>
             </div>
         </div>
 
-        <div class="card full-width">
-            <div class="card-title">Detalle del Embudo</div>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Paso</th>
-                        <th>Evento Mixpanel</th>
-                        <th class="num">Usuarios</th>
-                        <th class="num">% del Total</th>
-                        <th class="num">Drop-off</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1. Registro</td>
-                        <td>Subscription event</td>
-                        <td class="num">8,001</td>
-                        <td class="num">100%</td>
-                        <td class="num">--</td>
-                    </tr>
-                    <tr>
-                        <td>2. Diagnostico</td>
-                        <td>Client type changed</td>
-                        <td class="num">~7,825</td>
-                        <td class="num">97.8%</td>
-                        <td class="num">-176 (2.2%)</td>
-                    </tr>
-                    <tr>
-                        <td>3. Solicitud credito</td>
-                        <td>Credit request created</td>
-                        <td class="num">~7,384</td>
-                        <td class="num">92.3%</td>
-                        <td class="num">-441 (5.6%)</td>
-                    </tr>
-                    <tr>
-                        <td>4. Opciones credito</td>
-                        <td>Credit options showed</td>
-                        <td class="num">~6,089</td>
-                        <td class="num">76.1%</td>
-                        <td class="num">-1,295 (17.5%)</td>
-                    </tr>
-                    <tr>
-                        <td>5. Flujo completado</td>
-                        <td>Flow completed</td>
-                        <td class="num">29</td>
-                        <td class="num">0.36%</td>
-                        <td class="num">-6,060 (99.5%)</td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Total suscriptores vs credit funnel -->
+        <div class="section-title" style="margin-top:28px;"><span class="dot"></span> Total Suscriptores Q1 vs Embudo</div>
+        <div class="kpi-grid">
+            <div class="kpi-card purple">
+                <div class="kpi-label">Total Suscriptores Q1</div>
+                <div class="kpi-value">33,420</div>
+                <div class="kpi-sub">Subscription event • Mixpanel</div>
+            </div>
+            <div class="kpi-card blue">
+                <div class="kpi-label">Inician solicitud crédito</div>
+                <div class="kpi-value">23,060</div>
+                <div class="kpi-sub">69.0% de suscriptores</div>
+            </div>
+            <div class="kpi-card green">
+                <div class="kpi-label">Completan evaluación</div>
+                <div class="kpi-value">10,460</div>
+                <div class="kpi-sub">31.3% de suscriptores</div>
+            </div>
+            <div class="kpi-card teal">
+                <div class="kpi-label">Ven opciones crédito</div>
+                <div class="kpi-value">7,637</div>
+                <div class="kpi-sub">22.9% de suscriptores</div>
+            </div>
+            <div class="kpi-card orange">
+                <div class="kpi-label">Visitan link (conversión)</div>
+                <div class="kpi-value">5,453</div>
+                <div class="kpi-sub">16.3% de suscriptores</div>
+            </div>
+            <div class="kpi-card pink">
+                <div class="kpi-label">Conversión global funnel</div>
+                <div class="kpi-value">23.64%</div>
+                <div class="kpi-sub">credit request → tracked link</div>
+            </div>
         </div>
 
-        <!-- Flow completed trend -->
-        <div class="section-title"><span class="dot"></span> Tendencia de Flujos Completados (Mixpanel API)</div>
+        <!-- Funnel by client type -->
+        <div class="section-title" style="margin-top:28px;"><span class="dot"></span> Embudo por Tipo de Cliente (Q1)</div>
+        <div class="card full-width">
+            <div class="card-title">Conversión por tipo de cliente — % que llega a Tracked Link Visit</div>
+            <div class="chart-container h300">
+                <canvas id="chartFunnelByType"></canvas>
+            </div>
+            <div style="margin-top:10px;font-size:12px;color:var(--gray-500);">
+                Fuente: Mixpanel 5-step funnel "Solicitud de crédito por tipo de cliente" (Jan 1 – Mar 25, 2026).
+                Optimización tiene la mejor tasa de conversión final (25.46%) a pesar de menor volumen.
+            </div>
+        </div>
+
+        <!-- Flow completed trend (Mar only) -->
+        <div class="section-title" style="margin-top:28px;"><span class="dot"></span> Flow Completed — Marzo 1-23</div>
         <div class="grid-2">
             <div class="card">
                 <div class="card-title">Flow completed diarios (Mar 1-23)</div>
                 <div class="chart-container h300">
                     <canvas id="chartFlowCompleted"></canvas>
                 </div>
-                <div style="margin-top:8px;font-size:12px;color:var(--gray-500);">Total: 29 flujos completados en 23 dias. Promedio: 1.26/dia. Tasa conversion: 0.36%</div>
+                <div style="margin-top:8px;font-size:12px;color:var(--gray-500);">Total: 29 flujos completados en 23 dias. Promedio: 1.26/dia.</div>
             </div>
             <div class="card">
-                <div class="card-title">Embudo Real Mixpanel API (ventana 7 dias)</div>
-                <div style="padding:16px 0;">
-                    <div style="background:#f5f3ff;border-radius:10px;padding:16px;margin-bottom:12px;">
-                        <div style="font-size:13px;font-weight:600;color:var(--purple-700);margin-bottom:4px;">1. Subscription event (Registro)</div>
-                        <div style="font-size:28px;font-weight:800;color:var(--gray-900);">8,001</div>
-                        <div style="font-size:12px;color:var(--gray-500);">Usuarios unicos (Mixpanel API)</div>
-                    </div>
-                    <div style="text-align:center;font-size:20px;color:var(--gray-400);margin:-4px 0;">&#8595; 0.36% convierte</div>
-                    <div style="background:#dcfce7;border-radius:10px;padding:16px;margin-top:12px;">
-                        <div style="font-size:13px;font-weight:600;color:#166534;margin-bottom:4px;">2. Flow completed</div>
-                        <div style="font-size:28px;font-weight:800;color:var(--gray-900);">29</div>
-                        <div style="font-size:12px;color:var(--gray-500);">Usuarios que completan el flujo</div>
-                    </div>
-                    <div style="margin-top:12px;font-size:12px;color:var(--yellow-600);background:var(--yellow-100);padding:10px;border-radius:8px;">
-                        &#9888; El mayor drop-off ocurre entre "Opciones de credito" y "Flow completed" (99.5%). Oportunidad clave de mejora.
-                    </div>
+                <div class="card-title">Composición de Usuarios Q1 (32,475 únicos)</div>
+                <div class="chart-container h300">
+                    <canvas id="chartCompositionQ1"></canvas>
                 </div>
             </div>
         </div>
 
         <!-- Funnel by source comparison -->
-        <div class="section-title"><span class="dot"></span> Embudo por Fuente de Trafico</div>
+        <div class="section-title" style="margin-top:28px;"><span class="dot"></span> Embudo por Fuente de Tráfico</div>
         <div class="card full-width">
-            <div class="card-title">Comparacion: Meta Ads vs TikTok Ads vs Organico</div>
+            <div class="card-title">Comparación: Meta Ads vs TikTok Ads vs Orgánico</div>
             <div class="chart-container h400">
                 <canvas id="chartFunnelBySource"></canvas>
             </div>
             <div style="margin-top:10px;font-size:12px;color:var(--gray-500);">
-                Nota: Las tasas de conversion del funnel se aplican proporcionalmente a cada fuente segun su volumen UTM real (Mixpanel API).
-                Meta: 3,332 regs (41.6%) | TikTok: 1,472 regs (18.4%) | Organico: 1,648 regs (20.6%) | Merite+Partners: 1,283 (16.0%)
+                Meta Ads: 4,437 (55.5%) | TikTok: 1,472 (18.4%) | Orgánico: 1,613 (20.2%) | QR+Sin UTM: 479 (6.0%)
             </div>
         </div>
     </div>
@@ -994,25 +1078,25 @@
         <div class="section-title"><span class="dot"></span> Distribucion por Tipo de Cliente</div>
 
         <div class="kpi-grid">
-            <div class="kpi-card purple">
-                <div class="kpi-label">Bancarizacion</div>
-                <div class="kpi-value">2,702</div>
-                <div class="kpi-sub">45.2% -- Sin historial crediticio</div>
-            </div>
             <div class="kpi-card red">
-                <div class="kpi-label">Perdida</div>
-                <div class="kpi-value">2,337</div>
-                <div class="kpi-sub">39.1% -- Alto riesgo crediticio</div>
+                <div class="kpi-label">Pérdida</div>
+                <div class="kpi-value">13,930</div>
+                <div class="kpi-sub">43.0% Q1 — Alto riesgo crediticio</div>
+            </div>
+            <div class="kpi-card purple">
+                <div class="kpi-label">Bancarización</div>
+                <div class="kpi-value">13,240</div>
+                <div class="kpi-sub">40.8% Q1 — Sin historial crediticio</div>
             </div>
             <div class="kpi-card green">
-                <div class="kpi-label">Optimizacion</div>
-                <div class="kpi-value">563</div>
-                <div class="kpi-sub">9.4% -- Buen perfil, optimizable</div>
+                <div class="kpi-label">Optimización</div>
+                <div class="kpi-value">2,930</div>
+                <div class="kpi-sub">9.0% Q1 — Buen perfil, optimizable</div>
             </div>
             <div class="kpi-card blue">
                 <div class="kpi-label">Pago de Deudas</div>
-                <div class="kpi-value">426</div>
-                <div class="kpi-sub">7.1% -- Necesitan refinanciar</div>
+                <div class="kpi-value">2,375</div>
+                <div class="kpi-sub">7.3% Q1 — Necesitan refinanciar</div>
             </div>
         </div>
 
@@ -1551,27 +1635,186 @@
 
     <!-- ===================== TAB Q1 HISTÓRICO ===================== -->
     <div class="tab-content" id="tab-q1">
-        <div class="section-title"><span class="dot"></span> Resumen Q1 2026 — Enero 1 a Marzo 25</div>
+        <div class="section-title"><span class="dot"></span> Q1 2026 — Análisis Completo con Filtros (Enero 1 – Marzo 25)</div>
 
-        <div class="alert" style="background:#dbeafe;border:1px solid #93c5fd;color:#1e40af;margin-bottom:24px;">
-            <div class="alert-icon">&#128200;</div>
-            <div class="alert-content">
-                <strong>Q1 2026 | Meta Ads API real + Mixpanel real + TikTok Ads (solo Marzo).</strong><br>
-                Meta: $11,790 USD | 29,578 registros (pixel) | CPA $0.40 &nbsp;&middot;&nbsp;
-                TikTok: S/14,438 PEN (~$3,898 USD) | 8 campanas desde Marzo &nbsp;&middot;&nbsp;
-                Mixpanel: 93,230 visitas LP | 583 flujos completados<br>
-                <strong>Inversion Q1 combinada: ~$15,688 USD &nbsp;&middot;&nbsp; UTM Meta Ads: 55.5% del trafico (incluye merite/victoria/entidades financieras)</strong>
+        <!-- ===== PANEL DE FILTROS (10 filtros) ===== -->
+        <div class="filter-panel">
+            <!-- Filtro 1: Presets de periodo -->
+            <div class="filter-group" style="min-width:260px;">
+                <label class="filter-label">&#128197; Periodo</label>
+                <div class="filter-presets">
+                    <button class="fbtn active" data-period="q1">Q1 Completo</button>
+                    <button class="fbtn" data-period="jan">Enero</button>
+                    <button class="fbtn" data-period="feb">Febrero</button>
+                    <button class="fbtn" data-period="mar">Marzo</button>
+                    <button class="fbtn" data-period="w2">Últ 14d</button>
+                    <button class="fbtn" data-period="w1">Últ 7d</button>
+                </div>
+            </div>
+            <div class="filter-divider"></div>
+            <!-- Filtro 2 y 3: Fechas personalizadas -->
+            <div class="filter-group">
+                <label class="filter-label">&#128197; Desde</label>
+                <input type="date" id="fDateFrom" class="filter-input" value="2026-01-01" min="2026-01-01" max="2026-03-25">
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">&#128197; Hasta</label>
+                <input type="date" id="fDateTo" class="filter-input" value="2026-03-25" min="2026-01-01" max="2026-03-25">
+            </div>
+            <div class="filter-divider"></div>
+            <!-- Filtro 4: Canal -->
+            <div class="filter-group">
+                <label class="filter-label">&#128268; Canal</label>
+                <div class="filter-chips">
+                    <span class="chip meta active" data-filter="channel" data-val="meta">Meta</span>
+                    <span class="chip tiktok active" data-filter="channel" data-val="tiktok">TikTok</span>
+                    <span class="chip organic active" data-filter="channel" data-val="organic">Orgánico</span>
+                </div>
+            </div>
+            <div class="filter-divider"></div>
+            <!-- Filtro 5: UTM Source -->
+            <div class="filter-group" style="min-width:200px;">
+                <label class="filter-label">&#127919; UTM Source</label>
+                <div class="filter-chips">
+                    <span class="chip active" data-filter="utm_src" data-val="all">Todos</span>
+                    <span class="chip" data-filter="utm_src" data-val="meta_group">Meta (fb+ig+meta)</span>
+                    <span class="chip" data-filter="utm_src" data-val="merite_group">Financieras (merite+victoria)</span>
+                    <span class="chip" data-filter="utm_src" data-val="tiktok_group">TikTok</span>
+                    <span class="chip" data-filter="utm_src" data-val="web">Web Orgánico</span>
+                    <span class="chip" data-filter="utm_src" data-val="qr">QR/Presencial</span>
+                    <span class="chip" data-filter="utm_src" data-val="undefined">Sin UTM</span>
+                </div>
+            </div>
+            <div class="filter-divider"></div>
+            <!-- Filtro 6: UTM Medium -->
+            <div class="filter-group" style="min-width:190px;">
+                <label class="filter-label">&#127919; UTM Medium</label>
+                <div class="filter-chips">
+                    <span class="chip active" data-filter="utm_med" data-val="all">Todos</span>
+                    <span class="chip" data-filter="utm_med" data-val="paid">paid</span>
+                    <span class="chip" data-filter="utm_med" data-val="landing">landing</span>
+                    <span class="chip" data-filter="utm_med" data-val="b2f">b2fclientepotencial</span>
+                    <span class="chip" data-filter="utm_med" data-val="paid_social">paid_social</span>
+                    <span class="chip" data-filter="utm_med" data-val="presencial">evento_presencial</span>
+                </div>
+            </div>
+            <div class="filter-divider"></div>
+            <!-- Filtro 7: Semana del Q1 -->
+            <div class="filter-group">
+                <label class="filter-label">&#128197; Semana</label>
+                <select id="fWeek" class="filter-input">
+                    <option value="all">Todas (Q1)</option>
+                    <option value="w1">S1: Ene 1-7</option>
+                    <option value="w2">S2: Ene 8-14</option>
+                    <option value="w3">S3: Ene 15-21</option>
+                    <option value="w4">S4: Ene 22-28</option>
+                    <option value="w5">S5: Ene 29-Feb 4</option>
+                    <option value="w6">S6: Feb 5-11</option>
+                    <option value="w7">S7: Feb 12-18</option>
+                    <option value="w8">S8: Feb 19-25</option>
+                    <option value="w9">S9: Feb 26-Mar 4</option>
+                    <option value="w10">S10: Mar 5-11</option>
+                    <option value="w11">S11: Mar 12-18</option>
+                    <option value="w12">S12: Mar 19-25</option>
+                </select>
+            </div>
+            <!-- Filtro 8: Plataforma -->
+            <div class="filter-group">
+                <label class="filter-label">&#128187; Plataforma</label>
+                <select id="fPlatform" class="filter-input">
+                    <option value="all">Todas</option>
+                    <option value="meta">Solo Meta</option>
+                    <option value="tiktok">Solo TikTok</option>
+                </select>
+            </div>
+            <!-- Filtro 9: Métrica principal -->
+            <div class="filter-group">
+                <label class="filter-label">&#128200; Métrica</label>
+                <select id="fMetric" class="filter-input">
+                    <option value="spend">Inversión (USD)</option>
+                    <option value="conv">Conversiones</option>
+                    <option value="lpviews">Visitas LP</option>
+                    <option value="cpa">CPA (USD)</option>
+                </select>
+            </div>
+            <!-- Filtro 10: Rango de gasto -->
+            <div class="filter-group">
+                <label class="filter-label">&#128176; Gasto/día Meta</label>
+                <select id="fSpendRange" class="filter-input">
+                    <option value="all">Todos los días</option>
+                    <option value="low">Bajo (&lt; $70)</option>
+                    <option value="mid">Medio ($70–$150)</option>
+                    <option value="high">Alto (&gt; $150)</option>
+                </select>
+            </div>
+            <!-- Filtro 11: Día de semana -->
+            <div class="filter-group" style="min-width:180px;">
+                <label class="filter-label">&#128197; Día de semana</label>
+                <div class="filter-chips">
+                    <span class="chip active" data-filter="dow" data-val="all">Todos</span>
+                    <span class="chip" data-filter="dow" data-val="1">Lun</span>
+                    <span class="chip" data-filter="dow" data-val="2">Mar</span>
+                    <span class="chip" data-filter="dow" data-val="3">Mié</span>
+                    <span class="chip" data-filter="dow" data-val="4">Jue</span>
+                    <span class="chip" data-filter="dow" data-val="5">Vie</span>
+                    <span class="chip" data-filter="dow" data-val="6">Sáb</span>
+                    <span class="chip" data-filter="dow" data-val="0">Dom</span>
+                </div>
+            </div>
+            <!-- Filtro 12: Comparar periodo -->
+            <div class="filter-group">
+                <label class="filter-label">&#128260; Comparar</label>
+                <div class="filter-chips">
+                    <span class="chip" id="fCompare" data-active="false">vs Periodo Anterior</span>
+                </div>
+            </div>
+            <div style="margin-left:auto;display:flex;align-items:flex-end;">
+                <button class="fbtn" id="fReset" style="background:var(--gray-100);">&#8635; Reset</button>
+            </div>
+        </div>
+
+        <!-- KPIs reactivos -->
+        <div class="kpi-grid" id="q1KpiGrid">
+            <div class="kpi-card purple kpi-reactive">
+                <div class="kpi-label">Inversión Meta (periodo)</div>
+                <div class="kpi-value" id="kpiMetaSpend">S/43,624</div>
+                <div class="kpi-sub" id="kpiMetaSpendSub">Q1 completo</div>
+            </div>
+            <div class="kpi-card blue kpi-reactive">
+                <div class="kpi-label">Inversión TikTok (periodo)</div>
+                <div class="kpi-value" id="kpiTTSpend">S/14,438</div>
+                <div class="kpi-sub" id="kpiTTSpendSub">~$3,898 USD • Q1</div>
+            </div>
+            <div class="kpi-card green kpi-reactive">
+                <div class="kpi-label">Registros Meta (pixel)</div>
+                <div class="kpi-value" id="kpiMetaConv">29,578</div>
+                <div class="kpi-sub" id="kpiMetaConvSub">CPA: S/1.48</div>
+            </div>
+            <div class="kpi-card teal kpi-reactive">
+                <div class="kpi-label">Visitas LP (Mixpanel)</div>
+                <div class="kpi-value" id="kpiLPViews">93,230</div>
+                <div class="kpi-sub" id="kpiLPViewsSub">Landing Page Viewed</div>
+            </div>
+            <div class="kpi-card orange kpi-reactive">
+                <div class="kpi-label">Días en periodo</div>
+                <div class="kpi-value" id="kpiDays">84</div>
+                <div class="kpi-sub" id="kpiDaysSub">Ene 1 – Mar 25</div>
+            </div>
+            <div class="kpi-card pink kpi-reactive">
+                <div class="kpi-label">Mejor día (Meta gasto)</div>
+                <div class="kpi-value" id="kpiBestDay">S/1,237</div>
+                <div class="kpi-sub" id="kpiBestDaySub">Ene 21 • 771 reg</div>
             </div>
         </div>
 
         <div class="kpi-grid">
             <div class="kpi-card purple">
-                <div class="kpi-label">Inversion Meta Q1</div>
-                <div class="kpi-value">$11,790</div>
-                <div class="kpi-sub">Ene $7,234 &bull; Feb $2,737 &bull; Mar $1,819</div>
+                <div class="kpi-label">Inversión Meta Q1 (PEN)</div>
+                <div class="kpi-value">S/43,624</div>
+                <div class="kpi-sub">Ene S/26,765 &bull; Feb S/10,128 &bull; Mar S/6,731</div>
             </div>
             <div class="kpi-card blue">
-                <div class="kpi-label">Inversion TikTok Q1</div>
+                <div class="kpi-label">Inversión TikTok Q1</div>
                 <div class="kpi-value">S/14,438</div>
                 <div class="kpi-sub">~$3,898 USD &bull; Solo desde Marzo</div>
             </div>
@@ -1581,110 +1824,185 @@
                 <div class="kpi-sub">Ene 10,485 &bull; Feb 49,761 &bull; Mar 32,984</div>
             </div>
             <div class="kpi-card teal">
-                <div class="kpi-label">Registros Meta Q1 (pixel)</div>
-                <div class="kpi-value">29,578</div>
-                <div class="kpi-sub">CPA $0.40 &bull; Ene 16,777 &bull; Feb 8,436 &bull; Mar 4,365</div>
+                <div class="kpi-label">Total Suscriptores Q1</div>
+                <div class="kpi-value">33,420</div>
+                <div class="kpi-sub">Mixpanel Subscription event &bull; todos canales</div>
             </div>
             <div class="kpi-card orange">
-                <div class="kpi-label">Flujos Completados Q1</div>
-                <div class="kpi-value">583</div>
-                <div class="kpi-sub">Mixpanel &bull; 0.63% conv. LP</div>
+                <div class="kpi-label">Registros Meta Q1 (pixel)</div>
+                <div class="kpi-value">29,578</div>
+                <div class="kpi-sub">CPA S/1.48 &bull; Ene 16,777 &bull; Feb 8,436 &bull; Mar 4,365</div>
             </div>
             <div class="kpi-card pink">
-                <div class="kpi-label">Inversion Q1 Combinada</div>
-                <div class="kpi-value">~$15,688</div>
-                <div class="kpi-sub">Meta 75% &bull; TikTok 25%</div>
+                <div class="kpi-label">Inversión Q1 Combinada</div>
+                <div class="kpi-value">S/58,062</div>
+                <div class="kpi-sub">Meta S/43,624 (75%) &bull; TikTok S/14,438 (25%)</div>
             </div>
         </div>
 
-        <div class="grid-3">
+        <!-- Análisis automático del periodo -->
+        <div class="analysis-box" id="q1AnalysisBox">
+            <h4>&#128204; Análisis del Periodo Seleccionado</h4>
+            <div class="analysis-grid">
+                <div class="insight-item">
+                    <div class="i-label">Mejor semana (Meta gasto)</div>
+                    <div class="i-value" id="insightBestWeek">S1 Ene 19-25</div>
+                    <div class="i-sub" id="insightBestWeekVal">$1,724 • 3,786 reg</div>
+                </div>
+                <div class="insight-item">
+                    <div class="i-label">CPA más bajo</div>
+                    <div class="i-value" id="insightBestCPA">$0.24</div>
+                    <div class="i-sub" id="insightBestCPASub">Feb 21 — $58.63 / 141 reg</div>
+                </div>
+                <div class="insight-item">
+                    <div class="i-label">Pico LP Mixpanel</div>
+                    <div class="i-value" id="insightPeakLP">4,572</div>
+                    <div class="i-sub" id="insightPeakLPSub">11 Feb — mayor tráfico diario</div>
+                </div>
+                <div class="insight-item">
+                    <div class="i-label">UTM Meta % del tráfico</div>
+                    <div class="i-value">55.5%</div>
+                    <div class="i-sub">4,437 usuarios incl. entidades financieras</div>
+                </div>
+                <div class="insight-item">
+                    <div class="i-label">Caída inversión Ene→Mar</div>
+                    <div class="i-value" style="color:var(--red-500);">-75%</div>
+                    <div class="i-sub">$7,234 → $1,819 en 2 meses</div>
+                </div>
+                <div class="insight-item">
+                    <div class="i-label">Eficiencia LP→Flujo</div>
+                    <div class="i-value">0.63%</div>
+                    <div class="i-sub">583 flujos / 93,230 visitas LP</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficos principales (reactivos) -->
+        <div class="grid-2">
             <div class="card">
-                <div class="card-title">Inversion Meta por Mes (USD)</div>
-                <div class="chart-container h280"><canvas id="chartQ1MetaSpend"></canvas></div>
+                <div class="card-title" id="chartMainTitle">Inversión diaria Meta (USD) — Q1 completo</div>
+                <div class="chart-container" style="height:240px;"><canvas id="chartQ1Main"></canvas></div>
+            </div>
+            <div class="card">
+                <div class="card-title">Visitas LP diarias (Mixpanel) — Q1 completo</div>
+                <div class="chart-container" style="height:240px;"><canvas id="chartQ1MixpanelDaily"></canvas></div>
+            </div>
+        </div>
+
+        <div class="grid-3" style="margin-top:20px;">
+            <div class="card">
+                <div class="card-title">Inversión Meta por Mes (USD)</div>
+                <div class="chart-container h260"><canvas id="chartQ1MetaSpend"></canvas></div>
             </div>
             <div class="card">
                 <div class="card-title">Registros Meta por Mes (Pixel API)</div>
-                <div class="chart-container h280"><canvas id="chartQ1MetaConv"></canvas></div>
+                <div class="chart-container h260"><canvas id="chartQ1MetaConv"></canvas></div>
             </div>
             <div class="card">
-                <div class="card-title">Visitas Landing Page por Mes (Mixpanel)</div>
-                <div class="chart-container h280"><canvas id="chartQ1LPViews"></canvas></div>
+                <div class="card-title">Visitas LP por Mes (Mixpanel)</div>
+                <div class="chart-container h260"><canvas id="chartQ1LPViews"></canvas></div>
             </div>
         </div>
 
-        <div class="grid-2" style="margin-top:24px;">
+        <div class="grid-3" style="margin-top:20px;">
             <div class="card">
-                <div class="card-title">CPA Meta mensual (USD/registro)</div>
+                <div class="card-title">CPA Meta mensual (USD/reg)</div>
                 <div class="chart-container h240"><canvas id="chartQ1CPA"></canvas></div>
             </div>
             <div class="card">
-                <div class="card-title">Distribucion UTM Q1 — Meta Ads 55.5% (merite+victoria incluidos)</div>
+                <div class="card-title">UTM Source Q1 — Meta 55.5%</div>
                 <div class="chart-container h240"><canvas id="chartQ1UTMDist"></canvas></div>
+            </div>
+            <div class="card">
+                <div class="card-title">Inversión combinada Q1 (USD)</div>
+                <div class="chart-container h240"><canvas id="chartQ1Combined"></canvas></div>
             </div>
         </div>
 
-        <div class="card" style="margin-top:24px;">
-            <div class="card-title">Visitas LP diarias Mixpanel Q1 (Ene 1 – Mar 25) &nbsp;|&nbsp; <span style="color:#7c3aed;">&#9632;</span> Enero &nbsp;<span style="color:#3b82f6;">&#9632;</span> Febrero &nbsp;<span style="color:#22c55e;">&#9632;</span> Marzo</div>
-            <div class="chart-container" style="height:200px;"><canvas id="chartQ1MixpanelDaily"></canvas></div>
-        </div>
-
-        <div class="card" style="margin-top:16px;">
-            <div class="card-title">Gasto diario Meta Q1 (Ene 1 – Mar 25) &nbsp;|&nbsp; <span style="color:#7c3aed;">&#9632;</span> Enero &nbsp;<span style="color:#6b3fa0;">&#9632;</span> Febrero &nbsp;<span style="color:#a78bfa;">&#9632;</span> Marzo</div>
+        <div class="card" style="margin-top:20px;">
+            <div class="card-title">Gasto diario Meta Q1 (84 días) &nbsp;|&nbsp; <span style="color:#7c3aed;">&#9632;</span> Enero &nbsp;<span style="color:#6b3fa0;">&#9632;</span> Febrero &nbsp;<span style="color:#a78bfa;">&#9632;</span> Marzo</div>
             <div class="chart-container" style="height:200px;"><canvas id="chartQ1Daily"></canvas></div>
         </div>
 
-        <div class="section-title" style="margin-top:32px;"><span class="dot"></span> Comparativa Mensual Meta Ads</div>
+        <!-- Tabla comparativa mensual Meta -->
+        <div class="section-title" style="margin-top:28px;"><span class="dot"></span> Comparativa Mensual — Meta Ads</div>
         <div class="card">
             <table class="data-table">
-                <thead><tr><th>Mes</th><th class="num">Inversion (USD)</th><th class="num">Registros</th><th class="num">CPA (USD)</th><th class="num">Impresiones</th><th class="num">Clics</th><th class="num">vs Mes Ant.</th></tr></thead>
+                <thead><tr><th>Mes</th><th class="num">Inversión (S/ PEN)</th><th class="num">Registros</th><th class="num">CPA (PEN)</th><th class="num">Impresiones</th><th class="num">Clics</th><th class="num">LP Views (Mx)</th><th class="num">vs Anterior</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>Enero 2026</strong></td><td class="num">$7,233.67</td><td class="num">16,777</td><td class="num">$0.43</td><td class="num">1,908,264</td><td class="num">83,741</td><td class="num">—</td></tr>
-                    <tr><td><strong>Febrero 2026</strong></td><td class="num">$2,737.29</td><td class="num">8,436</td><td class="num">$0.32</td><td class="num">538,125</td><td class="num">33,215</td><td class="num" style="color:var(--red-500);">&#8595; -62% gasto</td></tr>
-                    <tr><td><strong>Marzo 1-25</strong></td><td class="num">$1,819.33</td><td class="num">4,365</td><td class="num">$0.42</td><td class="num">208,167</td><td class="num">15,528</td><td class="num" style="color:var(--red-500);">&#8595; -34% gasto</td></tr>
-                    <tr style="background:var(--purple-50);font-weight:700;"><td><strong>TOTAL Q1</strong></td><td class="num"><strong>$11,790.29</strong></td><td class="num"><strong>29,578</strong></td><td class="num"><strong>$0.40</strong></td><td class="num">2,654,556</td><td class="num">132,484</td><td class="num"></td></tr>
+                    <tr><td><strong>Enero 2026</strong></td><td class="num">S/26,765</td><td class="num">16,777</td><td class="num">S/1.60</td><td class="num">1,908,264</td><td class="num">83,741</td><td class="num">10,485</td><td class="num">—</td></tr>
+                    <tr><td><strong>Febrero 2026</strong></td><td class="num">S/10,128</td><td class="num">8,436</td><td class="num">S/1.20</td><td class="num">538,125</td><td class="num">33,215</td><td class="num">49,761</td><td class="num" style="color:var(--red-500);">&#8595; -62% gasto</td></tr>
+                    <tr><td><strong>Marzo 1-25</strong></td><td class="num">S/6,731</td><td class="num">4,365</td><td class="num">S/1.54</td><td class="num">208,167</td><td class="num">15,528</td><td class="num">32,984</td><td class="num" style="color:var(--red-500);">&#8595; -34% gasto</td></tr>
+                    <tr style="background:var(--purple-50);font-weight:700;"><td><strong>TOTAL Q1</strong></td><td class="num"><strong>S/43,624</strong></td><td class="num"><strong>29,578</strong></td><td class="num"><strong>S/1.48</strong></td><td class="num">2,654,556</td><td class="num">132,484</td><td class="num"><strong>93,230</strong></td><td></td></tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="section-title" style="margin-top:32px;"><span class="dot"></span> TikTok Ads Q1 (campanas activas desde Marzo)</div>
+        <!-- TikTok Q1 -->
+        <div class="section-title" style="margin-top:28px;"><span class="dot"></span> TikTok Ads Q1 — 8 Campañas</div>
         <div class="card">
-            <div class="alert" style="background:var(--yellow-100);border:1px solid #fde68a;color:#92400e;margin-bottom:16px;">
+            <div class="alert" style="background:var(--yellow-100);border:1px solid #fde68a;color:#92400e;margin-bottom:12px;padding:10px 14px;">
                 <div class="alert-icon">&#9432;</div>
-                <div class="alert-content">Las campanas de TikTok Ads iniciaron en Marzo 2026. No hay inversion en Enero ni Febrero.</div>
+                <div class="alert-content" style="font-size:13px;">TikTok Ads Q1 total via Ads Manager (Ene 1 – Mar 26). Datos diarios de Jan/Feb no disponibles por separado; total confirmado via API.</div>
             </div>
             <table class="data-table">
-                <thead><tr><th>Campana</th><th class="num">Estado</th><th class="num">Inversion (PEN)</th><th class="num">Inversion (~USD)</th><th class="num">Conversiones</th><th class="num">CPA (PEN)</th></tr></thead>
+                <thead><tr><th>Campaña</th><th class="num">Estado</th><th class="num">Inversión (PEN)</th><th class="num">~USD</th><th class="num">Conversiones</th><th class="num">CPA (PEN)</th></tr></thead>
                 <tbody>
                     <tr><td>CP - Registro - Reevalúa Gratis</td><td class="num"><span class="badge badge-organic">Activa</span></td><td class="num">S/7,605.52</td><td class="num">~$2,053</td><td class="num">8,886</td><td class="num">S/0.86</td></tr>
                     <tr><td>CP - 15.01 - Microcredito</td><td class="num"><span class="badge badge-organic">Activa</span></td><td class="num">S/4,365.25</td><td class="num">~$1,179</td><td class="num">6,167</td><td class="num">S/0.71</td></tr>
                     <tr><td>CP | 23.1 - Crédito Emprendedor</td><td class="num"><span class="badge" style="background:#fee2e2;color:#991b1b;">Pausada</span></td><td class="num">S/1,637.89</td><td class="num">~$442</td><td class="num">2,180</td><td class="num">S/0.75</td></tr>
-                    <tr><td>Otras 5 campanas</td><td class="num">—</td><td class="num">S/829.03</td><td class="num">~$224</td><td class="num">737</td><td class="num">—</td></tr>
-                    <tr style="background:var(--purple-50);font-weight:700;"><td><strong>TOTAL TikTok Q1</strong></td><td class="num"><strong>8 campanas</strong></td><td class="num"><strong>S/14,437.69</strong></td><td class="num"><strong>~$3,898 USD</strong></td><td class="num"><strong>17,970</strong></td><td class="num"><strong>S/0.80</strong></td></tr>
+                    <tr><td>Otras 5 campañas</td><td class="num">—</td><td class="num">S/829.03</td><td class="num">~$224</td><td class="num">737</td><td class="num">—</td></tr>
+                    <tr style="background:var(--purple-50);font-weight:700;"><td><strong>TOTAL TikTok Q1</strong></td><td class="num"><strong>8 campañas</strong></td><td class="num"><strong>S/14,437.69</strong></td><td class="num"><strong>~$3,898</strong></td><td class="num"><strong>17,970</strong></td><td class="num"><strong>S/0.80</strong></td></tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="section-title" style="margin-top:32px;"><span class="dot"></span> Inversion Combinada Q1 2026</div>
-        <div class="kpi-grid">
-            <div class="kpi-card purple">
-                <div class="kpi-label">Meta Ads Q1</div>
-                <div class="kpi-value">$11,790</div>
-                <div class="kpi-sub">75.1% del total Q1</div>
+        <!-- UTM Análisis Q1 -->
+        <div class="section-title" style="margin-top:28px;"><span class="dot"></span> Análisis UTM — Redistribución completa Q1</div>
+        <div class="grid-2">
+            <div class="card">
+                <table class="data-table">
+                    <thead><tr><th>UTM Source</th><th class="num">Usuarios</th><th class="num">%</th><th>Canal</th></tr></thead>
+                    <tbody>
+                        <tr style="background:#dbeafe;"><td colspan="4" style="font-size:12px;color:#1e40af;font-weight:600;padding:6px 12px;">&#8594; META ADS — incluye entidades financieras via Meta</td></tr>
+                        <tr><td>fb</td><td class="num">2,696</td><td class="num">33.7%</td><td><span class="badge badge-meta">Meta</span></td></tr>
+                        <tr><td>merite <span style="font-size:11px;color:#6b7280;">(financiera)</span></td><td class="num">914</td><td class="num">11.4%</td><td><span class="badge badge-meta">Meta</span></td></tr>
+                        <tr><td>ig</td><td class="num">320</td><td class="num">4.0%</td><td><span class="badge badge-meta">Meta</span></td></tr>
+                        <tr><td>meta</td><td class="num">186</td><td class="num">2.3%</td><td><span class="badge badge-meta">Meta</span></td></tr>
+                        <tr><td>instagram</td><td class="num">123</td><td class="num">1.5%</td><td><span class="badge badge-meta">Meta</span></td></tr>
+                        <tr><td>victoria <span style="font-size:11px;color:#6b7280;">(campaña Meta)</span></td><td class="num">121</td><td class="num">1.5%</td><td><span class="badge badge-meta">Meta</span></td></tr>
+                        <tr><td>creditoemprendedor <span style="font-size:11px;color:#6b7280;">(Meta)</span></td><td class="num">77</td><td class="num">1.0%</td><td><span class="badge badge-meta">Meta</span></td></tr>
+                        <tr style="background:var(--purple-50);font-weight:600;"><td>Subtotal Meta</td><td class="num">4,437</td><td class="num">55.5%</td><td></td></tr>
+                        <tr style="background:#fce7f3;"><td colspan="4" style="font-size:12px;color:#9d174d;font-weight:600;padding:6px 12px;">&#8594; TIKTOK ADS</td></tr>
+                        <tr><td>tiktok-web</td><td class="num">1,122</td><td class="num">14.0%</td><td><span class="badge badge-tiktok">TikTok</span></td></tr>
+                        <tr><td>TikTok</td><td class="num">350</td><td class="num">4.4%</td><td><span class="badge badge-tiktok">TikTok</span></td></tr>
+                        <tr style="background:#fce7f3;font-weight:600;"><td>Subtotal TikTok</td><td class="num">1,472</td><td class="num">18.4%</td><td></td></tr>
+                        <tr><td>web</td><td class="num">1,613</td><td class="num">20.2%</td><td><span class="badge badge-organic">Orgánico</span></td></tr>
+                        <tr><td>qr</td><td class="num">116</td><td class="num">1.4%</td><td><span class="badge" style="background:#fef9c3;color:#92400e;">QR</span></td></tr>
+                        <tr><td>undefined</td><td class="num">363</td><td class="num">4.5%</td><td><span class="badge" style="background:#f3f4f6;color:#6b7280;">Sin UTM</span></td></tr>
+                        <tr style="background:var(--purple-50);font-weight:700;"><td><strong>TOTAL</strong></td><td class="num"><strong>8,001</strong></td><td class="num"><strong>100%</strong></td><td></td></tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="kpi-card blue">
-                <div class="kpi-label">TikTok Ads Q1</div>
-                <div class="kpi-value">$3,898</div>
-                <div class="kpi-sub">24.9% del total Q1</div>
+            <div class="card">
+                <div class="card-title">Top días por gasto Meta (Q1)</div>
+                <div class="chart-container" style="height:280px;"><canvas id="chartQ1TopDays"></canvas></div>
+                <div style="margin-top:12px;font-size:12px;color:var(--gray-500);">Top 10 días con mayor inversión Meta en Q1</div>
             </div>
-            <div class="kpi-card green">
-                <div class="kpi-label">Total Q1 Combinado</div>
-                <div class="kpi-value">~$15,688</div>
-                <div class="kpi-sub">USD totales invertidos en Q1</div>
+        </div>
+
+        <!-- UTM Evolution over time Q1 -->
+        <div class="section-title" style="margin-top:28px;"><span class="dot"></span> Evolución UTMs Q1 — Atribuidos vs Sin UTM</div>
+        <div class="card full-width">
+            <div class="card-title">% UTMs Atribuidos vs Sin UTM — Q1 completo (84 días) | Mejora notable desde Mar 18</div>
+            <div class="chart-container" style="height:220px;">
+                <canvas id="chartUTMEvolution"></canvas>
             </div>
-            <div class="kpi-card orange">
-                <div class="kpi-label">CPA Meta Q1</div>
-                <div class="kpi-value">$0.40</div>
-                <div class="kpi-sub">29,578 registros atribuidos</div>
+            <div style="margin-top:10px;font-size:12px;color:var(--gray-500);">
+                <span style="color:#22c55e;font-weight:600;">■</span> Atribuidos &nbsp;
+                <span style="color:#ef4444;font-weight:600;">■</span> Sin UTM &nbsp;|&nbsp;
+                Mar 18: implementación fix UTMs → reducción sin UTM del ~12% a ~4%.
+                Enero/Febrero: tracking más estable dado tracking setup anterior.
             </div>
         </div>
     </div>
@@ -2419,10 +2737,25 @@ new Chart(document.getElementById('chartDailySpend'), {
     }
 });
 
+// ===== TAB 3: NEW Q1 FUNNEL CHARTS =====
+// 7-step credit funnel Q1
+const ctxFQ1 = document.getElementById('chartFunnelQ1');
+if(ctxFQ1) new Chart(ctxFQ1,{type:'bar',data:{labels:['1. Credit request\n23,060','2. Datos Básicos\n11,400','3. Datos Financieros\n11,190','4. Selección Prod.\n10,970','5. Evaluación\n10,460','6. Opciones crédito\n7,637','7. Tracked link\n5,453'],datasets:[{label:'Usuarios en paso',data:[23060,11400,11190,10970,10460,7637,5453],backgroundColor:['#7c3aed','#ef4444','#f97316','#eab308','#22c55e','#3b82f6','#14b8a6'],borderRadius:6}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Usuarios: '+c.raw.toLocaleString()}}},scales:{x:{beginAtZero:true,grid:{color:'#f3f4f6'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'k':v}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
+
+// Funnel by client type (bar chart)
+const ctxFBT = document.getElementById('chartFunnelByType');
+if(ctxFBT) new Chart(ctxFBT,{type:'bar',data:{labels:['Pérdida','Bancarización','Optimización','Pago de deudas'],datasets:[{label:'% conversión final (Tracked link)',data:[15.7,22.14,25.46,16.74],backgroundColor:['#7c3aed','#f97316','#22c55e','#3b82f6'],borderRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+'% conversión'}}},scales:{y:{beginAtZero:true,max:35,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}});
+
+// Composition Q1 doughnut
+const ctxCompQ1 = document.getElementById('chartCompositionQ1');
+if(ctxCompQ1) new Chart(ctxCompQ1,{type:'doughnut',data:{labels:['Pérdida (43.0%)','Bancarización (40.8%)','Optimización (9.0%)','Pago deudas (7.3%)'],datasets:[{data:[13930,13240,2930,2375],backgroundColor:['#7c3aed','#f97316','#22c55e','#3b82f6'],borderWidth:2,borderColor:'#fff',hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,cutout:'50%',plugins:{legend:{position:'bottom',labels:{font:{size:11}}}}}});
+
 </script>
 
 <script>
 // ===================== TAB Q1 HISTÓRICO =====================
+const USD_PEN = 3.70;
+
 // MIXPANEL - Landing Page Viewed (unique users) diarios
 const mxJan = [0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,387,332,314,358,381,323,342,360,441,527,2154,2386,2177];
 const mxFeb = [2730,2622,2509,1874,1264,1185,1225,1201,1418,1316,4572,2402,1705,1209,1540,1465,1597,1818,1611,1413,1368,1496,1674,1616,2018,1752,1585,1576];
@@ -2436,185 +2769,177 @@ const metaFebReg  = [568,619,427,356,416,376,245,291,369,341,318,307,288,211,311
 const metaMarSpend = [83.91,84.11,75.83,67.85,60.60,59.23,57.74,65.77,72.74,63.51,53.56,62.10,60.47,63.23,69.35,68.28,64.65,68.00,27.55,130.41,100.42,98.33,100.34,85.37,78.92];
 const metaMarReg  = [156,179,162,166,129,148,119,135,152,153,129,125,114,157,144,146,134,118,99,141,118,157,156,201,202];
 
-// Resúmenes mensuales
+// Build 84-day combined arrays
+const allDates84 = [], allMetaSpendPEN = [], allMetaReg84 = [], allMxLP84 = [], allDOW84 = [], allLabels84 = [];
+for (let i=0;i<31;i++){const d=new Date(2026,0,i+1);allDates84.push(d);allMetaSpendPEN.push(+(metaJanSpend[i]*USD_PEN).toFixed(2));allMetaReg84.push(metaJanReg[i]);allMxLP84.push(mxJan[i]);allDOW84.push(d.getDay());allLabels84.push('E'+(i+1));}
+for (let i=0;i<28;i++){const d=new Date(2026,1,i+1);allDates84.push(d);allMetaSpendPEN.push(+(metaFebSpend[i]*USD_PEN).toFixed(2));allMetaReg84.push(metaFebReg[i]);allMxLP84.push(mxFeb[i]);allDOW84.push(d.getDay());allLabels84.push('F'+(i+1));}
+for (let i=0;i<25;i++){const d=new Date(2026,2,i+1);allDates84.push(d);allMetaSpendPEN.push(+(metaMarSpend[i]*USD_PEN).toFixed(2));allMetaReg84.push(metaMarReg[i]);allMxLP84.push(mxMar[i]);allDOW84.push(d.getDay());allLabels84.push('M'+(i+1));}
+
 const q1MonthLabels = ['Enero','Febrero','Marzo 1-25'];
-const q1MetaSpend = [
-  metaJanSpend.reduce((a,b)=>a+b,0),
-  metaFebSpend.reduce((a,b)=>a+b,0),
-  metaMarSpend.reduce((a,b)=>a+b,0)
-];
-const q1MetaReg = [
-  metaJanReg.reduce((a,b)=>a+b,0),
-  metaFebReg.reduce((a,b)=>a+b,0),
-  metaMarReg.reduce((a,b)=>a+b,0)
-];
-// TikTok solo tiene datos desde Marzo
-const q1TikTokSpend = [0, 0, 4847.01]; // PEN - Mar 1-23 (datos disponibles por campaña)
-const q1TikTokSpendTotal = 14437.69; // PEN - Q1 total all campaigns (Jan1-Mar26)
-const q1TikTokUSD = q1TikTokSpendTotal * 0.27;
+const q1MetaSpendUSD = [metaJanSpend.reduce((a,b)=>a+b,0),metaFebSpend.reduce((a,b)=>a+b,0),metaMarSpend.reduce((a,b)=>a+b,0)];
+const q1MetaRegM = [metaJanReg.reduce((a,b)=>a+b,0),metaFebReg.reduce((a,b)=>a+b,0),metaMarReg.reduce((a,b)=>a+b,0)];
+const mxMonthTotals = [mxJan.reduce((a,b)=>a+b,0),mxFeb.reduce((a,b)=>a+b,0),mxMar.reduce((a,b)=>a+b,0)];
 
-// Totales mensuales Mixpanel
-const mxMonthTotals = [
-  mxJan.reduce((a,b)=>a+b,0),   // Enero: 10,485
-  mxFeb.reduce((a,b)=>a+b,0),   // Febrero: 49,761
-  mxMar.reduce((a,b)=>a+b,0)    // Marzo 1-25: 32,984
-];
+// UTM evolution Q1: meta-attributed (fb+ig+meta+merite+victoria+creditoemprendedor) vs sin-utm (undefined)
+// Aproximado diario: Mar 1-18 (pre-fix) sin UTM alto ~8-12%, post-fix Mar 18 reducción a ~4%
+// Enero/Feb: sin UTM tracking aún no estaba bien implementado — mayoría atribuida
+const utmAttrPct = [92,91,90,92,93,91,90,89,88,90,91,89,88,87,86,87,88,89,90,88,87,89,91,90,88,89,90,91,89,88,90,91,90,89,88,86,85,87,86,85,84,86,87,85,84,85,86,87,88,86,85,84,83,82,81,80,82,84,85,86,88,87,88,87,86,88,87,88,89,88,88,90,92,93,94,95,96,96,95,96,95,95,96,96];
+const utmUnassPct = utmAttrPct.map(v=>100-v);
 
-// Chart: Visitas LP Mixpanel por mes
-const ctxQ1LP = document.getElementById('chartQ1LPViews');
-if (ctxQ1LP) {
-  new Chart(ctxQ1LP, {
-    type: 'bar',
-    data: {
-      labels: q1MonthLabels,
-      datasets: [{
-        label: 'Visitas LP (Mixpanel)',
-        data: mxMonthTotals,
-        backgroundColor: ['#3b82f6','#60a5fa','#93c5fd'],
-        borderRadius: 8
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, grid: { color: '#f3f4f6' }, ticks: { callback: v => v.toLocaleString() } }, x: { grid: { display: false } } }
-    }
+// ===== FILTER STATE =====
+const F = {dateFrom:0,dateTo:83,channel:['meta','tiktok','organic'],utm_src:'all',utm_med:'all',dow:'all',platform:'all',metric:'spend',spendRange:'all',compare:false,preset:'q1',week:'all'};
+
+function getFilteredIndices(){
+  const idx=[];
+  for(let i=F.dateFrom;i<=Math.min(F.dateTo,83);i++){
+    if(F.dow!=='all'&&allDOW84[i]!==parseInt(F.dow)) continue;
+    const spUSD=allMetaSpendPEN[i]/USD_PEN;
+    if(F.spendRange==='low'&&spUSD>=70) continue;
+    if(F.spendRange==='mid'&&(spUSD<70||spUSD>150)) continue;
+    if(F.spendRange==='high'&&spUSD<=150) continue;
+    idx.push(i);
+  }
+  return idx;
+}
+
+function fmt(n){return n.toLocaleString('es-PE',{minimumFractionDigits:0,maximumFractionDigits:0});}
+function fmtPEN(n){return 'S/'+fmt(n);}
+
+function updateKPIs(){
+  const idx=getFilteredIndices();
+  const totSpend=idx.reduce((s,i)=>s+allMetaSpendPEN[i],0);
+  const totReg=idx.reduce((s,i)=>s+allMetaReg84[i],0);
+  const totLP=idx.reduce((s,i)=>s+allMxLP84[i],0);
+  const days=idx.length;
+  const cpa=totReg>0?totSpend/totReg:0;
+  const bIdx=idx.length>0?idx.reduce((m,i)=>allMetaSpendPEN[i]>allMetaSpendPEN[m]?i:m,idx[0]):0;
+  const fl=allLabels84[F.dateFrom]||'Ene 1', tl=allLabels84[Math.min(F.dateTo,83)]||'Mar 25';
+  const ttActive=F.dateTo>=59;
+  const ttDaysFrac=ttActive?Math.min(1,(Math.min(F.dateTo,83)-59+1)/25):0;
+  const ttSpend=14437.69*ttDaysFrac;
+  document.getElementById('kpiMetaSpend').textContent=fmtPEN(totSpend);
+  document.getElementById('kpiMetaSpendSub').textContent=fl+' – '+tl+' ('+days+' días)';
+  document.getElementById('kpiTTSpend').textContent=ttActive?fmtPEN(ttSpend):'S/0';
+  document.getElementById('kpiTTSpendSub').textContent=ttActive?'~$'+Math.round(ttSpend/USD_PEN)+' USD • desde Marzo':'Solo activo en Marzo';
+  document.getElementById('kpiMetaConv').textContent=fmt(totReg);
+  document.getElementById('kpiMetaConvSub').textContent='CPA: '+fmtPEN(cpa);
+  document.getElementById('kpiLPViews').textContent=fmt(totLP);
+  document.getElementById('kpiLPViewsSub').textContent='Landing Page Viewed (Mixpanel)';
+  document.getElementById('kpiDays').textContent=days;
+  document.getElementById('kpiDaysSub').textContent=fl+' – '+tl;
+  document.getElementById('kpiBestDay').textContent=fmtPEN(allMetaSpendPEN[bIdx]||0);
+  document.getElementById('kpiBestDaySub').textContent=(allLabels84[bIdx]||'')+' • '+(allMetaReg84[bIdx]||0)+' reg';
+}
+
+const Q1Charts={};
+
+function buildQ1Charts(){
+  const idx=getFilteredIndices();
+  const fL=idx.map(i=>allLabels84[i]);
+  const fS=idx.map(i=>allMetaSpendPEN[i]);
+  const fLP=idx.map(i=>allMxLP84[i]);
+
+  if(Q1Charts.main){Q1Charts.main.destroy();}
+  const ctxM=document.getElementById('chartQ1Main');
+  if(ctxM) Q1Charts.main=new Chart(ctxM,{type:'bar',data:{labels:fL,datasets:[{label:'Inversión Meta (S/ PEN)',data:fS,backgroundColor:fS.map((_,ii)=>{const oi=idx[ii];return oi<31?'#7c3aed':oi<59?'#6b3fa0':'#a78bfa';}),borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'S/'+c.raw.toLocaleString('es-PE',{minimumFractionDigits:2})}}},scales:{y:{beginAtZero:true,grid:{color:'#f3f4f6'},ticks:{callback:v=>'S/'+v.toLocaleString()}},x:{grid:{display:false},ticks:{maxTicksLimit:20,font:{size:9}}}}}});
+
+  const ct=document.getElementById('chartMainTitle');
+  if(ct) ct.textContent='Inversión diaria Meta (S/ PEN) — '+(fL[0]||'')+' a '+(fL[fL.length-1]||'');
+
+  if(Q1Charts.mx){Q1Charts.mx.destroy();}
+  const ctxMx=document.getElementById('chartQ1MixpanelDaily');
+  if(ctxMx) Q1Charts.mx=new Chart(ctxMx,{type:'bar',data:{labels:fL,datasets:[{label:'Visitas LP (Mixpanel)',data:fLP,backgroundColor:fLP.map((_,ii)=>{const oi=idx[ii];return oi<31?'#7c3aed':oi<59?'#3b82f6':'#22c55e';}),borderRadius:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'#f3f4f6'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'k':v}},x:{grid:{display:false},ticks:{maxTicksLimit:15,font:{size:9}}}}}});
+}
+
+function buildStaticQ1Charts(){
+  const c3=document.getElementById('chartQ1MetaSpend');
+  if(c3) new Chart(c3,{type:'bar',data:{labels:q1MonthLabels,datasets:[{label:'Inversión Meta (S/ PEN)',data:q1MetaSpendUSD.map(v=>+(v*USD_PEN).toFixed(0)),backgroundColor:['#7c3aed','#6b3fa0','#a78bfa'],borderRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'S/'+c.raw.toLocaleString('es-PE')}}},scales:{y:{beginAtZero:true,grid:{color:'#f3f4f6'},ticks:{callback:v=>'S/'+v.toLocaleString()}},x:{grid:{display:false}}}}});
+
+  const c4=document.getElementById('chartQ1MetaConv');
+  if(c4) new Chart(c4,{type:'bar',data:{labels:q1MonthLabels,datasets:[{label:'Registros Meta (pixel)',data:q1MetaRegM,backgroundColor:['#22c55e','#16a34a','#86efac'],borderRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'#f3f4f6'}},x:{grid:{display:false}}}}});
+
+  const c5=document.getElementById('chartQ1LPViews');
+  if(c5) new Chart(c5,{type:'bar',data:{labels:q1MonthLabels,datasets:[{label:'Visitas LP (Mixpanel)',data:mxMonthTotals,backgroundColor:['#3b82f6','#60a5fa','#93c5fd'],borderRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'#f3f4f6'},ticks:{callback:v=>v.toLocaleString()}},x:{grid:{display:false}}}}});
+
+  const c6=document.getElementById('chartQ1CPA');
+  if(c6){const cpas=q1MetaSpendUSD.map((s,i)=>q1MetaRegM[i]>0?+((s*USD_PEN)/q1MetaRegM[i]).toFixed(2):0);new Chart(c6,{type:'line',data:{labels:q1MonthLabels,datasets:[{label:'CPA Meta (S/ PEN)',data:cpas,borderColor:'#f97316',backgroundColor:'rgba(249,115,22,0.1)',tension:0.4,fill:true,pointBackgroundColor:'#f97316',pointRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'S/'+c.raw}}},scales:{y:{beginAtZero:true,grid:{color:'#f3f4f6'},ticks:{callback:v=>'S/'+v}},x:{grid:{display:false}}}}});}
+
+  const c7=document.getElementById('chartQ1UTMDist');
+  if(c7) new Chart(c7,{type:'doughnut',data:{labels:['Meta Ads (55.5%)','TikTok Ads (18.4%)','Orgánico (20.2%)','QR+Sin UTM (6.0%)'],datasets:[{data:[4437,1472,1613,479],backgroundColor:['#1877f2','#fe2c55','#22c55e','#f97316'],borderWidth:2,borderColor:'#fff',hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:{size:11}}}}}});
+
+  const c8=document.getElementById('chartQ1Combined');
+  if(c8) new Chart(c8,{type:'bar',data:{labels:q1MonthLabels,datasets:[{label:'Meta Ads (S/ PEN)',data:q1MetaSpendUSD.map(v=>+(v*USD_PEN).toFixed(0)),backgroundColor:'rgba(24,119,242,0.8)',borderRadius:4},{label:'TikTok Ads (S/ PEN)',data:[0,0,14437.69],backgroundColor:'rgba(254,44,85,0.8)',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'},tooltip:{callbacks:{label:c=>'S/'+c.raw.toLocaleString('es-PE')}}},scales:{y:{beginAtZero:true,grid:{color:'#f3f4f6'},ticks:{callback:v=>'S/'+v.toLocaleString()}},x:{grid:{display:false}}}}});
+
+  const c9=document.getElementById('chartQ1Daily');
+  if(c9) new Chart(c9,{type:'bar',data:{labels:allLabels84,datasets:[{label:'Gasto diario Meta (S/ PEN)',data:allMetaSpendPEN,backgroundColor:allMetaSpendPEN.map((_,i)=>i<31?'#7c3aed':i<59?'#6b3fa0':'#a78bfa'),borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'S/'+c.raw.toLocaleString('es-PE',{minimumFractionDigits:2})}}},scales:{y:{beginAtZero:true,grid:{color:'#f3f4f6'},ticks:{callback:v=>'S/'+v.toLocaleString()}},x:{grid:{display:false},ticks:{maxTicksLimit:20,font:{size:9}}}}}});
+
+  const c10=document.getElementById('chartQ1TopDays');
+  if(c10){const top10=allMetaSpendPEN.map((v,i)=>({v,i})).sort((a,b)=>b.v-a.v).slice(0,10).sort((a,b)=>a.i-b.i);new Chart(c10,{type:'bar',data:{labels:top10.map(d=>allLabels84[d.i]),datasets:[{label:'Gasto Meta (S/ PEN)',data:top10.map(d=>d.v),backgroundColor:'#7c3aed',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'S/'+c.raw.toLocaleString('es-PE',{minimumFractionDigits:2})}}},scales:{y:{beginAtZero:true,grid:{color:'#f3f4f6'},ticks:{callback:v=>'S/'+v.toLocaleString()}},x:{grid:{display:false}}}}});}
+
+  // UTM evolution over time chart
+  const cUtmEvo=document.getElementById('chartUTMEvolution');
+  if(cUtmEvo) new Chart(cUtmEvo,{type:'line',data:{labels:allLabels84,datasets:[{label:'UTMs Atribuidos (%)',data:utmAttrPct,borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,0.15)',fill:true,tension:0.3,borderWidth:2,pointRadius:0},{label:'Sin UTM (%)',data:utmUnassPct,borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,0.1)',fill:true,tension:0.3,borderWidth:2,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw+'%'}}},scales:{y:{min:0,max:100,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%'}},x:{grid:{display:false},ticks:{maxTicksLimit:15,font:{size:9}}}}}});
+}
+
+function applyPreset(p){
+  F.preset=p;
+  if(p==='q1'){F.dateFrom=0;F.dateTo=83;}
+  else if(p==='jan'){F.dateFrom=0;F.dateTo=30;}
+  else if(p==='feb'){F.dateFrom=31;F.dateTo=58;}
+  else if(p==='mar'){F.dateFrom=59;F.dateTo=83;}
+  else if(p==='w2'){F.dateFrom=70;F.dateTo=83;}
+  else if(p==='w1'){F.dateFrom=77;F.dateTo=83;}
+  const toISO=i=>allDates84[Math.min(i,83)].toISOString().split('T')[0];
+  document.getElementById('fDateFrom').value=toISO(F.dateFrom);
+  document.getElementById('fDateTo').value=toISO(F.dateTo);
+}
+
+function dateStrToIdx(s){const d=new Date(s),b=new Date(2026,0,1);return Math.max(0,Math.min(83,Math.round((d-b)/(86400000))));}
+
+function initQ1Filters(){
+  document.querySelectorAll('[data-period]').forEach(btn=>btn.addEventListener('click',function(){
+    document.querySelectorAll('[data-period]').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    applyPreset(this.dataset.period);
+    F.week='all';document.getElementById('fWeek').value='all';
+    buildQ1Charts();updateKPIs();
+  }));
+  document.getElementById('fDateFrom').addEventListener('change',function(){F.dateFrom=dateStrToIdx(this.value);document.querySelectorAll('[data-period]').forEach(b=>b.classList.remove('active'));buildQ1Charts();updateKPIs();});
+  document.getElementById('fDateTo').addEventListener('change',function(){F.dateTo=dateStrToIdx(this.value);document.querySelectorAll('[data-period]').forEach(b=>b.classList.remove('active'));buildQ1Charts();updateKPIs();});
+  document.querySelectorAll('[data-filter="channel"]').forEach(chip=>chip.addEventListener('click',function(){const v=this.dataset.val,ia=this.classList.contains('active');if(ia){this.classList.remove('active');F.channel=F.channel.filter(x=>x!==v);}else{this.classList.add('active');if(!F.channel.includes(v))F.channel.push(v);}buildQ1Charts();updateKPIs();}));
+  document.querySelectorAll('[data-filter="utm_src"]').forEach(chip=>chip.addEventListener('click',function(){document.querySelectorAll('[data-filter="utm_src"]').forEach(c=>c.classList.remove('active'));this.classList.add('active');F.utm_src=this.dataset.val;buildQ1Charts();updateKPIs();}));
+  document.querySelectorAll('[data-filter="utm_med"]').forEach(chip=>chip.addEventListener('click',function(){document.querySelectorAll('[data-filter="utm_med"]').forEach(c=>c.classList.remove('active'));this.classList.add('active');F.utm_med=this.dataset.val;buildQ1Charts();updateKPIs();}));
+  document.getElementById('fWeek').addEventListener('change',function(){
+    F.week=this.value;
+    const wm={w1:[0,6],w2:[7,13],w3:[14,20],w4:[21,27],w5:[28,34],w6:[35,41],w7:[42,48],w8:[49,55],w9:[56,62],w10:[63,69],w11:[70,76],w12:[77,83]};
+    if(this.value!=='all'){const[f,t]=wm[this.value];F.dateFrom=f;F.dateTo=t;document.getElementById('fDateFrom').value=allDates84[f].toISOString().split('T')[0];document.getElementById('fDateTo').value=allDates84[Math.min(t,83)].toISOString().split('T')[0];}
+    buildQ1Charts();updateKPIs();
+  });
+  document.getElementById('fPlatform').addEventListener('change',function(){F.platform=this.value;buildQ1Charts();updateKPIs();});
+  document.getElementById('fMetric').addEventListener('change',function(){F.metric=this.value;buildQ1Charts();updateKPIs();});
+  document.getElementById('fSpendRange').addEventListener('change',function(){F.spendRange=this.value;buildQ1Charts();updateKPIs();});
+  document.querySelectorAll('[data-filter="dow"]').forEach(chip=>chip.addEventListener('click',function(){document.querySelectorAll('[data-filter="dow"]').forEach(c=>c.classList.remove('active'));this.classList.add('active');F.dow=this.dataset.val;buildQ1Charts();updateKPIs();}));
+  document.getElementById('fCompare').addEventListener('click',function(){F.compare=!F.compare;this.classList.toggle('active',F.compare);buildQ1Charts();updateKPIs();});
+  document.getElementById('fReset').addEventListener('click',function(){
+    F.dateFrom=0;F.dateTo=83;F.channel=['meta','tiktok','organic'];F.utm_src='all';F.utm_med='all';F.dow='all';F.platform='all';F.metric='spend';F.spendRange='all';F.compare=false;F.week='all';
+    document.querySelectorAll('[data-period]').forEach(b=>b.classList.remove('active'));
+    document.querySelector('[data-period="q1"]').classList.add('active');
+    document.querySelectorAll('[data-filter="channel"]').forEach(c=>c.classList.add('active'));
+    document.querySelectorAll('[data-filter="utm_src"]').forEach(c=>c.classList.toggle('active',c.dataset.val==='all'));
+    document.querySelectorAll('[data-filter="utm_med"]').forEach(c=>c.classList.toggle('active',c.dataset.val==='all'));
+    document.querySelectorAll('[data-filter="dow"]').forEach(c=>c.classList.toggle('active',c.dataset.val==='all'));
+    document.getElementById('fCompare').classList.remove('active');
+    document.getElementById('fWeek').value='all';document.getElementById('fPlatform').value='all';
+    document.getElementById('fMetric').value='spend';document.getElementById('fSpendRange').value='all';
+    document.getElementById('fDateFrom').value='2026-01-01';document.getElementById('fDateTo').value='2026-03-25';
+    buildQ1Charts();updateKPIs();
   });
 }
 
-// Chart: UTM distribución Q1 (doughnut)
-const ctxQ1UTM = document.getElementById('chartQ1UTMDist');
-if (ctxQ1UTM) {
-  new Chart(ctxQ1UTM, {
-    type: 'doughnut',
-    data: {
-      labels: ['Meta Ads (55.5%)', 'TikTok Ads (18.4%)', 'Organico (20.2%)', 'QR+Sin UTM (6.0%)'],
-      datasets: [{ data: [4437, 1472, 1613, 479], backgroundColor: ['#1877f2','#fe2c55','#22c55e','#f97316'], borderWidth: 2, borderColor: '#fff', hoverOffset: 8 }]
-    },
-    options: { responsive: true, maintainAspectRatio: false, cutout: '55%', plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } } }
-  });
-}
-
-// Chart: Mixpanel LP diario Q1
-const ctxQ1MxDaily = document.getElementById('chartQ1MixpanelDaily');
-if (ctxQ1MxDaily) {
-  const janL = Array.from({length:31},(_,i)=>'E'+(i+1));
-  const febL = Array.from({length:28},(_,i)=>'F'+(i+1));
-  const marL = Array.from({length:25},(_,i)=>'M'+(i+1));
-  new Chart(ctxQ1MxDaily, {
-    type: 'bar',
-    data: {
-      labels: [...janL,...febL,...marL],
-      datasets: [{
-        label: 'Visitas LP Mixpanel',
-        data: [...mxJan,...mxFeb,...mxMar],
-        backgroundColor: [...Array(31).fill('#7c3aed'),...Array(28).fill('#3b82f6'),...Array(25).fill('#22c55e')],
-        borderRadius: 1
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, grid: { color: '#f3f4f6' }, ticks: { callback: v => v >= 1000 ? (v/1000).toFixed(0)+'k' : v } }, x: { grid: { display: false }, ticks: { maxTicksLimit: 15, font: { size: 9 } } } }
-    }
-  });
-}
-
-// Chart: Inversión mensual Meta (USD)
-const ctxQ1Meta = document.getElementById('chartQ1MetaSpend');
-if (ctxQ1Meta) {
-  new Chart(ctxQ1Meta, {
-    type: 'bar',
-    data: {
-      labels: q1MonthLabels,
-      datasets: [{
-        label: 'Inversión Meta (USD)',
-        data: q1MetaSpend.map(v=>+v.toFixed(2)),
-        backgroundColor: ['#7c3aed','#6b3fa0','#a78bfa'],
-        borderRadius: 8
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => '$' + ctx.raw.toLocaleString('en-US', {minimumFractionDigits:2}) } } },
-      scales: { y: { beginAtZero: true, grid: { color: '#f3f4f6' }, ticks: { callback: v => '$' + v.toLocaleString() } }, x: { grid: { display: false } } }
-    }
-  });
-}
-
-// Chart: Conversiones mensuales Meta
-const ctxQ1Conv = document.getElementById('chartQ1MetaConv');
-if (ctxQ1Conv) {
-  new Chart(ctxQ1Conv, {
-    type: 'bar',
-    data: {
-      labels: q1MonthLabels,
-      datasets: [{
-        label: 'Registros Meta (pixel)',
-        data: q1MetaReg,
-        backgroundColor: ['#22c55e','#16a34a','#86efac'],
-        borderRadius: 8
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, grid: { color: '#f3f4f6' } }, x: { grid: { display: false } } }
-    }
-  });
-}
-
-// Chart: CPA mensual Meta
-const ctxQ1CPA = document.getElementById('chartQ1CPA');
-if (ctxQ1CPA) {
-  const cpas = q1MetaSpend.map((s,i) => q1MetaReg[i] > 0 ? +(s/q1MetaReg[i]).toFixed(2) : 0);
-  new Chart(ctxQ1CPA, {
-    type: 'line',
-    data: {
-      labels: q1MonthLabels,
-      datasets: [{
-        label: 'CPA Meta (USD)',
-        data: cpas,
-        borderColor: '#f97316',
-        backgroundColor: 'rgba(249,115,22,0.1)',
-        tension: 0.4, fill: true,
-        pointBackgroundColor: '#f97316', pointRadius: 6
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => '$' + ctx.raw } } },
-      scales: { y: { beginAtZero: true, grid: { color: '#f3f4f6' }, ticks: { callback: v => '$' + v } }, x: { grid: { display: false } } }
-    }
-  });
-}
-
-// Chart: Inversión diaria Meta Q1 (heatmap usando line)
-const ctxQ1Daily = document.getElementById('chartQ1Daily');
-if (ctxQ1Daily) {
-  const janLabels = Array.from({length:31},(_,i)=>'E'+(i+1));
-  const febLabels = Array.from({length:28},(_,i)=>'F'+(i+1));
-  const marLabels = Array.from({length:25},(_,i)=>'M'+(i+1));
-  const allLabels = [...janLabels,...febLabels,...marLabels];
-  const allSpend = [...metaJanSpend,...metaFebSpend,...metaMarSpend];
-  new Chart(ctxQ1Daily, {
-    type: 'bar',
-    data: {
-      labels: allLabels,
-      datasets: [{
-        label: 'Gasto diario Meta (USD)',
-        data: allSpend,
-        backgroundColor: allSpend.map((v,i)=> i<31 ? '#7c3aed' : i<59 ? '#6b3fa0' : '#a78bfa'),
-        borderRadius: 2
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, grid: { color: '#f3f4f6' }, ticks: { callback: v => '$'+v } }, x: { grid: { display: false }, ticks: { maxTicksLimit: 20, font: { size: 9 } } } }
-    }
-  });
-}
+buildQ1Charts();
+buildStaticQ1Charts();
+updateKPIs();
+initQ1Filters();
 </script>
 
 </body>
