@@ -1,0 +1,37 @@
+# === DATOS SENSIBLES / PII — NUNCA COMMITEAR ===
+*.csv
+Ambipar.xlsx
+Bissu.xlsx
+Consolidado_Leads_*.xlsx
+S4learning.xlsx
+Zapler.xlsx
+bases_limpias_mailchimp/
+
+# Config con credenciales
+claude_desktop_config.json
+.env
+.env.*
+*.env
+
+# Dependencias
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+
+# Binarios y zips grandes
+*.zip
+ui-ux-pro-max-skill-main/
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
+
+# Build outputs (ad-swipe Next.js)
+ad-swipe/.next/
+ad-swipe/out/
+ad-swipe/.env*
+
+# Claude sessions
+.claude/settings.local.json
