@@ -702,6 +702,34 @@
             </div>
         </div>
 
+        <!-- EXEC HERO STRIP — 4 KPIs clave -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+            <div style="background:white;border:1px solid var(--gray-200);border-top:3px solid var(--purple-500);border-radius:10px;padding:16px 18px;">
+                <div style="font-size:10px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Registros</div>
+                <div style="font-size:26px;font-weight:800;color:var(--gray-900);">16,293</div>
+                <div style="font-size:12px;color:var(--gray-500);margin-top:2px;">Mar 2026 · 525/día · Mixpanel Prod</div>
+                <div style="font-size:12px;color:var(--green-500);margin-top:4px;font-weight:600;">▲ 3,436 en Abr 1–6 (572/día)</div>
+            </div>
+            <div style="background:white;border:1px solid var(--gray-200);border-top:3px solid var(--purple-500);border-radius:10px;padding:16px 18px;">
+                <div style="font-size:10px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Canal Dominante — Registros</div>
+                <div style="font-size:22px;font-weight:800;color:var(--purple-600);">paid_social</div>
+                <div style="font-size:12px;color:var(--gray-500);margin-top:2px;">~11,079 regs · ~68% · Funnel UTM Medium</div>
+                <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">Dentro: Meta 5,553 API (CPA S/0.41) · TikTok ~4,022 est.</div>
+            </div>
+            <div style="background:white;border:1px solid var(--gray-200);border-top:3px solid var(--blue-500);border-radius:10px;padding:16px 18px;">
+                <div style="font-size:10px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Conversión Funnel</div>
+                <div style="font-size:26px;font-weight:800;color:var(--gray-900);">63.1%</div>
+                <div style="font-size:12px;color:var(--gray-500);margin-top:2px;">Registro → Credit Options · Mar 2026</div>
+                <div style="font-size:12px;color:var(--green-500);margin-top:4px;font-weight:600;">▲ 69.4% en Abr 1–6 (+6.3pp)</div>
+            </div>
+            <div style="background:white;border:1px solid var(--gray-200);border-top:3px solid var(--orange-500);border-radius:10px;padding:16px 18px;">
+                <div style="font-size:10px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Inversión Total</div>
+                <div style="font-size:24px;font-weight:800;color:var(--gray-900);">~$3,906</div>
+                <div style="font-size:12px;color:var(--gray-500);margin-top:2px;">USD · Mar · Meta $2,301 + TikTok $1,721 est.</div>
+                <div style="font-size:12px;color:var(--gray-500);margin-top:4px;">S14 Abr: Meta $127 + TikTok $307 · CPA S/1.18</div>
+            </div>
+        </div>
+
         <!-- Q2 April KPIs — Mixpanel Prod (actualizado 07 Abr) -->
         <div id="sec-q2-kpis" class="section-title" style="margin-bottom:12px;"><span class="dot" style="background:var(--yellow-500);"></span> Q2 Semana 1 — Mixpanel Prod (Abr 1–6, MCP 07 Abr)</div>
         <div class="kpi-grid" style="margin-bottom:24px;">
@@ -750,72 +778,98 @@
                 <strong>Por qué este enfoque:</strong> TikTok generó más tráfico (57,327 landing views vs 30,805 de Meta), pero Meta convierte 2.6x mejor por visita (18% vs 7% view→registro). El resumen ejecutivo usa registros reales de API, no volumen de tráfico.
             </div>
         </div>
+        <!-- UTM Medium attribution label -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <span style="font-size:11px;font-weight:700;color:var(--purple-600);text-transform:uppercase;letter-spacing:.6px;">Atribución vía UTM Medium</span>
+            <span style="font-size:11px;color:var(--gray-400);">Funnel Mixpanel: Landing Page Viewed → Credit request created · proporciones sobre total real 16,293 Mar</span>
+        </div>
         <div class="source-cards">
-            <div class="source-card meta">
+            <div class="source-card meta" style="border-top-color:var(--purple-500);">
+                <div class="source-icon" style="background:var(--purple-100);color:var(--purple-700);">PS</div>
+                <div class="source-name">paid_social</div>
+                <div class="source-value">~11,079</div>
+                <div class="source-pct">~68% · Mar 2026</div>
+                <div class="source-daily">paid_social + paid unificados · UTM Medium</div>
+                <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">Abr 1–6: ~2,982 regs (87%)</div>
+            </div>
+            <div class="source-card b2b" style="border-top-color:var(--teal-500);">
+                <div class="source-icon" style="background:#ccfbf1;color:#0f766e;">B2</div>
+                <div class="source-name">b2b_acquisition</div>
+                <div class="source-value">~5,165</div>
+                <div class="source-pct">~32% · Mar 2026</div>
+                <div class="source-daily">b2fclientepotencial · Canal B2B/Broker</div>
+                <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">Abr 1–6: ~447 regs (13%)</div>
+            </div>
+            <div class="source-card meta" style="border-top-color:#1877f2;">
                 <div class="source-icon">M</div>
-                <div class="source-name">Meta Ads</div>
+                <div class="source-name">Meta Ads <span style="font-size:10px;font-weight:400;color:#1877f2;">dentro paid_social</span></div>
                 <div class="source-value">5,553</div>
-                <div class="source-pct">34.1% del total</div>
-                <div class="source-daily">S/2,301 · CPA S/0.41 · API real</div>
+                <div class="source-pct">API real · CPA S/0.41</div>
+                <div class="source-daily">Mayor eficiencia por reg. · Conv. 18%</div>
+                <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">Abr 1–6: 3,461 clics · S/469.12</div>
             </div>
             <div class="source-card tiktok">
                 <div class="source-icon">T</div>
-                <div class="source-name">TikTok Ads</div>
+                <div class="source-name">TikTok Ads <span style="font-size:10px;font-weight:400;color:#00c9a7;">dentro paid_social</span></div>
                 <div class="source-value">~4,022</div>
-                <div class="source-pct">~24.7% del total</div>
-                <div class="source-daily">S/6,368 · CPA ~S/1.58 · est. (token pendiente)</div>
-            </div>
-            <div class="source-card organic">
-                <div class="source-icon">B</div>
-                <div class="source-name">B2B / Broker</div>
-                <div class="source-value">~3,226</div>
-                <div class="source-pct">~19.8% del total</div>
-                <div class="source-daily">Canal b2fclientepotencial · sin costo directo</div>
-            </div>
-            <div class="source-card b2b">
-                <div class="source-icon">O</div>
-                <div class="source-name">Orgánico + Directo</div>
-                <div class="source-value">~3,492</div>
-                <div class="source-pct">~21.4% del total</div>
-                <div class="source-daily">Directo / QR / Sin UTM</div>
+                <div class="source-pct">est. · CPA ~S/1.58</div>
+                <div class="source-daily">Alto tráfico · Conv. ~7% · token vencido</div>
+                <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">Abr 1–6: 4,735 clics · S/1,133.84</div>
             </div>
         </div>
 
-        <!-- Efficiency insight: traffic vs registrations -->
+        <!-- Efficiency insight: UTM Medium funnel -->
         <div class="card full-width" style="margin-top:16px;margin-bottom:8px;padding:16px 20px;">
-            <div class="card-title" style="margin-bottom:12px;">Eficiencia por canal — Tráfico vs Registros (Mar 2026)</div>
+            <div class="card-title" style="margin-bottom:12px;">Eficiencia por UTM Medium — Funnel Mixpanel (Mar 2026) <span style="font-size:11px;font-weight:400;color:var(--gray-500);">Landing Page Viewed → Credit request created · ventana 1 día</span></div>
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Canal</th>
-                        <th class="num">Landing Views</th>
-                        <th class="num">Registros</th>
-                        <th class="num">Conv. view→reg</th>
-                        <th class="num">Gasto (PEN)</th>
-                        <th class="num">CPA (PEN)</th>
+                        <th>UTM Medium</th>
+                        <th class="num">LP Views</th>
+                        <th class="num">Regs Funnel</th>
+                        <th class="num">Conv%</th>
+                        <th class="num">Regs Estimado Total</th>
+                        <th class="num">% del total</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><strong>Meta Ads</strong> <span style="font-size:11px;background:#e7f0fe;color:#1877f2;padding:2px 6px;border-radius:4px;margin-left:4px;">API real</span></td>
-                        <td class="num">30,805</td>
-                        <td class="num"><strong>5,553</strong></td>
-                        <td class="num" style="color:var(--green-500);font-weight:600;">18.0%</td>
-                        <td class="num">S/2,301</td>
-                        <td class="num" style="color:var(--green-500);font-weight:600;">S/0.41</td>
+                    <tr style="background:#f5f3ff;">
+                        <td><strong>paid_social</strong> <span style="font-size:11px;background:var(--purple-100);color:var(--purple-700);padding:2px 6px;border-radius:4px;margin-left:4px;">paid + paid_social</span></td>
+                        <td class="num">27,711</td>
+                        <td class="num"><strong>1,485</strong></td>
+                        <td class="num" style="color:var(--purple-600);font-weight:600;">5.4%</td>
+                        <td class="num" style="color:var(--purple-600);font-weight:700;">~11,079</td>
+                        <td class="num" style="color:var(--purple-600);font-weight:600;">~68%</td>
                     </tr>
                     <tr>
-                        <td><strong>TikTok Ads</strong> <span style="font-size:11px;background:#f0fdf4;color:#00c9a7;padding:2px 6px;border-radius:4px;margin-left:4px;">estimado</span></td>
-                        <td class="num">57,327</td>
-                        <td class="num"><strong>~4,022</strong></td>
-                        <td class="num" style="color:var(--orange-500);">~7.0%</td>
-                        <td class="num">~S/6,368</td>
-                        <td class="num" style="color:var(--orange-500);">~S/1.58</td>
+                        <td><strong>b2b_acquisition</strong> <span style="font-size:11px;background:#ccfbf1;color:#0f766e;padding:2px 6px;border-radius:4px;margin-left:4px;">b2fclientepotencial</span></td>
+                        <td class="num">16,602</td>
+                        <td class="num"><strong>691</strong></td>
+                        <td class="num" style="color:var(--teal-500);font-weight:600;">4.2%</td>
+                        <td class="num" style="color:var(--teal-500);font-weight:700;">~5,165</td>
+                        <td class="num" style="color:var(--teal-500);">~32%</td>
+                    </tr>
+                    <tr style="background:var(--gray-50);">
+                        <td style="color:var(--gray-400);">undefined / otros</td>
+                        <td class="num" style="color:var(--gray-400);">7,432</td>
+                        <td class="num" style="color:var(--gray-400);">9</td>
+                        <td class="num" style="color:var(--gray-400);">0.1%</td>
+                        <td class="num" style="color:var(--gray-400);">~49</td>
+                        <td class="num" style="color:var(--gray-400);">&lt;1%</td>
+                    </tr>
+                    <tr style="background:var(--purple-50);font-weight:700;border-top:2px solid var(--purple-200);">
+                        <td><strong>TOTAL</strong></td>
+                        <td class="num"><strong>51,745</strong></td>
+                        <td class="num"><strong>2,185</strong></td>
+                        <td class="num">4.2%</td>
+                        <td class="num"><strong>16,293</strong></td>
+                        <td class="num"><strong>100%</strong></td>
                     </tr>
                 </tbody>
             </table>
             <div style="margin-top:10px;font-size:12px;color:var(--gray-600);background:var(--gray-50);border-radius:8px;padding:10px 14px;">
-                <strong>Insight:</strong> TikTok genera 1.9x más tráfico que Meta, pero Meta convierte 2.6x mejor por visita y tiene un CPA 3.9x más eficiente (S/0.41 vs S/1.58). Para escalar registros a menor costo, priorizar inversión Meta. TikTok aporta volumen de tráfico y awareness.
+                <strong>Metodología:</strong> Funnel Mixpanel Prod (LPV → Credit request created, ventana 1 día) captura 2,185 regs directamente atribuidos vía UTM Medium. Las proporciones se aplican al total real de 16,293 (Credit request created). <strong>Dentro de paid_social:</strong> Meta API real = 5,553 regs (CPA S/0.41) · TikTok est. = ~4,022 regs (CPA ~S/1.58) · Meta convierte 2.6× más eficiente por visita.<br>
+                <strong>Abr 1–6:</strong> paid_social = ~2,982 (87%) · b2b_acquisition = ~447 (13%) · Total = 3,436 regs.
             </div>
         </div>
 
@@ -940,135 +994,87 @@
             </div>
         </div>
 
-        <!-- Campaign breakdown table -->
+        <!-- Campaign breakdown table — con filtro Mar/Abr -->
         <div class="card full-width">
-            <div class="card-title">Campanas Principales (Mar 1-31) -- Meta Ads + TikTok Ads (Datos Reales)</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+                <div class="card-title" style="margin-bottom:0;">Campañas Principales — Meta Ads + TikTok Ads</div>
+                <div style="display:flex;gap:6px;">
+                    <button class="fbtn active" id="camp-mar" onclick="showCampTable('mar')">Mar 2026</button>
+                    <button class="fbtn" id="camp-abr" onclick="showCampTable('abr')">Abr 1–6</button>
+                    <button class="fbtn" id="camp-comb" onclick="showCampTable('comb')">Mar + Abr</button>
+                </div>
+            </div>
+
+            <!-- MARZO -->
+            <div id="camp-mar-section">
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Campana</th>
-                        <th>Plataforma</th>
-                        <th class="num">Conversiones</th>
-                        <th class="num">Inversion</th>
-                        <th class="num">Costo/Conv</th>
-                        <th class="num">Estado</th>
+                        <th>Campaña</th><th>Plataforma</th>
+                        <th class="num">Conversiones</th><th class="num">Inversión (USD)</th>
+                        <th class="num">CPA</th><th class="num">Estado</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Reevalua Gratis</td>
-                        <td><span class="badge badge-meta">Meta</span></td>
-                        <td class="num">2,334</td>
-                        <td class="num">$975.82 USD</td>
-                        <td class="num">$0.42</td>
-                        <td class="num" style="color:var(--green-500);">Activa</td>
-                    </tr>
-                    <tr>
-                        <td>Microcredito</td>
-                        <td><span class="badge badge-meta">Meta</span></td>
-                        <td class="num">1,206</td>
-                        <td class="num">$390.17 USD</td>
-                        <td class="num">$0.32</td>
-                        <td class="num" style="color:var(--green-500);">Activa</td>
-                    </tr>
-                    <tr>
-                        <td>Prestamo Personal</td>
-                        <td><span class="badge badge-meta">Meta</span></td>
-                        <td class="num">329</td>
-                        <td class="num">$235.10 USD</td>
-                        <td class="num">$0.71</td>
-                        <td class="num" style="color:var(--green-500);">Activa</td>
-                    </tr>
-                    <tr>
-                        <td>Credito Emprendedor</td>
-                        <td><span class="badge badge-meta">Meta</span></td>
-                        <td class="num">58</td>
-                        <td class="num">$17.97 USD</td>
-                        <td class="num">$0.31</td>
-                        <td class="num" style="color:var(--green-500);">Activa</td>
-                    </tr>
-                    <tr>
-                        <td>Tarjeta Garantia</td>
-                        <td><span class="badge badge-meta">Meta</span></td>
-                        <td class="num">35</td>
-                        <td class="num">$18.20 USD</td>
-                        <td class="num">$0.52</td>
-                        <td class="num" style="color:var(--green-500);">Activa</td>
-                    </tr>
-                    <tr>
-                        <td>Awareness Instagram</td>
-                        <td><span class="badge badge-meta">Meta</span></td>
-                        <td class="num">--</td>
-                        <td class="num">$17.66 USD</td>
-                        <td class="num">--</td>
-                        <td class="num" style="color:var(--green-500);">Activa</td>
-                    </tr>
-                    <tr style="background:#f8f4ff;">
-                        <td style="color:var(--gray-500);font-style:italic;">Otras campañas Meta (6+)</td>
-                        <td><span class="badge badge-meta">Meta</span></td>
-                        <td class="num" style="color:var(--gray-500);">1,260</td>
-                        <td class="num" style="color:var(--gray-500);">$498.74 USD</td>
-                        <td class="num" style="color:var(--gray-500);">$0.40</td>
-                        <td class="num" style="color:var(--gray-400);font-size:11px;">Incluidas en total API</td>
-                    </tr>
-                    <tr style="background:#e7f0fe;">
-                        <td><strong>Total Meta Ads (API real)</strong></td>
-                        <td><span class="badge badge-meta">Meta</span></td>
-                        <td class="num"><strong>5,370</strong></td>
-                        <td class="num"><strong>$2,184.69 USD</strong></td>
-                        <td class="num"><strong>$0.41</strong></td>
-                        <td class="num"></td>
-                    </tr>
-                    <tr style="border-top:2px solid var(--gray-300);">
-                        <td>CP - Registro - Reevalua Gratis</td>
-                        <td><span class="badge badge-tiktok">TikTok</span></td>
-                        <td class="num">1,839</td>
-                        <td class="num">$842 USD</td>
-                        <td class="num">$0.46</td>
-                        <td class="num" style="color:var(--green-500);">Activa (Mar 1-31)</td>
-                    </tr>
-                    <tr>
-                        <td>CP - 15.01 - Microcredito</td>
-                        <td><span class="badge badge-tiktok">TikTok</span></td>
-                        <td class="num">1,284</td>
-                        <td class="num">$419 USD</td>
-                        <td class="num">$0.33</td>
-                        <td class="num" style="color:var(--green-500);">Activa (Mar 1-31)</td>
-                    </tr>
-                    <tr>
-                        <td>CP | 23.1 - Credito Emprendedor</td>
-                        <td><span class="badge badge-tiktok">TikTok</span></td>
-                        <td class="num">96</td>
-                        <td class="num">$49 USD</td>
-                        <td class="num">$0.51</td>
-                        <td class="num" style="color:var(--gray-400);">Pausada (Mar 5+)</td>
-                    </tr>
-                    <tr style="background:#f0fff8;">
-                        <td style="color:var(--gray-500);font-style:italic;">Otras campañas TikTok (5)</td>
-                        <td><span class="badge badge-tiktok">TikTok</span></td>
-                        <td class="num" style="color:var(--gray-500);">973 est.</td>
-                        <td class="num" style="color:var(--gray-500);">$360 USD est.</td>
-                        <td class="num" style="color:var(--gray-500);">$0.37</td>
-                        <td class="num" style="color:var(--gray-400);font-size:11px;">Mar 26-31 est.</td>
-                    </tr>
-                    <tr style="background:#f0fdf4;">
-                        <td><strong>Total TikTok Ads (8 camp.) est.</strong></td>
-                        <td><span class="badge badge-tiktok">TikTok</span></td>
-                        <td class="num"><strong>4,265 est.</strong></td>
-                        <td class="num"><strong>~$1,721 USD est.</strong></td>
-                        <td class="num"><strong>~$0.40</strong></td>
-                        <td class="num"></td>
-                    </tr>
-                    <tr style="background:var(--purple-50);border-top:3px solid var(--purple-300);">
-                        <td><strong>TOTAL COMBINADO (estimado)</strong></td>
-                        <td><span class="badge" style="background:var(--purple-100);color:var(--purple-700);">Ambos</span></td>
-                        <td class="num"><strong>9,635+</strong></td>
-                        <td class="num"><strong>~$3,906 USD</strong></td>
-                        <td class="num"><strong>~$0.41</strong></td>
-                        <td class="num"></td>
-                    </tr>
+                    <tr><td>CP | 12.12 - Reevalúa Gratis</td><td><span class="badge badge-meta">Meta</span></td><td class="num">2,865</td><td class="num">$1,187.41</td><td class="num" style="color:var(--green-500);">$0.41</td><td style="color:var(--green-500);font-weight:600;">ACTIVA ★</td></tr>
+                    <tr><td>CP | 24.12 - B2F | Microcrédito</td><td><span class="badge badge-meta">Meta</span></td><td class="num">1,987</td><td class="num">$661.34</td><td class="num" style="color:var(--green-500);">$0.33</td><td style="color:var(--green-500);font-weight:600;">ACTIVA ★</td></tr>
+                    <tr><td>CP | 16.01 - B2F | Prestamo Personal</td><td><span class="badge badge-meta">Meta</span></td><td class="num">608</td><td class="num">$398.48</td><td class="num">$0.66</td><td style="color:var(--green-500);font-weight:600;">ACTIVA ★</td></tr>
+                    <tr><td>CP | 16.01 - Crédito Emprendedor (Copia)</td><td><span class="badge badge-meta">Meta</span></td><td class="num">58</td><td class="num">$17.97</td><td class="num">$0.31</td><td style="color:var(--gray-400);">PAUSADA</td></tr>
+                    <tr><td>CP | 16.01 - Tarjeta de Crédito Garantia</td><td><span class="badge badge-meta">Meta</span></td><td class="num">35</td><td class="num">$18.20</td><td class="num">$0.52</td><td style="color:var(--gray-400);">PAUSADA</td></tr>
+                    <tr><td>Awarness alto - Trafico Instagram</td><td><span class="badge badge-meta">Meta</span></td><td class="num">0</td><td class="num">$17.66</td><td class="num">—</td><td style="color:var(--gray-400);">PAUSADA</td></tr>
+                    <tr style="background:#f8f4ff;"><td style="color:var(--gray-500);font-style:italic;">6 campañas más (Navidad, Joyas, Hipotecaria, etc.)</td><td><span class="badge badge-meta">Meta</span></td><td class="num" style="color:var(--gray-500);">0</td><td class="num" style="color:var(--gray-500);">$0</td><td class="num">—</td><td style="color:var(--gray-400);font-size:11px;">PAUSADAS</td></tr>
+                    <tr style="background:#e7f0fe;font-weight:700;"><td><strong>Total Meta Ads ★ API REAL Mar 1-31</strong></td><td><span class="badge badge-meta">Meta</span></td><td class="num"><strong>5,553</strong></td><td class="num"><strong>$2,301.06 USD</strong></td><td class="num"><strong>$0.41</strong></td><td style="color:var(--green-500);">3 activas</td></tr>
+                    <tr style="border-top:2px solid var(--gray-200);"><td>CP - Registro - Reevalua Gratis</td><td><span class="badge badge-tiktok">TikTok</span></td><td class="num">1,839</td><td class="num">$842</td><td class="num">$0.46</td><td style="color:var(--green-500);">Activa (Mar 1-31)</td></tr>
+                    <tr><td>CP - 15.01 - Microcredito</td><td><span class="badge badge-tiktok">TikTok</span></td><td class="num">1,284</td><td class="num">$419</td><td class="num">$0.33</td><td style="color:var(--green-500);">Activa (Mar 1-31)</td></tr>
+                    <tr><td>CP | 23.1 - Cred. Emprendedor</td><td><span class="badge badge-tiktok">TikTok</span></td><td class="num">96</td><td class="num">$49</td><td class="num">$0.51</td><td style="color:var(--gray-400);">Pausada (Mar 5+)</td></tr>
+                    <tr style="background:#f0fff8;"><td style="color:var(--gray-500);font-style:italic;">Otras campañas TikTok (5)</td><td><span class="badge badge-tiktok">TikTok</span></td><td class="num" style="color:var(--gray-500);">~973 est.</td><td class="num" style="color:var(--gray-500);">~$360 est.</td><td class="num" style="color:var(--gray-500);">~$0.37</td><td style="color:var(--gray-400);font-size:11px;">Mar 26-31 est.</td></tr>
+                    <tr style="background:#f0fdf4;font-weight:700;"><td><strong>Total TikTok Ads (8 camp.) est.</strong></td><td><span class="badge badge-tiktok">TikTok</span></td><td class="num"><strong>~4,192 est.</strong></td><td class="num"><strong>~$1,670 est.</strong></td><td class="num"><strong>~$0.40</strong></td><td></td></tr>
+                    <tr style="background:var(--purple-50);border-top:3px solid var(--purple-200);font-weight:700;"><td><strong>TOTAL COMBINADO Mar 2026</strong></td><td><span class="badge" style="background:var(--purple-100);color:var(--purple-700);">Ambos</span></td><td class="num"><strong>~9,745</strong></td><td class="num"><strong>~$3,971 USD</strong></td><td class="num"><strong>~$0.41</strong></td><td></td></tr>
                 </tbody>
             </table>
+            </div>
+
+            <!-- ABRIL -->
+            <div id="camp-abr-section" style="display:none;">
+            <div class="alert" style="background:#ede9fe;border:1px solid #a78bfa;color:#4c1d95;margin-bottom:12px;padding:8px 14px;font-size:12px;">
+                <strong>Abr 1–6 (S14 cerrado) · Meta: API real · TikTok: screenshots reales</strong>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Campaña</th><th>Plataforma</th>
+                        <th class="num">Clics</th><th class="num">Inversión</th>
+                        <th class="num">CPA est.</th><th class="num">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>CP | 12.12 - Reevalúa Gratis</td><td><span class="badge badge-meta">Meta</span></td><td class="num">~1,790</td><td class="num">~$242 USD</td><td class="num">~$0.41</td><td style="color:var(--green-500);font-weight:600;">ACTIVA ★</td></tr>
+                    <tr><td>CP | 24.12 - B2F | Microcrédito</td><td><span class="badge badge-meta">Meta</span></td><td class="num">~1,240</td><td class="num">~$168 USD</td><td class="num">~$0.33</td><td style="color:var(--green-500);font-weight:600;">ACTIVA ★</td></tr>
+                    <tr><td>CP | 16.01 - B2F | Prestamo Personal</td><td><span class="badge badge-meta">Meta</span></td><td class="num">~380</td><td class="num">~$51 USD</td><td class="num">~$0.66</td><td style="color:var(--green-500);font-weight:600;">ACTIVA ★</td></tr>
+                    <tr style="background:#f8f4ff;"><td style="color:var(--gray-500);font-style:italic;">Campañas pausadas (9)</td><td><span class="badge badge-meta">Meta</span></td><td class="num">51</td><td class="num">~$8 USD</td><td class="num">—</td><td style="color:var(--gray-400);font-size:11px;">PAUSADAS</td></tr>
+                    <tr style="background:#e7f0fe;font-weight:700;"><td><strong>Total Meta Ads — API REAL S14 (Abr 1–6)</strong></td><td><span class="badge badge-meta">Meta</span></td><td class="num"><strong>3,461</strong></td><td class="num"><strong>S/469.12 (~$127 USD)</strong></td><td class="num"><strong>—</strong></td><td style="color:var(--green-500);">3 activas</td></tr>
+                    <tr style="border-top:2px solid var(--gray-200);"><td>CP - Registro - Reevalua Gratis</td><td><span class="badge badge-tiktok">TikTok</span></td><td class="num">2,520</td><td class="num">S/724.52 (~$196)</td><td class="num">S/1.24</td><td style="color:var(--green-500);">ACTIVA ★</td></tr>
+                    <tr><td>CP - 15.01 - Microcredito</td><td><span class="badge badge-tiktok">TikTok</span></td><td class="num">2,215</td><td class="num">S/409.32 (~$111)</td><td class="num">S/1.08</td><td style="color:var(--green-500);">ACTIVA ★</td></tr>
+                    <tr style="background:#f0fdf4;font-weight:700;"><td><strong>Total TikTok Ads S14 (Abr 1–6)</strong></td><td><span class="badge badge-tiktok">TikTok</span></td><td class="num"><strong>4,735</strong></td><td class="num"><strong>S/1,133.84 (~$307)</strong></td><td class="num"><strong>S/1.18</strong></td><td><strong>964 conv.</strong></td></tr>
+                    <tr style="background:var(--purple-50);border-top:3px solid var(--purple-200);font-weight:700;"><td><strong>TOTAL COMBINADO S14 (Abr 1–6)</strong></td><td><span class="badge" style="background:var(--purple-100);color:var(--purple-700);">Ambos</span></td><td class="num"><strong>8,196</strong></td><td class="num"><strong>~$434 USD</strong></td><td class="num"><strong>—</strong></td><td><strong>964 conv. TT + Meta est.</strong></td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top:8px;font-size:11px;color:var(--gray-500);">Meta Abr: desglose por campaña estimado proporcional a participación en Marzo. TikTok Abr: datos reales de screenshots. Conv. TikTok = pixel TikTok (distinto de Credit request created Mixpanel).</div>
+            </div>
+
+            <!-- MAR + ABR COMBINADO -->
+            <div id="camp-comb-section" style="display:none;">
+            <table class="data-table">
+                <thead>
+                    <tr><th>Plataforma</th><th class="num">Mar Conv.</th><th class="num">Mar Inversión</th><th class="num">Abr Conv.</th><th class="num">Abr Inversión</th><th class="num">CPA prom.</th></tr>
+                </thead>
+                <tbody>
+                    <tr style="background:#e7f0fe;"><td><strong>Meta Ads</strong> <span style="font-size:11px;background:#e7f0fe;color:#1877f2;padding:2px 5px;border-radius:4px;margin-left:4px;">API real</span></td><td class="num"><strong>5,553</strong></td><td class="num"><strong>$2,301 USD</strong></td><td class="num"><strong>—</strong></td><td class="num"><strong>S/469 (~$127)</strong></td><td class="num" style="color:var(--green-500);font-weight:700;">$0.41</td></tr>
+                    <tr style="background:#f0fdf4;"><td><strong>TikTok Ads</strong> <span style="font-size:11px;background:#f0fdf4;color:#00c9a7;padding:2px 5px;border-radius:4px;margin-left:4px;">screenshots</span></td><td class="num"><strong>~4,192</strong></td><td class="num"><strong>~$1,670</strong></td><td class="num"><strong>964</strong></td><td class="num"><strong>~$307</strong></td><td class="num" style="color:var(--orange-500);">~$0.44</td></tr>
+                    <tr style="background:var(--purple-50);font-weight:700;border-top:3px solid var(--purple-200);"><td><strong>TOTAL Mar + Abr 1–6</strong></td><td class="num"><strong>~9,745</strong></td><td class="num"><strong>~$3,971</strong></td><td class="num"><strong>~964+</strong></td><td class="num"><strong>~$434</strong></td><td class="num"><strong>~$0.41</strong></td></tr>
+                </tbody>
+            </table>
+            </div>
         </div>
     </div>
 
@@ -2438,20 +2444,96 @@
             <div style="margin-top:8px;font-size:12px;color:var(--gray-500);">paid_social explota en semana Mar 23-30 (+231%) y domina Abr 1-6 (91.7%). b2fclientepotencial en caída sostenida. Semanas basadas en Mixpanel MCP (weekly buckets).</div>
         </div>
 
+        <!-- UTM Medium → REGISTROS (funnel Mixpanel) -->
+        <div class="card full-width" style="margin-bottom:16px;border:2px solid var(--purple-200);">
+            <div class="card-title" style="color:var(--purple-700);">&#127919; Registros por UTM Medium — Funnel Mixpanel Prod <span style="font-size:12px;font-weight:400;color:var(--gray-500);">Landing Page Viewed → Credit request created · ventana 1 día · validado 07 Abr 2026</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:16px;">
+                <!-- March -->
+                <div>
+                    <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">Marzo 2026 — 16,293 regs totales</div>
+                    <table class="data-table">
+                        <thead><tr><th>UTM Medium</th><th class="num">LP Views</th><th class="num">Regs Funnel</th><th class="num">Conv%</th><th class="num">Regs Est.</th><th class="num">%</th></tr></thead>
+                        <tbody>
+                            <tr style="background:#f5f3ff;">
+                                <td><strong>paid_social</strong> <span style="font-size:10px;color:var(--purple-500);">+paid</span></td>
+                                <td class="num">27,711</td><td class="num">1,485</td>
+                                <td class="num" style="color:var(--purple-600);font-weight:600;">5.4%</td>
+                                <td class="num" style="color:var(--purple-600);font-weight:700;">~11,079</td>
+                                <td class="num" style="color:var(--purple-600);font-weight:700;">68%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>b2b_acquisition</strong> <span style="font-size:10px;color:var(--teal-500);">b2fclientepotencial</span></td>
+                                <td class="num">16,602</td><td class="num">691</td>
+                                <td class="num" style="color:var(--teal-500);">4.2%</td>
+                                <td class="num" style="color:var(--teal-500);font-weight:700;">~5,165</td>
+                                <td class="num" style="color:var(--teal-500);">32%</td>
+                            </tr>
+                            <tr style="color:var(--gray-400);">
+                                <td>undefined / otros</td>
+                                <td class="num">7,432</td><td class="num">9</td>
+                                <td class="num">0.1%</td>
+                                <td class="num">~49</td><td class="num">&lt;1%</td>
+                            </tr>
+                            <tr style="font-weight:700;background:var(--purple-50);border-top:2px solid var(--purple-200);">
+                                <td><strong>TOTAL</strong></td><td class="num"><strong>51,745</strong></td><td class="num"><strong>2,185</strong></td>
+                                <td class="num">4.2%</td><td class="num"><strong>16,293</strong></td><td class="num"><strong>100%</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- April 1-6 -->
+                <div>
+                    <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">Abril 1–6 2026 — 3,436 regs totales</div>
+                    <table class="data-table">
+                        <thead><tr><th>UTM Medium</th><th class="num">LP Views</th><th class="num">Regs Funnel</th><th class="num">Conv%</th><th class="num">Regs Est.</th><th class="num">%</th></tr></thead>
+                        <tbody>
+                            <tr style="background:#f5f3ff;">
+                                <td><strong>paid_social</strong> <span style="font-size:10px;color:var(--purple-500);">+paid</span></td>
+                                <td class="num">31,556</td><td class="num">335</td>
+                                <td class="num" style="color:var(--purple-600);font-weight:600;">1.1%</td>
+                                <td class="num" style="color:var(--purple-600);font-weight:700;">~2,982</td>
+                                <td class="num" style="color:var(--purple-600);font-weight:700;">87%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>b2b_acquisition</strong> <span style="font-size:10px;color:var(--teal-500);">b2fclientepotencial</span></td>
+                                <td class="num">627</td><td class="num">50</td>
+                                <td class="num" style="color:var(--teal-500);font-weight:600;">8.0%</td>
+                                <td class="num" style="color:var(--teal-500);font-weight:700;">~447</td>
+                                <td class="num" style="color:var(--teal-500);">13%</td>
+                            </tr>
+                            <tr style="color:var(--gray-400);">
+                                <td>undefined / otros</td>
+                                <td class="num">1,822</td><td class="num">1</td>
+                                <td class="num">0.05%</td><td class="num">~7</td><td class="num">&lt;1%</td>
+                            </tr>
+                            <tr style="font-weight:700;background:var(--purple-50);border-top:2px solid var(--purple-200);">
+                                <td><strong>TOTAL</strong></td><td class="num"><strong>34,005</strong></td><td class="num"><strong>386</strong></td>
+                                <td class="num">1.1%</td><td class="num"><strong>3,436</strong></td><td class="num"><strong>100%</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div style="background:var(--purple-50);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--purple-800);border:1px solid var(--purple-200);">
+                <strong>&#9432; Nota metodológica:</strong> El funnel captura usuarios únicos que hicieron Landing Page Viewed <em>y después</em> Credit request created dentro de 1 día. Las proporciones del funnel se aplican al total real de registros (16,293 Mar / 3,436 Abr 1–6).<br>
+                <strong>Dentro de paid_social (plataforma):</strong> Meta API real = 5,553 regs Mar (CPA S/0.41) · TikTok estimado = ~4,022 regs Mar (CPA ~S/1.58). Meta domina en eficiencia de conversión; TikTok domina en volumen de tráfico (85% LP views Abr).
+            </div>
+        </div>
+
         <!-- UTM Medium table -->
         <div class="card full-width" style="margin-bottom:24px;">
-            <div class="card-title" id="utm-table-title">Tabla UTM Medium Detallada — Landing Page Viewed · Mar–Abr 2026</div>
+            <div class="card-title" id="utm-table-title">UTM Medium — Landing Page Views (Tráfico) · Mar–Abr 2026</div>
             <table class="data-table" id="utm-medium-table">
                 <thead>
-                    <tr><th>UTM Medium</th><th class="num">Mar 2026</th><th class="num">Abr 1–7</th><th class="num">Total Mar–Abr</th><th class="num">% Total</th><th>Canal interpretado</th></tr>
+                    <tr><th>UTM Medium</th><th class="num">Mar 2026 (tráfico)</th><th class="num">Abr 1–7 (tráfico)</th><th class="num">Total Mar–Abr</th><th class="num">% Total</th><th>Canal</th></tr>
                 </thead>
                 <tbody>
                     <tr style="background:#ede9fe;">
-                        <td><strong>paid_social</strong></td>
-                        <td class="num">28,849</td>
-                        <td class="num">35,238</td>
-                        <td class="num"><strong>64,087</strong></td>
-                        <td class="num" style="color:var(--purple-600);font-weight:700;">65.3%</td>
+                        <td><strong>paid_social</strong> <span style="font-size:11px;color:var(--purple-500);">→ unif. con paid</span></td>
+                        <td class="num">33,057</td>
+                        <td class="num">36,076</td>
+                        <td class="num"><strong>69,133</strong></td>
+                        <td class="num" style="color:var(--purple-600);font-weight:700;">70.4%</td>
                         <td><span class="badge badge-tiktok">TikTok</span> <span class="badge badge-meta">Meta</span></td>
                     </tr>
                     <tr>
@@ -2470,13 +2552,13 @@
                         <td class="num" style="color:var(--red-500);">10.1%</td>
                         <td><span class="badge" style="background:#f3f4f6;color:#6b7280;">Sin UTM</span></td>
                     </tr>
-                    <tr>
-                        <td>paid</td>
-                        <td class="num">4,208</td>
-                        <td class="num">463</td>
-                        <td class="num">4,671</td>
-                        <td class="num">4.8%</td>
-                        <td><span class="badge badge-meta">Meta / Search</span></td>
+                    <tr style="color:var(--gray-400);background:#fafafa;">
+                        <td><del>paid</del> <span style="font-size:11px;">→ unificado en paid_social arriba</span></td>
+                        <td class="num" style="color:var(--gray-400);">4,208</td>
+                        <td class="num" style="color:var(--gray-400);">463</td>
+                        <td class="num" style="color:var(--gray-400);">4,671</td>
+                        <td class="num" style="color:var(--gray-400);">—</td>
+                        <td><span class="badge" style="background:#f3f4f6;color:#6b7280;">Migrado a paid_social</span></td>
                     </tr>
                     <tr>
                         <td>organic_social</td>
@@ -4247,6 +4329,19 @@ function showCac(period) {
     if(period==='mar' && marSec) marSec.style.display='block';
     else if(period==='abr' && abrSec) abrSec.style.display='block';
     else if(period==='comb' && combSec) combSec.style.display='block';
+}
+
+function showCampTable(period) {
+    ['mar','abr','comb'].forEach(p => {
+        const btn = document.getElementById('camp-'+p);
+        const sec = document.getElementById('camp-'+p+'-section');
+        if(btn) btn.classList.remove('active');
+        if(sec) sec.style.display = 'none';
+    });
+    const activeBtn = document.getElementById('camp-'+period);
+    const activeSec = document.getElementById('camp-'+period+'-section');
+    if(activeBtn) activeBtn.classList.add('active');
+    if(activeSec) activeSec.style.display = 'block';
 }
 
 function showUtms(period) {
