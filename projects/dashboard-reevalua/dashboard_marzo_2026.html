@@ -2909,7 +2909,7 @@
                     <tr style="background:var(--purple-50);font-weight:700;"><td><strong>TOTAL Q1</strong></td><td><strong>13 semanas</strong></td><td class="num"><strong>$12,124.62</strong></td><td class="num"><strong>S/44,861</strong></td><td class="num">2,692,846</td><td class="num">135,135</td><td class="num"><strong>5.68% prom.</strong></td><td class="num"><strong>$5.09 prom.</strong></td><td class="num"><strong>~31,296</strong></td><td class="num"><strong>$0.39 prom.</strong></td></tr>
                 </tbody>
             </table>
-            <div style="margin-top:10px;font-size:12px;color:var(--gray-500);">&#9733; S13 = Mar 26-31 (cierre Q1 final). S14 = Abr 1-6 (Q2 CERRADO — Meta API, Mixpanel Prod: 3,436 reg. — actualizado 07 Abr). S15 = Abr 7-13 (CERRADO — actualizado 13 Abr: 3,175 reg, Meta S/363.79 API real, TikTok API no disponible). S16 = Abr 14-20 (CERRADO — actualizado 20 Abr: 3,399 regs Abr 14-19 + 82 parcial Abr 20 · TikTok S/1,102.78 Abr 14-19 API Windsor · Meta N/A). Registros estimados por CPA mensual proporcional. &#9502; Ene=violeta &nbsp;&#9502; Feb=azul &nbsp;&#9502; Mar=teal &nbsp;&#9502; Abr=amarillo.</div>
+            <div style="margin-top:10px;font-size:12px;color:var(--gray-500);">&#9733; S13 = Mar 26-31 (cierre Q1 final). S14 = Abr 1-6 (Q2 CERRADO — Meta API, Mixpanel Prod: 3,436 reg. — actualizado 07 Abr). S15 = Abr 7-13 (CERRADO — actualizado 13 Abr: 3,175 reg, Meta S/363.79 API real, TikTok API no disponible). S16 = Abr 14-20 (CERRADO FINAL — actualizado 21 Abr: 3,978 regs · TikTok S/1,316.71 · 753 conv · CPA S/1.75 · Flow: 11 · Meta N/A). Registros estimados por CPA mensual proporcional. &#9502; Ene=violeta &nbsp;&#9502; Feb=azul &nbsp;&#9502; Mar=teal &nbsp;&#9502; Abr=amarillo.</div>
         </div>
 
         <!-- ===== TIKTOK SEMANAL Q1 ===== -->
@@ -3956,9 +3956,9 @@ const weeklyEstReg = [4631,3573,3947,4618,2983,1972,1757,1714,1388,1107,1159,159
 // Nota: semanas TikTok (Lun-Dom) aproximadas a semanas Q1 (Ene1-7, etc.). Crédito pausada desde S10.
 const ttWeeklySpendPEN = [543,1115,731,862,1099,945,1128,1557,1770,1467,1330,1225,1583]; // PEN — S1-S13 (Mar 26-31 est., S13 actualizado con Mar 31)
 const weekLabelsQ2 = ['S13 Mar26-31','S14 Abr1-6','S15 Abr7-13','S16 Abr14-20'];
-const ttQ2WeeklySpendPEN = [1134,1134,159.90,1102.78]; // S13 real · S14 real: 1133.84 PEN · S15: solo Abr 7 parcial (API token expirado) · S16: 1102.78 PEN Abr 14-19 CERRADO (API Windsor)
-const ttQ2MicroSpendPEN = [0, 409, 0, 419.62]; // S14 Micro real · S15 no disponible · S16: Micro 419.62 PEN Abr 14-19 (78.27+63.27+62.01+74.38+71.75+69.94)
-const ttQ2GratisSpendPEN = [0, 725, 0, 683.16]; // S14 Gratis real · S15 no disponible · S16: Gratis 683.16 PEN Abr 14-19 (128.06+120.28+111.62+111.47+111.20+100.53)
+const ttQ2WeeklySpendPEN = [1134,1134,159.90,1316.71]; // S13 real · S14 real: 1133.84 PEN · S15: solo Abr 7 parcial (API token expirado) · S16: 1316.71 PEN Abr 14-20 CERRADO FINAL (API Windsor)
+const ttQ2MicroSpendPEN = [0, 409, 0, 494.19]; // S14 Micro real · S15 no disponible · S16: Micro 494.19 PEN Abr 14-20 (78.27+63.27+62.01+74.38+71.75+69.94+74.57)
+const ttQ2GratisSpendPEN = [0, 725, 0, 822.52]; // S14 Gratis real · S15 no disponible · S16: Gratis 822.52 PEN Abr 14-20 (128.06+120.28+111.62+111.47+111.20+100.53+139.36)
 const metaQ2WeeklySpendUSD = [108.16, 21.23, 98.32, 0]; // S14 real · S15 real (S/363.79 ÷ 3.70) · S16 N/A (conector Facebook no conectado)
 const ttWeeklyReg = [689,1301,1255,1572,2127,2046,2137,1652,1319,1138,1173,915,940]; // registros/conversiones TikTok S1-S13
 // Mes al que pertenece cada semana: 0=Jan,1=Feb,2=Mar
