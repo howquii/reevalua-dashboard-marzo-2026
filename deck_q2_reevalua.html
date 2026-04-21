@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deck Q2 2026 · Reevalua</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ────────────────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* ── Tokens ───────────────────────────────────────── */
+:root{
+  --purple:  #7c3aed;
+  --purple-2:#a78bfa;
+  --purple-3:#ede9fe;
+  --ink:     #0f0f0f;
+  --ink-2:   #374151;
+  --ink-3:   #6b7280;
+  --ink-4:   #9ca3af;
+  --border:  #e5e7eb;
+  --surface: #f9fafb;
+  --up:      #16a34a;
+  --up-bg:   #f0fdf4;
+  --down:    #dc2626;
+  --down-bg: #fef2f2;
+  --warn:    #d97706;
+  --warn-bg: #fffbeb;
+  --meta:    #1877f2;
+  --tiktok:  #fe2c55;
+  --r:       8px;
+}
+
+/* ── Base ─────────────────────────────────────────── */
+html,body{
+  font-family:'Inter',-apple-system,sans-serif;
+  background:#1a1a2e;
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  font-size:14px;
+}
+
+/* ── Controls ─────────────────────────────────────── */
+.controls{
+  position:fixed;
+  top:50%;transform:translateY(-50%);
+  right:16px;z-index:100;
+  display:flex;flex-direction:column;gap:8px;
+}
+.ctrl-btn{
+  width:36px;height:36px;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:50%;color:#fff;
+  cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;
+  backdrop-filter:blur(8px);
+}
+.ctrl-btn:hover{background:rgba(255,255,255,.3)}
+
+.counter{
+  position:fixed;bottom:16px;right:16px;z-index:100;
+  font-family:'Inter',sans-serif;font-size:12px;font-weight:500;
+  color:rgba(255,255,255,.5);
+  letter-spacing:.04em;
+}
+
+/* ── Slides wrapper ───────────────────────────────── */
+#deck{
+  scroll-snap-type:y mandatory;
+  overflow-y:scroll;
+  height:100vh;
+  scroll-behavior:smooth;
+}
+#deck::-webkit-scrollbar{width:0}
+
+/* ── Slide base ───────────────────────────────────── */
+.slide{
+  scroll-snap-align:start;
+  width:100%;
+  min-height:100vh;
+  background:#fff;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Top accent bar */
+.slide::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;
+  height:3px;background:var(--purple);
+  z-index:2;
+}
+
+/* Slide inner */
+.slide-inner{
+  padding:44px 56px 44px;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+
+/* Slide header */
+.slide-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  margin-bottom:32px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--border);
+}
+.slide-num{
+  font-size:10px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--purple);margin-bottom:6px;
+}
+.slide-title{
+  font-size:22px;font-weight:800;
+  letter-spacing:-.4px;color:var(--ink);
+  line-height:1.2;
+}
+.slide-meta{
+  text-align:right;
+}
+.slide-period{
+  font-size:11px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.06em;
+  color:var(--ink-3);
+}
+.slide-date{
+  font-size:12px;font-weight:600;color:var(--ink-2);
+  margin-top:3px;
+}
+.slide-brand{
+  font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.08em;
+  color:var(--purple);margin-top:8px;
+}
+
+/* ── Helpers ──────────────────────────────────────── */
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g13{grid-template-columns:1fr 3fr}
+.g31{grid-template-columns:3fr 1fr}
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:16px 18px;
+}
+.card.white{background:#fff}
+.card.purple{background:var(--purple-3);border-color:#c4b5fd}
+
+/* KPI */
+.kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);margin-bottom:6px}
+.kpi-val{font-size:28px;font-weight:800;letter-spacing:-.8px;color:var(--ink);line-height:1;margin-bottom:4px}
+.kpi-val.accent{color:var(--purple)}
+.kpi-sub{font-size:11px;color:var(--ink-3)}
+
+.delta{
+  display:inline-flex;align-items:center;gap:2px;
+  font-size:10px;font-weight:700;
+  padding:2px 6px;border-radius:4px;margin-top:5px;
+}
+.up{background:var(--up-bg);color:var(--up)}
+.down{background:var(--down-bg);color:var(--down)}
+.warn{background:var(--warn-bg);color:var(--warn)}
+.neutral{background:#f3f4f6;color:var(--ink-3)}
+
+/* Progress bar */
+.pbar{height:5px;background:var(--border);border-radius:99px;overflow:hidden;margin-top:8px}
+.pfill{height:100%;background:var(--purple);border-radius:99px}
+
+/* Tag/badge */
+.tag{
+  display:inline-block;
+  padding:2px 8px;border-radius:4px;
+  font-size:10px;font-weight:600;
+  letter-spacing:.04em;
+}
+.tag-purple{background:var(--purple-3);color:var(--purple)}
+.tag-up{background:var(--up-bg);color:var(--up)}
+.tag-warn{background:var(--warn-bg);color:var(--warn)}
+.tag-down{background:var(--down-bg);color:var(--down)}
+.tag-neutral{background:#f3f4f6;color:var(--ink-3)}
+.tag-dark{background:var(--ink);color:#fff}
+
+/* Table */
+table.st{width:100%;border-collapse:collapse;font-size:12px}
+table.st th{
+  padding:7px 12px;background:var(--ink);color:#fff;
+  text-align:left;font-weight:600;font-size:10px;
+  text-transform:uppercase;letter-spacing:.05em;
+}
+table.st td{
+  padding:8px 12px;border-bottom:1px solid var(--border);
+  color:var(--ink-2);
+}
+table.st tr:last-child td{border-bottom:none}
+table.st td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:500}
+table.st td.up{color:var(--up);font-weight:600}
+table.st td.down{color:var(--down);font-weight:600}
+table.st td.warn{color:var(--warn);font-weight:600}
+table.st tr.hl td{background:#f5f3ff;font-weight:600}
+
+/* Funnel bar */
+.fstep{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.f-label{font-size:11px;font-weight:500;color:var(--ink-2);width:190px;flex-shrink:0}
+.f-bar{height:26px;border-radius:4px;display:flex;align-items:center;padding:0 10px;font-size:10px;font-weight:700;color:#fff;min-width:32px;transition:width .4s}
+.f-num{font-size:12px;font-weight:700;color:var(--ink);width:80px;text-align:right;flex-shrink:0}
+.f-cvr{font-size:10px;color:var(--ink-3);width:56px;text-align:right;flex-shrink:0}
+
+/* Alert strip */
+.astrip{
+  display:flex;gap:8px;align-items:flex-start;
+  padding:10px 14px;border-radius:6px;
+  font-size:12px;line-height:1.5;
+  margin-bottom:8px;
+}
+.astrip.danger{background:var(--down-bg);color:#7f1d1d;border:1px solid #fca5a5}
+.astrip.warn{background:var(--warn-bg);color:#92400e;border:1px solid #fcd34d}
+.astrip.ok{background:var(--up-bg);color:#14532d;border:1px solid #86efac}
+.astrip.info{background:var(--purple-3);color:#4c1d95;border:1px solid #c4b5fd}
+
+/* Decision row */
+.decision{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:10px 0;border-bottom:1px solid var(--border);
+}
+.decision:last-child{border-bottom:none}
+.d-num{
+  width:24px;height:24px;
+  background:var(--purple);color:#fff;
+  border-radius:50%;
+  font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+}
+.d-text{font-size:13px;color:var(--ink-2);line-height:1.5}
+.d-text strong{color:var(--ink)}
+
+/* Highlight row (section heading inside table area) */
+.row-label{
+  font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--purple);
+  padding:4px 0;border-bottom:1px solid var(--purple-3);
+  margin-bottom:6px;
+}
+
+/* Campaign card */
+.cc{
+  border:1px solid var(--border);border-radius:var(--r);
+  padding:12px 14px;background:#fff;
+}
+.cc-name{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.3}
+.cc-metrics{display:flex;gap:16px;flex-wrap:wrap;margin-top:4px}
+.cc-m{font-size:11px;color:var(--ink-3)}
+.cc-m strong{color:var(--ink);font-weight:600}
+
+/* Screenshot placeholder */
+.screenshot-placeholder{
+  border:2px dashed #c4b5fd;
+  border-radius:var(--r);
+  background:#faf5ff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:120px;
+  color:var(--purple);
+  gap:8px;
+  padding:24px;
+}
+.screenshot-placeholder .ph-icon{font-size:28px;opacity:.5}
+.screenshot-placeholder .ph-text{font-size:12px;font-weight:600;color:var(--purple-2)}
+.screenshot-placeholder .ph-sub{font-size:11px;color:var(--ink-4);text-align:center}
+
+/* Next step row */
+.ns-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ns-card{
+  background:#fff;border:1px solid var(--border);border-radius:var(--r);
+  padding:14px 16px;
+}
+.ns-card-label{
+  font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;margin-bottom:10px;
+}
+.ns-card.scale .ns-card-label{color:var(--up)}
+.ns-card.fix   .ns-card-label{color:var(--warn)}
+.ns-card.pause .ns-card-label{color:var(--ink-3)}
+.ns-card.test  .ns-card-label{color:var(--purple)}
+.ns-item{
+  font-size:12px;color:var(--ink-2);
+  padding:5px 0;border-bottom:1px solid var(--surface);
+  line-height:1.4;
+}
+.ns-item:last-child{border-bottom:none}
+.ns-item strong{color:var(--ink)}
+
+/* Print ──────────────────────────────────────────── */
+@media print{
+  html,body{background:#fff}
+  .controls,.counter{display:none!important}
+  #deck{height:auto;overflow:visible}
+  .slide{min-height:0;page-break-after:always;break-after:page}
+  .slide::before{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .slide-inner{padding:32px 40px}
+}
+
+/* Responsive */
+@media(max-width:860px){
+  .slide-inner{padding:28px 24px}
+  .slide-title{font-size:18px}
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:1fr 1fr}
+  .g13,.g31,.g2{grid-template-columns:1fr}
+  .ns-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation controls -->
+<div class="controls">
+  <button class="ctrl-btn" id="btnUp" title="Anterior (↑)">↑</button>
+  <button class="ctrl-btn" id="btnDown" title="Siguiente (↓)">↓</button>
+</div>
+<div class="counter" id="counter">1 / 9</div>
+
+<div id="deck">
+
+<!-- ═══════════════════════════════════════════════════
+     LÁMINA 1 — RESUMEN EJECUTIVO
+════════════════════════════════════════════════════ -->
+<section class="slide" id="s1">
+<div class="slide-inner">
+  <div class="slide-header">
+    <div>
+      <div class="slide-num">Lámina 01</div>
+      <div class="slide-title">Resumen Ejecutivo Q2</div>
+    </div>
+    <div class="slide-meta">
+      <div class="slide-period">Q2 2026 · S14–S16</div>
+      <div class="slide-date">Abr 1–20 · 3 semanas</div>
+      <div class="slide-brand">Reevalua</div>
+    </div>
+  </div>
+
+  <div class="grid g13" style="flex:1;align-items:start">
+
+    <!-- Left: KPIs strip -->
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card purple">
+        <div class="kpi-label">Registros Q2 acum.</div>
+        <div class="kpi-val accent">10,589</div>
+        <div class="kpi-sub">3 semanas · 518 prom/día</div>
+        <div class="pbar"><div class="pfill" style="width:68%"></div></div>
+        <div style="font-size:10px;color:var(--ink-3);margin-top:4px">68% meta estimada</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">Inversión Q2 (TikTok+Meta)</div>
+        <div class="kpi-val">S/ 4,062</div>
+        <div class="kpi-sub">TikTok S/2,611 · Meta S/1,452</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">CPA blended S16</div>
+        <div class="kpi-val" style="color:var(--up)">S/ 0.48</div>
+        <div class="kpi-sub">S/1,895 total ÷ 3,978 regs</div>
+        <span class="delta up">↓ Meta confirma</span>
+      </div>
+    </div>
+
+    <!-- Right: Findings, Alerts, Decisions -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+
+      <div>
+        <div class="row-label">5 Hallazgos clave</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="astrip ok">✅ <div><strong>S16 recupera registros:</strong> +25.3% vs S15 — 3,978 regs en la semana, el mejor de Q2.</div></div>
+          <div class="astrip ok">✅ <div><strong>Landing CVR mejoró:</strong> 27.3% (Mar) → 39.1% (S16) — +11.8 puntos porcentuales.</div></div>
+          <div class="astrip info">ℹ️ <div><strong>TikTok domina el tráfico:</strong> 91.7% del canal paid_social en Abril viene de TikTok.</div></div>
+          <div class="astrip warn">⚠️ <div><strong>CPA TikTok sube +48%</strong> de S14 (S/1.18) a S16 (S/1.75) — señal de fatiga de audiencia.</div></div>
+          <div class="astrip warn">⚠️ <div><strong>Gap funnel crítico:</strong> solo 7 flow completed de 3,978 registros en S16 (0.18%).</div></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="row-label">2 Alertas prioritarias</div>
+        <div class="astrip ok">✅ <div><strong>Meta S16 confirmado via Graph API:</strong> S/578.63 real (78,254 imp · 4,994 clics · CTR 6.38%). CPA blended S16 = <strong>S/0.48</strong> — Meta compensa ineficiencia TikTok.</div></div>
+        <div class="astrip danger" style="margin-bottom:0">🔴 <div><strong>Eficiencia TikTok deteriorada:</strong> sin acción en S17, el CPA seguirá subiendo. Lookalike y creativos nuevos son urgentes.</div></div>
+      </div>
+
+      <div>
+        <div class="row-label">3 Decisiones siguientes</div>
+        <div class="decision">
+          <div class="d-num">1</div>
+          <div class="d-text"><strong>Activar Lookalike audiences TikTok</strong> — basado en lista de clientes que completaron flow. CPA objetivo: ≤ S/1.40.</div>
+        </div>
+        <div class="decision">
+          <div class="d-num">2</div>
+          <div class="d-text"><strong>Escalar Meta Ads en S17</strong> — datos S16 recuperados via Graph API. CPA Meta S/0.40 vs TikTok S/1.75. Aumentar presupuesto Meta para maximizar eficiencia.</div>
+        </div>
+        <div class="decision">
+          <div class="d-num">3</div>
+          <div class="d-text"><strong>Investigar gap de conversión a cliente</strong> — de 3,978 registros a 7 flow completed. Mapear con producto el paso "Credit options → completado".</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     LÁMINA 2 — AVANCE DE OKR
+════════════════════════════════════════════════════ -->
+<section class="slide" id="s2">
+<div class="slide-inner">
+  <div class="slide-header">
+    <div>
+      <div class="slide-num">Lámina 02</div>
+      <div class="slide-title">Avance de OKR</div>
+    </div>
+    <div class="slide-meta">
+      <div class="slide-period">Q2 2026 · 3/13 semanas</div>
+      <div class="slide-date">23% del trimestre</div>
+      <div class="slide-brand">Reevalua</div>
+    </div>
+  </div>
+
+  <!-- OKR grid: top row -->
+  <div class="grid g4" style="margin-bottom:16px">
+    <div class="card">
+      <div class="kpi-label">Usuarios / Registros</div>
+      <div class="kpi-val accent">10,589</div>
+      <div class="kpi-sub">de ~45,000 meta Q2 est.</div>
+      <div class="pbar"><div class="pfill" style="width:24%"></div></div>
+      <div style="font-size:10px;color:var(--ink-3);margin-top:4px">24% avance · ritmo: 3,530/sem</div>
+      <span class="delta up">▲ On pace</span>
+    </div>
+    <div class="card">
+      <div class="kpi-label">Clientes (flow completed)</div>
+      <div class="kpi-val">18</div>
+      <div class="kpi-sub">S14(7) + S15(4) + S16(7)</div>
+      <div class="pbar"><div class="pfill" style="width:6%;background:var(--warn)"></div></div>
+      <div style="font-size:10px;color:var(--ink-3);margin-top:4px">Meta Q2: configurable</div>
+      <span class="delta warn">⚠️ Muy bajo</span>
+    </div>
+    <div class="card">
+      <div class="kpi-label">Revenue Q2</div>
+      <div class="kpi-val" style="font-size:18px;color:var(--ink-3)">Sin datos</div>
+      <div class="kpi-sub">Conectar fuente de ingresos</div>
+      <span class="delta neutral">Pendiente</span>
+    </div>
+    <div class="card">
+      <div class="kpi-label">Inversión vs presupuesto</div>
+      <div class="kpi-val">S/ 4,062</div>
+      <div class="kpi-sub">TikTok S/2,611 + Meta S/1,452</div>
+      <div class="pbar"><div class="pfill" style="width:44%"></div></div>
+      <div style="font-size:10px;color:var(--up);margin-top:4px">✓ Meta S16 confirmado via Graph API</div>
+    </div>
+  </div>
+
+  <!-- Weekly OKR progress table -->
+  <div style="margin-bottom:16px">
+    <table class="st">
+      <thead>
+        <tr>
+          <th>Semana</th>
+          <th class="num">Registros</th>
+          <th class="num">vs meta sem</th>
+          <th class="num">Clientes</th>
+          <th class="num">CVR a cliente</th>
+          <th class="num">Inversión (S/)</th>
+          <th class="num">CPA blended (S/)</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-neutral">S14</span> Abr 1–6</td>
+          <td class="num">3,436</td>
+          <td class="num up">+7%</td>
+          <td class="num">7</td>
+          <td class="num">0.20%</td>
+          <td class="num">1,602.96</td>
+          <td class="num">S/0.79</td>
+          <td><span class="tag tag-up">En meta</span></td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-warn">S15</span> Abr 7–13</td>
+          <td class="num">3,175</td>
+          <td class="num down">−7.6%</td>
+          <td class="num">4</td>
+          <td class="num">0.13%</td>
+          <td class="num warn">~523 ★</td>
+          <td class="num warn">N/D</td>
+          <td><span class="tag tag-warn">Bajo</span></td>
+        </tr>
+        <tr class="hl">
+          <td><span class="tag tag-purple">S16</span> Abr 14–20</td>
+          <td class="num">3,978</td>
+          <td class="num up">+25.3%</td>
+          <td class="num">11</td>
+          <td class="num">0.28%</td>
+          <td class="num up">1,895.34</td>
+          <td class="num up">S/0.48</td>
+          <td><span class="tag tag-up">Recuperado</span></td>
+        </tr>
+        <tr style="background:#f9fafb;font-weight:700">
+          <td colspan="1"><strong>Total Q2 (3 sem.)</strong></td>
+          <td class="num"><strong>10,589</strong></td>
+          <td class="num">518 prom/día</td>
+          <td class="num"><strong>22</strong></td>
+          <td class="num warn"><strong>0.21%</strong></td>
+          <td class="num"><strong>4,062</strong></td>
+          <td class="num"><strong>S/0.38</strong></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Forecast -->
+  <div class="card purple" style="padding:14px 18px">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--purple);margin-bottom:4px">Forecast de cierre Q2</div>
+        <div style="font-size:13px;color:var(--ink-2)">Al ritmo actual (3,530 reg/sem × 13 semanas) = <strong style="color:var(--ink)">~45,890 registros</strong> al cierre Q2</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:22px;font-weight:800;color:var(--purple)">~45,890</div>
+        <div style="font-size:11px;color:var(--ink-3)">forecast 13 semanas</div>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--ink-4);margin-top:8px">★ S15 TikTok parcial (token expirado: solo Abr 7 S/159.90). Meta datos S14-S16 confirmados via Graph API (act_2527851334221663). CPA blended incluye ambos canales.</div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     LÁMINA 3 — FUNNEL TRIMESTRAL
+════════════════════════════════════════════════════ -->
+<section class="slide" id="s3">
+<div class="slide-inner">
+  <div class="slide-header">
+    <div>
+      <div class="slide-num">Lámina 03</div>
+      <div class="slide-title">Funnel Trimestral</div>
+    </div>
+    <div class="slide-meta">
+      <div class="slide-period">Mar 2026 (ref Q1) vs Q2 S16</div>
+      <div class="slide-date">Mixpanel Prod · project 3968749</div>
+      <div class="slide-brand">Reevalua</div>
+    </div>
+  </div>
+
+  <div class="astrip info" style="margin-bottom:20px">
+    ℹ️ <div><strong>Nota:</strong> UTM Medium se captura solo en <strong>Landing Page Viewed</strong>. En "Credit request created" todos los registros tienen UTM=undefined. Para atribución usar siempre el evento de landing.</div>
+  </div>
+
+  <div class="grid g2" style="flex:1">
+    <!-- Funnel Mar -->
+    <div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);margin-bottom:14px">Marzo 2026 — Q1 referencia</div>
+      <div id="funnel1"></div>
+      <div style="margin-top:16px" class="card">
+        <div class="grid g2" style="gap:10px">
+          <div>
+            <div class="kpi-label">LPV → Registro</div>
+            <div style="font-size:18px;font-weight:800;color:var(--ink)">27.3%</div>
+          </div>
+          <div>
+            <div class="kpi-label">Reg → Options</div>
+            <div style="font-size:18px;font-weight:800;color:var(--ink)">63.1%</div>
+          </div>
+          <div>
+            <div class="kpi-label">Options → Flow</div>
+            <div style="font-size:18px;font-weight:800;color:var(--warn)">0.44%</div>
+          </div>
+          <div>
+            <div class="kpi-label">Flow completed</div>
+            <div style="font-size:18px;font-weight:800;color:var(--ink)">45</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Funnel S16 -->
+    <div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3)">S16 Abr 14–20 — Q2</div>
+        <span class="tag tag-purple">Activo</span>
+      </div>
+      <div id="funnel2"></div>
+      <div style="margin-top:16px" class="card purple">
+        <div class="grid g2" style="gap:10px">
+          <div>
+            <div class="kpi-label">LPV → Registro</div>
+            <div style="font-size:18px;font-weight:800;color:var(--up)">39.1% ▲</div>
+            <div style="font-size:10px;color:var(--up)">+11.8 pp vs Mar</div>
+          </div>
+          <div>
+            <div class="kpi-label">Reg → Options</div>
+            <div style="font-size:18px;font-weight:800;color:var(--ink)">61.9%</div>
+            <div style="font-size:10px;color:var(--ink-3)">−1.2 pp vs Mar</div>
+          </div>
+          <div>
+            <div class="kpi-label">Options → Flow</div>
+            <div style="font-size:18px;font-weight:800;color:var(--warn)">0.33%</div>
+            <div style="font-size:10px;color:var(--warn)">Gap crítico</div>
+          </div>
+          <div>
+            <div class="kpi-label">Flow completed</div>
+            <div style="font-size:18px;font-weight:800;color:var(--ink)">7</div>
+            <div style="font-size:10px;color:var(--ink-3)">de 3,978 regs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     LÁMINA 4 — PERFORMANCE POR CANAL
+════════════════════════════════════════════════════ -->
+<section class="slide" id="s4">
+<div class="slide-inner">
+  <div class="slide-header">
+    <div>
+      <div class="slide-num">Lámina 04</div>
+      <div class="slide-title">Performance por Canal</div>
+    </div>
+    <div class="slide-meta">
+      <div class="slide-period">Q2 S14–S16</div>
+      <div class="slide-date">TikTok API real · Meta Graph API S14–S16</div>
+      <div class="slide-brand">Reevalua</div>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+
+    <!-- TikTok -->
+    <div style="border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
+      <div style="background:#fe2c55;padding:10px 16px;display:flex;align-items:center;gap:8px">
+        <div style="font-size:13px;font-weight:800;color:#fff">TikTok Ads</div>
+        <span class="tag" style="background:rgba(255,255,255,.2);color:#fff;font-size:9px">API Windsor.ai · cuenta 7339951411758858241</span>
+      </div>
+      <div style="padding:14px 16px;background:#fff">
+        <div class="grid g3" style="gap:10px;margin-bottom:14px">
+          <div><div class="kpi-label">Gasto Q2 acum.</div><div style="font-size:20px;font-weight:800">S/ 2,611</div><div style="font-size:10px;color:var(--ink-3)">S14+S16 confirmados ★</div></div>
+          <div><div class="kpi-label">Conv. Q2 acum.</div><div style="font-size:20px;font-weight:800">1,717</div><div style="font-size:10px;color:var(--ink-3)">S14(964) + S16(753)</div></div>
+          <div><div class="kpi-label">CPA prom. Q2</div><div style="font-size:20px;font-weight:800;color:var(--warn)">S/ 1.52</div><div style="font-size:10px;color:var(--ink-3)">prom. S14-S16</div></div>
+        </div>
+        <table class="st">
+          <thead><tr><th>Semana</th><th class="num">Gasto (S/)</th><th class="num">Conv.</th><th class="num">CPA</th><th class="num">Share</th></tr></thead>
+          <tbody>
+            <tr><td>S14 Abr 1–6</td><td class="num">1,133.84</td><td class="num">964</td><td class="num up">S/1.18</td><td class="num">56.0%</td></tr>
+            <tr><td>S15 Abr 7–13 ★</td><td class="num warn">~159.90</td><td class="num warn">N/D</td><td class="num warn">N/D</td><td class="num warn">—</td></tr>
+            <tr class="hl"><td>S16 Abr 14–20</td><td class="num">1,316.71</td><td class="num">753</td><td class="num down">S/1.75</td><td class="num">100%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Meta -->
+    <div style="border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
+      <div style="background:#1877f2;padding:10px 16px;display:flex;align-items:center;gap:8px">
+        <div style="font-size:13px;font-weight:800;color:#fff">Meta Ads</div>
+        <span class="tag" style="background:rgba(255,255,255,.2);color:#fff;font-size:9px">Graph API real S14–S16 · act_2527851334221663</span>
+      </div>
+      <div style="padding:14px 16px;background:#fff">
+        <div class="grid g3" style="gap:10px;margin-bottom:14px">
+          <div><div class="kpi-label">Gasto Q2 (S14+S15+S16)</div><div style="font-size:20px;font-weight:800">S/ 1,452</div><div style="font-size:10px;color:var(--up)">✓ S16 S/578.63 confirmado</div></div>
+          <div><div class="kpi-label">CTR promedio Q2</div><div style="font-size:20px;font-weight:800;color:var(--up)">7.0%</div><div style="font-size:10px;color:var(--ink-3)">S14: 7.59% · S15: 6.84% · S16: 6.38%</div></div>
+          <div><div class="kpi-label">CPA blended S16</div><div style="font-size:20px;font-weight:800;color:var(--up)">S/ 0.48</div><div style="font-size:10px;color:var(--ink-3)">TikTok+Meta ÷ 3,978 regs</div></div>
+        </div>
+        <table class="st">
+          <thead><tr><th>Semana</th><th class="num">Gasto (S/)</th><th class="num">Imp.</th><th class="num">Clics</th><th class="num">CTR</th><th class="num">CPM</th></tr></thead>
+          <tbody>
+            <tr><td>S14 Abr 1–6</td><td class="num">469.12</td><td class="num">53,421</td><td class="num">4,052</td><td class="num up">7.59%</td><td class="num">S/8.78</td></tr>
+            <tr><td>S15 Abr 7–13</td><td class="num">403.96</td><td class="num">42,065</td><td class="num">2,879</td><td class="num">6.84%</td><td class="num">S/9.61</td></tr>
+            <tr class="hl"><td>S16 Abr 14–20 ✓</td><td class="num up">578.63</td><td class="num">78,254</td><td class="num">4,994</td><td class="num">6.38%</td><td class="num up">S/7.39</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:10px;font-size:10px;color:var(--ink-4)">S16 por campaña: Evergreen S/294.99 · CP24.12 S/259.75 · CP16.01 S/65.66 (pausó Abr 18)</div>
+        <div class="astrip ok" style="margin-top:10px;margin-bottom:0;font-size:11px">✅ Meta CPM mejoró en S16 (S/7.39 vs S/9.61 S15). CPA Meta total estimado S/0.40 — 4.4× mejor que TikTok.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Lectura ejecutiva -->
+  <div class="card purple">
+    <div class="grid g2" style="gap:16px">
+      <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--purple);margin-bottom:6px">Lectura ejecutiva</div>
+        <div style="font-size:13px;color:var(--ink-2);line-height:1.6">Meta CPA estimado <strong>S/0.40</strong> vs TikTok <strong>S/1.75</strong>. CPA blended S16 (ambos canales): <strong>S/0.48</strong>. Con S/578.63 Meta y S/1,317 TikTok, la inversión combinada es más eficiente que TikTok solo. Prioridad: escalar Meta S17.</div>
+      </div>
+      <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--purple);margin-bottom:6px">Share de inversión Q2</div>
+        <div style="font-size:13px;color:var(--ink-2);line-height:1.6">TikTok: <strong>64.3%</strong> (S/2,611) · Meta: <strong>35.7%</strong> (S/1,452)<br>Meta S16 CPM bajó a S/7.39 (mínimo Q2). En LP Views: TikTok 58.4% · Meta 31.4% · B2B 10.2%.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     LÁMINA 5 — PERFORMANCE POR CAMPAÑA
+════════════════════════════════════════════════════ -->
+<section class="slide" id="s5">
+<div class="slide-inner">
+  <div class="slide-header">
+    <div>
+      <div class="slide-num">Lámina 05</div>
+      <div class="slide-title">Performance por Campaña</div>
+    </div>
+    <div class="slide-meta">
+      <div class="slide-period">TikTok Ads Manager</div>
+      <div class="slide-date">TikTok Windsor.ai · Meta Graph API S16</div>
+      <div class="slide-brand">Reevalua</div>
+    </div>
+  </div>
+
+  <!-- Top 3 ganadoras -->
+  <div style="margin-bottom:20px">
+    <div class="row-label" style="margin-bottom:12px">🏆 Top 2 Ganadoras — mejores resultados S16</div>
+    <div class="grid g2" style="gap:12px">
+      <div class="cc" style="border-color:#86efac;border-left:3px solid var(--up)">
+        <div class="tag tag-up" style="margin-bottom:8px">Ganadora #1</div>
+        <div class="cc-name">CP Registro — Reevalúa Gratis</div>
+        <div class="cc-metrics">
+          <div class="cc-m">Gasto S16: <strong>S/ 822.52</strong></div>
+          <div class="cc-m">Conversiones: <strong>~497 est.</strong></div>
+          <div class="cc-m">CPA: <strong style="color:var(--up)">~S/ 1.65</strong></div>
+          <div class="cc-m">Variación vs S14: <strong>+13% gasto · −20% CPA tendencia</strong></div>
+        </div>
+        <div style="font-size:11px;color:var(--ink-3);margin-top:8px">Mayor volumen de conversiones. Campaña activa — mantener y testear nuevos creativos.</div>
+      </div>
+      <div class="cc" style="border-color:#a7f3d0;border-left:3px solid #16a34a">
+        <div class="tag tag-up" style="margin-bottom:8px">Ganadora #2</div>
+        <div class="cc-name">CP 15.01 — Microcrédito</div>
+        <div class="cc-metrics">
+          <div class="cc-m">Gasto S16: <strong>S/ 494.19</strong></div>
+          <div class="cc-m">Conversiones: <strong>~256 est.</strong></div>
+          <div class="cc-m">CPA: <strong style="color:var(--up)">~S/ 1.93</strong></div>
+          <div class="cc-m">Variación vs S14: <strong>+20% gasto · CPA estable</strong></div>
+        </div>
+        <div style="font-size:11px;color:var(--ink-3);margin-top:8px">Segmento específico microcrédito. Activa — ajustar audiencias para mejorar CPA.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- En observación -->
+  <div style="margin-bottom:20px">
+    <div class="row-label" style="margin-bottom:12px">🔍 2 En Observación — CPA en aumento</div>
+    <div class="grid g2" style="gap:12px">
+      <div class="cc" style="border-left:3px solid var(--warn)">
+        <div class="tag tag-warn" style="margin-bottom:8px">Observación</div>
+        <div class="cc-name">CP - Reevalúa Gratis · CPA subiendo</div>
+        <div class="cc-metrics">
+          <div class="cc-m">CPA S14: <strong>S/1.24</strong></div>
+          <div class="cc-m">CPA S16: <strong style="color:var(--warn)">S/1.65 (+33%)</strong></div>
+        </div>
+        <div style="font-size:11px;color:var(--ink-3);margin-top:8px">La tendencia al alza señala posible saturación de audiencia. Evaluar refresh o lookalike.</div>
+      </div>
+      <div class="cc" style="border-left:3px solid var(--warn)">
+        <div class="tag tag-warn" style="margin-bottom:8px">Observación</div>
+        <div class="cc-name">CP 15.01 Microcrédito · CPA vs benchmark</div>
+        <div class="cc-metrics">
+          <div class="cc-m">CPA S14: <strong>S/1.08</strong></div>
+          <div class="cc-m">CPA S16: <strong style="color:var(--warn)">S/1.93 (+79%)</strong></div>
+        </div>
+        <div style="font-size:11px;color:var(--ink-3);margin-top:8px">Fuerte subida de CPA. Revisar segmentación y mensajes. Candidato a lookalike.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A corregir/pausar -->
+  <div>
+    <div class="row-label" style="margin-bottom:12px">⛔ 1 Pausada · 📊 Meta S16 confirmada</div>
+    <div class="grid g2" style="gap:12px">
+      <div class="cc" style="border-left:3px solid var(--down)">
+        <div class="tag tag-down" style="margin-bottom:8px">Pausada</div>
+        <div class="cc-name">CP | 23.1 — Crédito Emprendedor (TikTok)</div>
+        <div class="cc-metrics">
+          <div class="cc-m">Estado: <strong>Pausada desde Mar 2026</strong></div>
+          <div class="cc-m">Gasto S14-S16: <strong style="color:var(--down)">S/ 0</strong></div>
+        </div>
+        <div style="font-size:11px;color:var(--ink-3);margin-top:8px">Sin actividad confirmada. Evaluar si el segmento "Crédito Emprendedor" se puede reactivar con nueva audiencia.</div>
+      </div>
+      <div class="cc" style="border-left:3px solid var(--up)">
+        <div class="tag tag-up" style="margin-bottom:8px">✓ Datos S16 confirmados (Graph API)</div>
+        <div class="cc-name">Meta Ads S16 — por campaña · Abr 14–20</div>
+        <div class="cc-metrics">
+          <div class="cc-m">Evergreen: <strong style="color:var(--up)">S/294.99</strong> · mayor spend</div>
+          <div class="cc-m">CP24.12: <strong>S/259.75</strong> · activa</div>
+          <div class="cc-m">CP16.01: <strong style="color:var(--warn)">S/65.66</strong> · pausó Abr 18</div>
+          <div class="cc-m">Total: <strong>S/578.63</strong> · 4,994 clics · CTR 6.38%</div>
+        </div>
+        <div style="font-size:11px;color:var(--ink-3);margin-top:8px">Evergreen superó a CP24.12 en S16. CP16.01 se detuvo naturalmente (presupuesto agotado Abr 18). Reconectar Windsor.ai para datos continuos.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     LÁMINA 6 — IMPLEMENTACIONES DEL TRIMESTRE
+════════════════════════════════════════════════════ -->
+<section class="slide" id="s6">
+<div class="slide-inner">
+  <div class="slide-header">
+    <div>
+      <div class="slide-num">Lámina 06</div>
+      <div class="slide-title">Implementaciones del Trimestre</div>
+    </div>
+    <div class="slide-meta">
+      <div class="slide-period">Q2 2026 · S14–S16</div>
+      <div class="slide-date">Abr 1–20 · Registro de cambios</div>
+      <div class="slide-brand">Reevalua</div>
+    </div>
+  </div>
+
+  <div class="grid g2" style="flex:1;align-content:start;gap:16px">
+
+    <div>
+      <div class="row-label" style="margin-bottom:10px">Nuevas campañas activadas</div>
+      <div class="cc" style="margin-bottom:10px">
+        <div class="tag tag-up" style="margin-bottom:6px">Activa · S14→S16</div>
+        <div class="cc-name">CP Registro — Reevalúa Gratis</div>
+        <div style="font-size:12px;color:var(--ink-2);margin-top:4px;line-height:1.5">Objetivo: registros a costo eficiente. Budget: S/100-140/día. Resultado: CPA inicial S/1.24, S16 S/1.65.</div>
+      </div>
+      <div class="cc">
+        <div class="tag tag-up" style="margin-bottom:6px">Activa · S14→S16</div>
+        <div class="cc-name">CP 15.01 — Microcrédito</div>
+        <div style="font-size:12px;color:var(--ink-2);margin-top:4px;line-height:1.5">Objetivo: segmento microcrédito. Budget: S/63-78/día. Resultado: CPA inicial S/1.08, S16 S/1.93.</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="row-label" style="margin-bottom:10px">Cambios de audiencias</div>
+      <div class="card" style="margin-bottom:10px">
+        <div style="font-size:12px;color:var(--ink-2);line-height:1.6">
+          <strong>Audiencias actuales:</strong> Intereses + comportamientos (standard)<br>
+          <strong>Planificado S17+:</strong> Lookalike 1% basado en lista de clientes que completaron flow completed. Hoja de trabajo: <a style="color:var(--purple);font-weight:600" href="https://docs.google.com/spreadsheets/d/1jfnCzyftlgAK6BsTXT9c0W-oqnpK08Zu/edit?gid=532523558#gid=532523558" target="_blank">Google Sheets →</a>
+        </div>
+      </div>
+      <div class="row-label" style="margin-bottom:10px">Cambios de presupuesto</div>
+      <div class="card">
+        <div style="font-size:12px;color:var(--ink-2);line-height:1.6">
+          <strong>S14:</strong> S/1,133 TikTok (CP Gratis S/724 + Micro S/409)<br>
+          <strong>S16:</strong> S/1,317 TikTok (+16%) — ambas campañas escaladas<br>
+          <strong>Meta S16:</strong> S/578.63 confirmado · gasto subió vs S15 (S/403.96) — Evergreen S/295 + CP24.12 S/260
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="row-label" style="margin-bottom:10px">Nuevos creativos</div>
+      <div class="card">
+        <div style="font-size:12px;color:var(--ink-2);line-height:1.6">
+          Información pendiente — completar con equipo de producción.<br>
+          <span style="color:var(--purple);font-weight:600">Ver lámina 7 para pantallazo de avances.</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="row-label" style="margin-bottom:10px">Cambios de productos / mensajes</div>
+      <div class="card">
+        <div style="font-size:12px;color:var(--ink-2);line-height:1.6">
+          <strong>Mensajes activos:</strong><br>
+          • "Regístrate gratis" — propuesta de valor de entrada sin fricción<br>
+          • "Microcrédito" — mensaje orientado a segmento MYPE<br>
+          <strong>UTM bug activo:</strong> Variables Meta sin resolver (<code style="font-size:11px;background:#f3f4f6;padding:1px 4px;border-radius:3px">&#123;&#123;site_source_name&#125;&#125;</code>) → 645 vistas sin atribuir.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     LÁMINA 7 — RESULTADOS PRELIMINARES
+════════════════════════════════════════════════════ -->
+<section class="slide" id="s7">
+<div class="slide-inner">
+  <div class="slide-header">
+    <div>
+      <div class="slide-num">Lámina 07</div>
+      <div class="slide-title">Resultados Preliminares de Implementaciones</div>
+    </div>
+    <div class="slide-meta">
+      <div class="slide-period">S14–S16 · Q2 2026</div>
+      <div class="slide-date">Validación en curso</div>
+      <div class="slide-brand">Reevalua</div>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+
+    <div>
+      <div class="row-label" style="margin-bottom:10px">✅ Qué ya mejoró</div>
+      <div class="card" style="background:#f0fdf4;border-color:#86efac;margin-bottom:8px">
+        <div style="font-size:13px;color:#14532d;font-weight:600;margin-bottom:6px">Landing CVR +11.8 pp</div>
+        <div style="font-size:12px;color:#166534;line-height:1.5">De 27.3% (Mar) a 39.1% (S16). La optimización del flujo de aterrizaje está convirtiendo mejor el tráfico pagado en registros.</div>
+      </div>
+      <div class="card" style="background:#f0fdf4;border-color:#86efac">
+        <div style="font-size:13px;color:#14532d;font-weight:600;margin-bottom:6px">Recuperación de volumen S16 (+25%)</div>
+        <div style="font-size:12px;color:#166534;line-height:1.5">Luego de la caída en S15, S16 superó el promedio Q2 con 3,978 registros (568/día).</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="row-label" style="margin-bottom:10px">❌ Qué todavía no mejoró</div>
+      <div class="card" style="background:var(--down-bg);border-color:#fca5a5;margin-bottom:8px">
+        <div style="font-size:13px;color:#7f1d1d;font-weight:600;margin-bottom:6px">CPA TikTok en aumento</div>
+        <div style="font-size:12px;color:#7f1d1d;line-height:1.5">Subió 48% de S14 (S/1.18) a S16 (S/1.75). Sin refresh de audiencias la tendencia continuará.</div>
+      </div>
+      <div class="card" style="background:var(--down-bg);border-color:#fca5a5">
+        <div style="font-size:13px;color:#7f1d1d;font-weight:600;margin-bottom:6px">Gap funnel registration → cliente</div>
+        <div style="font-size:12px;color:#7f1d1d;line-height:1.5">Solo 0.18% de registros llega a flow completed. La alta tasa de abandono en "Credit options" no se ha resuelto.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Under validation -->
+  <div class="row-label" style="margin-bottom:10px">🔬 Bajo validación</div>
+  <div class="astrip info" style="margin-bottom:16px">
+    🔬 <div><strong>Lookalike audiences TikTok:</strong> Planificado para S17. Lista de clientes que completaron flow ready. Hipótesis: reducir CPA a ≤ S/1.40 (−20% vs S16). Ver hoja de trabajo.</div>
+  </div>
+
+  <!-- Screenshot placeholders -->
+  <div class="row-label" style="margin-bottom:10px">📱 Avances de nuevas creatividades</div>
+  <div class="grid g2" style="gap:14px">
+    <div class="screenshot-placeholder">
+      <div class="ph-icon">🖼️</div>
+      <div class="ph-text">Pantallazo creatividad #1</div>
+      <div class="ph-sub">Agregar aquí captura de pantalla<br>del nuevo creativo TikTok</div>
+    </div>
+    <div class="screenshot-placeholder">
+      <div class="ph-icon">🖼️</div>
+      <div class="ph-text">Pantallazo creatividad #2</div>
+      <div class="ph-sub">Agregar aquí captura de pantalla<br>del nuevo creativo Meta/TikTok</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     LÁMINA 8 — RIESGOS / INCIDENCIAS / CALIDAD DE DATA
+════════════════════════════════════════════════════ -->
+<section class="slide" id="s8">
+<div class="slide-inner">
+  <div class="slide-header">
+    <div>
+      <div class="slide-num">Lámina 08</div>
+      <div class="slide-title">Riesgos · Incidencias · Calidad de Data</div>
+    </div>
+    <div class="slide-meta">
+      <div class="slide-period">Q2 2026 · S14–S16</div>
+      <div class="slide-date">Alertas técnicas</div>
+      <div class="slide-brand">Reevalua</div>
+    </div>
+  </div>
+
+  <div class="grid g2" style="flex:1;align-content:start;gap:14px">
+
+    <div>
+      <div class="row-label" style="margin-bottom:10px">🔴 Riesgos de negocio</div>
+      <div class="astrip danger">🔴 <div><strong>CPA TikTok en aumento sistemático:</strong> +48% en 2 semanas. Si no se interviene, el presupuesto Q2 generará progresivamente menos registros por sol invertido. Impacto directo en forecast.</div></div>
+      <div class="astrip danger">🔴 <div><strong>Gap conversión a cliente:</strong> 0.18% de registros llega a flow completed. El OKR de "clientes" vs "registros" está en riesgo si el problema es de producto, no de canal.</div></div>
+      <div class="astrip warn">⚠️ <div><strong>Canal B2B en caída:</strong> b2fclientepotencial cayó de 31.3% a 1.9% del tráfico. Hay concentración de riesgo en paid_social (91.7% de canal).</div></div>
+    </div>
+
+    <div>
+      <div class="row-label" style="margin-bottom:10px">📊 Calidad de datos</div>
+      <div class="astrip ok">✅ <div><strong>Meta S16 recuperado via Graph API:</strong> S/578.63 · 78,254 imp · 4,994 clics · CTR 6.38% · CPM S/7.39. Datos por día y por campaña disponibles. Windsor.ai pendiente reconexión para datos continuos S17+.</div></div>
+      <div class="astrip warn">⚠️ <div><strong>TikTok S15 parcial:</strong> API token expiró el 8 de Abril. Solo Abr 7 confirmado (S/159.90). S15 TikTok es estimado en todos los cálculos.</div></div>
+      <div class="astrip warn">⚠️ <div><strong>UTM tracking incompleto:</strong> 10.1% de tráfico llega sin UTM configurado. UTM Medium se captura solo en Landing Page Viewed — no en Credit request created. Atribución parcial.</div></div>
+    </div>
+
+    <div>
+      <div class="row-label" style="margin-bottom:10px">⚠️ Saturación de audiencias</div>
+      <div class="card">
+        <div style="font-size:12px;color:var(--ink-2);line-height:1.6">
+          <strong>Señal principal:</strong> CPA sube sin cambio de presupuesto ni creativos. Las audiencias actuales de TikTok (intereses standard) pueden estar saturadas después de S14+S15+S16 sin renovación.<br><br>
+          <strong>Indicador secundario:</strong> A pesar de +16% de gasto en S16, las conversiones bajaron de 964 (S14) a 753 (S16) → eficiencia cayó −22%.<br><br>
+          <strong>Acción:</strong> Lookalike 1% + expand audiencia + nuevos creativos.
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="row-label" style="margin-bottom:10px">🐛 Bugs de tracking activos</div>
+      <div class="card">
+        <div style="font-size:12px;color:var(--ink-2);line-height:1.6;margin-bottom:10px">
+          <strong>Bug Meta UTMs:</strong> Variables sin resolver en ads de Meta:<br>
+          <code style="font-size:11px;background:#f3f4f6;padding:2px 6px;border-radius:3px">&#123;&#123;site_source_name&#125;&#125;</code> y <code style="font-size:11px;background:#f3f4f6;padding:2px 6px;border-radius:3px">__PLACEMENT__</code><br>
+          → 645 vistas sin atribuir correctamente.
+        </div>
+        <div style="font-size:12px;color:var(--ink-2);line-height:1.6">
+          <strong>Mixpanel late data:</strong> El día en curso puede mostrar datos 30-50% bajos. Confirmar siempre 24-48h después del cierre del día.<br><br>
+          <strong>Impacto en lectura:</strong> Los últimos días de cada semana pueden parecer bajos y corregirse retroactivamente.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     LÁMINA 9 — PRÓXIMOS PASOS
+════════════════════════════════════════════════════ -->
+<section class="slide" id="s9">
+<div class="slide-inner">
+  <div class="slide-header">
+    <div>
+      <div class="slide-num">Lámina 09</div>
+      <div class="slide-title">Próximos Pasos</div>
+    </div>
+    <div class="slide-meta">
+      <div class="slide-period">S17 Abr 21–27 y Q2</div>
+      <div class="slide-date">Decisiones accionables</div>
+      <div class="slide-brand">Reevalua</div>
+    </div>
+  </div>
+
+  <div class="ns-grid" style="flex:1;align-content:start">
+
+    <div class="ns-card scale">
+      <div class="ns-card-label">↑ Escalar</div>
+      <div class="ns-item"><strong>CP Registro Gratis</strong> — mantener y refrescar creativos. Es la campaña con mayor volumen y mejor CPA relativo (S/1.65 vs Micro S/1.93).</div>
+      <div class="ns-item"><strong>Meta Ads S17</strong> — S16 confirmado: S/578.63 · CTR 6.38%. CPA Meta estimado S/0.40 = 4.4× mejor que TikTok. Escalar presupuesto Meta para S17. Reconectar Windsor.ai para tracking continuo.</div>
+      <div class="ns-item"><strong>Canal B2B</strong> — reactivar canal b2fclientepotencial que cayó de 31.3% a 1.9% en Abril.</div>
+    </div>
+
+    <div class="ns-card fix">
+      <div class="ns-card-label">🔧 Corregir</div>
+      <div class="ns-item"><strong>Reconectar Windsor.ai → Meta</strong> — S16 recuperado via Graph API puntual. Para datos continuos S17+ reconectar: <span style="font-family:monospace;font-size:11px">onboard.windsor.ai?datasource=facebook</span></div>
+      <div class="ns-item"><strong>Corregir UTM bug Meta</strong> — variables <code style="font-size:10px;background:#f3f4f6;padding:1px 4px;border-radius:2px">&#123;&#123;site_source_name&#125;&#125;</code> y <code style="font-size:10px;background:#f3f4f6;padding:1px 4px;border-radius:2px">__PLACEMENT__</code> sin resolver.</div>
+      <div class="ns-item"><strong>Mapear gap funnel</strong> — investigar por qué solo 0.18% de registros llega a flow completed. Involucrar equipo de producto.</div>
+    </div>
+
+    <div class="ns-card pause">
+      <div class="ns-card-label">⏸ Pausar</div>
+      <div class="ns-item"><strong>CP Crédito Emprendedor</strong> — ya pausada desde Mar 2026. Evaluar si el segmento es viable antes de reactivar.</div>
+      <div class="ns-item"><strong>Audiencias actuales TikTok</strong> — si la prueba de Lookalike muestra mejora en CPA, migrar presupuesto progresivamente de audiencias standard a lookalike.</div>
+      <div class="ns-item"><strong>Escalar TikTok Micro</strong> — en observación hasta confirmar estabilidad de CPA. No escalar hasta que CPA baje de S/1.60.</div>
+    </div>
+
+    <div class="ns-card test">
+      <div class="ns-card-label">🧪 Testear</div>
+      <div class="ns-item">
+        <strong>Lookalike TikTok 1%</strong> — audiencia basada en clientes que completaron flow completed.
+        <a style="color:var(--purple);font-weight:600;font-size:11px" href="https://docs.google.com/spreadsheets/d/1jfnCzyftlgAK6BsTXT9c0W-oqnpK08Zu/edit?gid=532523558#gid=532523558" target="_blank">Ver hoja →</a><br>
+        Hipótesis: CPA ≤ S/1.40 (−20% vs S16).
+      </div>
+      <div class="ns-item"><strong>Nuevos creativos TikTok</strong> — A/B test con 2 ángulos nuevos. Controlar por audiencia y budget igual. KPI: CTR + CPA a 7 días.</div>
+      <div class="ns-item"><strong>Lookalike Meta</strong> — una vez reconectado, crear LAL 1% y 3% de clientes. Combinar con retargeting de LP viewers.</div>
+    </div>
+
+  </div>
+
+  <!-- Closing strip -->
+  <div style="margin-top:20px;padding:14px 18px;background:var(--ink);border-radius:var(--r);display:flex;align-items:center;justify-content:space-between">
+    <div style="font-size:13px;color:rgba(255,255,255,.7)">
+      Próxima actualización: <strong style="color:#fff">S17 cierre — Lun 28 Abr 2026</strong>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--purple-2)">Reevalua Analytics</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:2px">Claude Code · Sistema automático</div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+</div><!-- end #deck -->
+
+<script>
+// ── Funnel renderer ──────────────────────────────────────
+function renderFunnel(id, steps) {
+  const c = document.getElementById(id);
+  if (!c) return;
+  const max = steps[0].val;
+  const shades = ['#7c3aed','#9061f0','#a78bfa','#c4b5fd'];
+  steps.forEach((s, i) => {
+    const pct = Math.max((s.val / max * 100), 5).toFixed(0);
+    const row = document.createElement('div');
+    row.className = 'fstep';
+    row.innerHTML = `
+      <div class="f-label">${s.label}</div>
+      <div style="flex:1">
+        <div class="f-bar" style="background:${shades[i]};width:${pct}%">${pct}%</div>
+      </div>
+      <div class="f-num">${s.val.toLocaleString('es-PE')}</div>
+      <div class="f-cvr">${s.cvr||''}</div>`;
+    c.appendChild(row);
+  });
+}
+
+renderFunnel('funnel1', [
+  { label:'LP Views',       val:59739, cvr:'' },
+  { label:'Registros',      val:16293, cvr:'27.3%' },
+  { label:'Credit Options', val:10275, cvr:'63.1%' },
+  { label:'Flow Completed', val:45,    cvr:'0.44%' },
+]);
+renderFunnel('funnel2', [
+  { label:'LP Views',       val:8683,  cvr:'' },
+  { label:'Registros',      val:3399,  cvr:'39.1% ▲' },
+  { label:'Credit Options', val:2105,  cvr:'61.9%' },
+  { label:'Flow Completed', val:7,     cvr:'0.33%' },
+]);
+
+// ── Navigation ───────────────────────────────────────────
+const deck    = document.getElementById('deck');
+const slides  = Array.from(document.querySelectorAll('.slide'));
+const counter = document.getElementById('counter');
+let current   = 0;
+
+function goTo(n) {
+  n = Math.max(0, Math.min(n, slides.length - 1));
+  current = n;
+  slides[n].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  counter.textContent = (n + 1) + ' / ' + slides.length;
+}
+
+document.getElementById('btnUp').addEventListener('click', () => goTo(current - 1));
+document.getElementById('btnDown').addEventListener('click', () => goTo(current + 1));
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+  if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')                   { e.preventDefault(); goTo(current - 1); }
+});
+
+// Detect scroll position
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && e.intersectionRatio >= 0.5) {
+      const i = slides.indexOf(e.target);
+      if (i >= 0) { current = i; counter.textContent = (i + 1) + ' / ' + slides.length; }
+    }
+  });
+}, { threshold: 0.5 });
+
+slides.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
